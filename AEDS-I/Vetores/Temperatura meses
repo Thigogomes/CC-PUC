@@ -1,0 +1,27 @@
+/*Faça um programa que receba a temperatura média de cada mês do ano, armazenando-as em um vetor.
+Calcule e mostre a maior e a menor temperatura do ano e em que mês ocorreram (mostrar o mês por
+extenso: 1 – janeiro, 2 – fevereiro...). Desconsidere empates*/#include<stdio.h>*/
+
+int main(){
+    int temperatura[12], maior=0, menor, id_maior = 0, id_menor=0;
+    char *meses[12] = {"JANEIRO", "FEVEREIRO", "MARCO", "ABRIL", "MAIO", "JUNHO","JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"};
+    for(int i = 0; i < 12; i++){
+        scanf("%d", &temperatura[i]);
+    }
+    for(int i = 0; i < 12; i++){
+        if(maior < temperatura[i]){
+            maior = temperatura[i];
+            id_maior = i;
+        }
+        if(i == 0){
+            menor = temperatura[i];
+            id_menor = i;
+        }
+        if(menor > temperatura[i]){
+            menor = temperatura[i];
+            id_menor =  i;
+        }
+    }
+    printf("A MAIOR TEMPERATURA FOI %d EM %s", maior, meses[id_maior]);
+    printf("\nA MENOR TEMPERATURA FOI %d EM %s", menor, meses[id_menor]);
+}

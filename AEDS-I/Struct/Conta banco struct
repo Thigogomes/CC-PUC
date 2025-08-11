@@ -1,0 +1,74 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct conta{
+    int num;
+    char nome[20];
+    float saldo;
+}conta;
+
+conta cadastro(){
+    conta c;
+    printf("DIGITE O NUMERO DA CONTA: ");
+    scanf("%d", &c.num);
+    getchar();
+    printf("DIGITE O NOME: ");
+    fgets(c.nome,sizeof(c.nome),stdin);
+    printf("DIGITE O SALDO: ");
+    scanf("%f", &c.saldo);
+    return c;
+}
+
+void visualizar(conta *contas){
+    int num, i =0;
+    printf("DIGITE O NUMERO DA CONTA: ");
+    scanf("%d", &num);
+    while(contas[i].num != num){
+        i++;
+    }
+    printf("NUMERO DA CONTA: %d\n", contas[i].num);
+    printf("NOME DO CLIENTE: %s\n", contas[i].nome);
+    printf("SALDO: %.2f\n", contas[i].saldo);
+}
+
+void excluir(conta *contas, int *i){
+    int menor, id=0;
+    menor = contas[0].saldo;
+    for(int j =1; j < *(i); j++){
+        if(contas[j].saldo < menor){
+            menor = contas[j].saldo;
+            id = j;
+        }
+    }
+    for(int j = id; j < *(i)-1; j++){
+        contas[j].num = contas[j+1].num;
+        strcpy(contas[j].nome,contas[j+1].nome);
+        contas[j].saldo = contas[j+1].saldo;
+    }
+    (*i)--;
+}
+
+int main(){
+   conta contas[15];
+   int opcao, i =0;
+   while(opcao != 4){
+        printf("1. Cadastrar contas. \n");
+        printf("2. Visualizar todas as contas de determinado cliente.\n");
+        printf("3. Excluir a conta com menor saldo (supondo a não existência de saldos iguais).\n");
+        printf("4. Sair. \n");
+        printf("DIGITE A OPCAO: \n");
+        scanf("%d", &opcao);
+        if(opcao == 1){
+            contas[i] = cadastro();
+            i++;
+        }else if(opcao == 2){
+            visualizar(contas);
+        }else if(opcao == 3){
+            excluir(contas, &i);
+        }else if(opcao == 4){
+            opcao = 4;
+        }else{
+            printf("OPCAO INVALIDA\n");
+        }
+   }
+}

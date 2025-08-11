@@ -1,0 +1,41 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class Livros{
+private:
+    string autor;
+    string titulo;
+public:
+    void exibirDados(){
+        cout << "Titulo: " << titulo << endl;
+        cout << "Autor: " << autor << endl;
+    }
+    void setTitulo(string& t){
+        titulo = t;
+    }
+    string getTitulo(){
+        return titulo;
+    }
+    void setAutor(string& a){
+        autor = a;
+    }
+    string getAutor(){
+        return autor;
+    }
+
+};
+
+int main(){
+    Livros l1;
+    string titulo, autor;
+    cout << "Digite o nome o nome do livro: " << endl;
+    getline(cin, titulo);
+    l1.setTitulo(titulo);
+    cout << "Digite o nome o nome do autor: " << endl;
+    getline(cin, autor);
+    l1.setAutor(autor);
+    l1.exibirDados();
+    return 0;
+}

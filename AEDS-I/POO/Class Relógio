@@ -1,0 +1,71 @@
+#include<iostream>
+
+using namespace std;
+
+class Relogio{
+private:
+    int hora;
+    int minuto;
+    int segundo;
+public:
+    //construtor
+    Relogio(int hora, int minuto, int segundo){
+        this -> hora = hora;
+        this -> minuto = minuto;
+        this -> segundo = segundo;
+    }
+    //getters
+    int getHora(){
+        return hora;
+    }
+    int getMinuto(){
+        return minuto;
+    }
+    int getSegundo(){
+        return segundo;
+    }
+    //setters
+    void setHora(int hora){
+        this -> hora = hora;
+    }
+    void setMinuto(int minuto){
+        this -> minuto = minuto;
+    }
+    void setSegundo(int segundo){
+        this -> segundo = segundo;
+    }
+    //funcoes
+    void setHoraio(int hora, int minuto, int segundo){
+        this -> hora = hora;
+        this -> minuto = minuto;
+        this -> segundo = segundo;
+    }
+    void getHorario(){
+        cout << hora << ":" << minuto << ":" << segundo << endl;
+    }
+
+    void avancaHorario(){
+        segundo++;
+        if(segundo == 60){
+            segundo = 0;
+            minuto++;
+        }
+        if(minuto == 60){
+            minuto = 0;
+            hora++;
+        }
+        if(hora == 24){
+            hora = 0;
+        }
+    }
+    //destrutor
+    ~Relogio(){
+    }
+};
+
+int main(){
+    Relogio r(23, 59, 59);
+    r.getHorario();
+    r.avancaHorario();
+    r.getHorario();
+}

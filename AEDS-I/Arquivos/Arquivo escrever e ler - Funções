@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void escrever(char f[]){
+    FILE *file = fopen(f,"w");
+    char letra;
+    if(file){
+        printf("DIGITE: ");
+        scanf("%c", &letra);
+        printf("TEXTO LIDO: ");
+        while(letra != '\n'){
+            fputc(letra, file);
+            scanf("%c", &letra);
+        }
+        fclose(file);
+    }else{
+        printf("ERRO!");
+    }
+}
+
+void ler(char f[]){
+    FILE *file = fopen(f, "r");
+    char letra;
+    if(file){
+        while(!feof(file)){
+            letra = fgetc(file);
+            printf("%c", letra);
+        }
+        fclose(file);
+
+    }else{
+        printf("ERRO!");
+    }
+}
+
+
+int main(){
+    char *nome = ("lista.txt");
+    escrever(nome);
+    ler(nome);
+    return 0;
+}

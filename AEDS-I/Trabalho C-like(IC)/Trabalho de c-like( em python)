@@ -1,0 +1,14 @@
+P  = int(input("DIGITE O NÚMERO DE PÃES VENDIDOS NA SEMANA: "))
+D = int(input( "DIGITE O NÚMERO DE DOCES VENDIDOS NA SEMANA: "))
+D = D * 2
+B = int(input("DIGITE O NÚMERO DE BOLOS VENDIDOS NA SEMANA: "))
+B = B * 3
+soma = P + D + B
+if soma >= 150 : 
+    print("B")
+elif soma >= 120 :
+    print("D")
+elif soma >= 100 :
+    print("P")
+else:
+    print("N")

@@ -1,0 +1,46 @@
+#include<stdio.h>
+#include<locale.h>
+#include<stdlib.h>
+
+void *imprimirMatriz(int*, int, int);
+int *preencherMatriz(int, int);
+int *soma(int*, int, int, int*);
+
+int main(){
+    setlocale(LC_ALL, "Portuguese");
+    int *mat = preencherMatriz(3,3);
+    int *mat2= preencherMatriz(3,3);
+    imprimirMatriz(mat,3,3);
+    imprimirMatriz(mat2,3,3);
+    int *somar = soma(mat,3,3,mat2);
+    imprimirMatriz(somar,3,3);
+    free(mat);
+}
+
+int *preencherMatriz(int nlin, int ncol){
+    int *mat = (int*)malloc((nlin*ncol)*sizeof(int));
+    for(int i = 0; i < (nlin * ncol); i++){
+        scanf("%d", (mat+i));
+    }
+    return mat;
+}
+
+void *imprimirMatriz(int *mat,int nlin, int ncol){
+    printf("\n");
+    for(int i = 0; i < nlin; i++){
+        for(int j = 0; j < ncol; j++){
+            printf("%d ", *(mat+i*ncol+j));
+        }
+        printf("\n");
+    }
+}
+
+int *soma(int *mat,int nlin, int ncol, int *mat2){
+    int *somar;
+    for(int i = 0; i < nlin; i++){
+        for(int j = 0; j < ncol; j++){
+            *(somar+i*ncol+j) = *(mat+i*ncol+j) + *(mat2+i*ncol+j);
+        }
+    }
+    return somar;
+}

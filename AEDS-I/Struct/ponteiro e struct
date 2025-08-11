@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct aluno{
+    int matricula;
+    float nota;
+}aluno;
+
+
+int main(){
+    aluno a1;
+    aluno *ptr = &a1;
+
+    a1.matricula = 555;
+    a1.nota = 8;
+    printf("MATRICULA: %d; NOTA: %.2f", a1.matricula , a1.nota);
+    (*ptr).matricula = 666;
+    (*ptr).nota = 8.9;
+    printf("\nMATRICULA: %d; NOTA: %.2f", a1.matricula , a1.nota);
+    (*ptr).matricula = 777;
+    (*ptr).nota = 8.13;
+    printf("\nMATRICULA: %d; NOTA: %.2f", (*ptr).matricula, (*ptr).nota);
+    ptr -> matricula = 111;
+    ptr -> nota = 9.1;
+    printf("\nMATRICULA: %d; NOTA: %.2f", ptr->matricula, ptr->nota);
+}

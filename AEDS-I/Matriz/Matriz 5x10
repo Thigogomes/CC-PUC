@@ -1,0 +1,51 @@
+/*rie um programa que preencha uma matriz 10 x 20 com números inteiros e some cada uma das linhas, armazenando o resultado das somas em um vetor.
+A seguir, o programa deverá multiplicar cada elemento da matriz pela soma da linha correspondente e mostrar a matriz resultante.*/
+
+#include<stdio.h>
+#include<stdlib.h>
+
+void preencher(int mat[][10]){
+    for(int i = 0; i < 5; i++){
+        for(int j =0; j < 10; j++){
+            mat[i][j] = rand()%10;
+        }
+    }
+}
+
+void soma(int mat[][10], int vet[]){
+    int soma=0;
+    for(int i = 0; i< 5; i++){
+        for(int j =0; j <10; j++){
+            soma = soma + mat[i][j];
+        }
+        vet[i] = soma;
+        soma=0;
+    }
+}
+
+void multiplica(int mat[][10], int vet[10]){
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 10;j++){
+            mat[i][j] = mat[i][j] * vet[i];
+        }
+    }
+}
+
+void imprimir(int mat[][10]){
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 10; j++){
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+
+}
+
+int main(){
+    int mat[5][10];
+    int vet[5];
+    preencher(mat);
+    soma(mat,vet);
+    multiplica(mat,vet);
+    imprimir(mat);
+}

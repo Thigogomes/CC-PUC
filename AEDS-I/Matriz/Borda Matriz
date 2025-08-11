@@ -1,0 +1,36 @@
+#include<stdio.h>
+
+void preencherMatriz(int n, int m, int mat[][n]);
+int soma(int m, int n, int mat[][n]);
+
+int main() {
+    int m, n, result;
+    scanf("%d %d", &m, &n);
+    int mat[m][n];
+    preencherMatriz(m, n, mat);
+    result = soma(m, n, mat);
+    printf("%d", result);
+}
+
+void preencherMatriz(int m, int n, int mat[][n]){
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            scanf("%d", &mat[i][j]);
+        }
+    }
+}
+
+int soma(int m, int n, int mat[][n]){
+    int somar = 0;
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+           if(i == 0 || i == n - 1){
+                somar = somar + mat[i][j];
+           }
+           if((j == 0 ||j == n-1)&&(i != 0 && i != n-1)){
+                somar = somar + mat[i][j];
+           }
+        }
+    }
+    return somar;
+}
