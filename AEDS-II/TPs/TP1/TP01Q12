@@ -1,0 +1,60 @@
+import java.util.*;
+
+public class ValidacaoDeSenhas{
+    public static boolean validacao(String senha){
+        int tam = senha.length(), cont = 0;
+        char c;
+        if(tam < 8){
+            return false;
+        }
+        for(int i = 0; i < tam; i++){
+            c = senha.charAt(i);
+            if(Character.isDigit(c) && cont == 0){
+                cont++;
+            }
+        }
+        for(int i = 0; i < tam; i++){
+            c = senha.charAt(i);
+            if(Character.isLowerCase(c) && cont == 1){
+                cont++;
+            }
+        }
+        for(int i = 0; i < tam; i++){
+            c = senha.charAt(i);
+            if(Character.isUpperCase(c) && cont == 2){
+                cont++;
+            }
+        }
+        for(int i = 0; i < tam; i++){
+            c = senha.charAt(i);
+            if(!Character.isLetterOrDigit(c) && cont == 3){
+                cont++;
+            }
+        }
+        if(cont == 4){
+            return true;
+        }
+        return false;
+    }
+    
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		String senha = "";
+		int x = 1, a = 195;
+		boolean result;
+		while(x == 1){
+		    senha = input.nextLine();
+		    if(senha.equals("FIM")){
+		        x = -1;
+		    }else{
+		       result = validacao(senha);
+		       if(result == false){
+		           System.out.println("N" + (char)a +"O");
+		       }else{
+		           System.out.println("SIM");
+		       }
+		    }
+		}
+		input.close();
+	}
+}

@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct carros{
+    char marca[20];
+    int ano;
+    float preco;
+}car;
+
+car cadastro(){
+    car p;
+    getchar();
+    printf("DIGITE A MARCA: ");
+    fgets(p.marca,sizeof(p.marca),stdin);
+    p.marca[strcspn(p.marca, "\n")] = '\0';
+    printf("DIGITE O ANO: ");
+    scanf("%d", &p.ano);
+    printf("DIGITE O PRECO: ");
+    scanf("%f", &p.preco);
+    return p;
+}
+
+void mostrar(int n, float precoM, car *carros){
+    printf("Carros com preco menor que 30000.00: \n");
+    for(int i = 0; i < n; i++){
+        if(precoM > carros[i].preco){
+            printf("Marca: %s, Ano: %d, Preco: %.2f\n", carros[i].marca, carros[i].ano, carros[i].preco);
+        }
+    }
+}
+
+
+int main(){
+    int n;
+    float precoM;
+    printf("DIGITE O NUMERO DE CARROS: ");
+    scanf("%d", &n);
+    car carros[n];
+    for(int i =0; i < n;i++){
+        carros[i] = cadastro();
+    }
+    printf("DIGITE O PRECO MAXIMO: ");
+    scanf("%f", &precoM);
+    mostrar(n,precoM,carros);
+}

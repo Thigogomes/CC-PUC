@@ -1,0 +1,141 @@
+class No{
+    public int elemento;
+    public boolean cor;
+    public No esq;
+    public No dir;
+    
+    public No(){
+        this.elemento = 0;
+        this.cor = false;
+        this.dir = null;
+        this.esq = null;
+    }
+    
+    public No(int elemento){
+        this.elemento = elemento;
+        this.cor = false;
+        this.dir = null;
+        this.esq = null;
+    }
+    
+    public No(int elemento, boolean cor){
+        this.elemento = elemento;
+        this.cor = cor;
+        this.dir = null;
+        this.esq = null;
+    }
+}
+
+public class ArvoreRB{
+    public No raiz;
+    
+    public ArvoreRB(){
+        this.raiz = null;
+    }
+    
+    public ArvoreRB(No raiz){
+        this.raiz = raiz;
+    }
+    
+    public No rotacionarEsq(No i){
+	    No noDir = i.dir;
+	    No noDirEsq = noDir.esq;
+	    
+	    noDir.esq = i;
+	    i.dir = noDirEsq;
+	    
+	    return noDir;
+	}
+	
+	public No rotacionarDir(No i){
+	    No noEsq = i.esq;
+	    No noEsqDir = noEsq.dir;
+	    
+	    noEsq.dir = i;
+	    i.esq = noEsqDir;
+	    
+	    return noEsq;
+	}
+	
+	public No rotacionarDirEsq(No i){
+	    i.dir = rotacionarDir(i.dir);
+	    return rotacionarEsq(i);
+	}
+	
+	public No rotacionarEsqDir(No i){
+	    i.esq = rotacionarEsq(i.esq);
+	    return rotacionarDir(i);
+	}
+	
+	public No rotacionar(No avo, No pai){
+	    if (pai == avo.esq) {
+            if (pai.dir != null && pai.dir.cor)
+                avo.esq = rotacionarEsqDir(pai);
+            return rotacionarDir(avo);
+        } else {
+            if (pai.esq != null && pai.esq.cor)
+                avo.dir = rotacionarDirEsq(pai);
+            return rotacionarEsq(avo);
+        }
+	}
+    
+    public void inserir(int x){
+        raiz = inserir(null, null, null, raiz, x);
+        raiz.cor = false;
+    }
+    
+    public No inserir(No bisavo, No avo, No pai, No i, int x){
+        if(i == null){
+            i = new No(x);
+            
+            if(pai != null){
+                i.cor = true;
+            }
+        }else if(x < i.elemento){
+            i.esq = inserir(avo, pai, i, i.esq, x);
+        }else{
+            i.dir = inserir(avo, pai, i, i.dir, x);
+        }
+        
+        i = balancear(bisavo, avo, pai, i);
+        return i;
+    }
+    
+    public No balancear(No bisavo, No avo, No pai, No i){
+        if(pai != null && pai.cor && i.cor){
+            if(avo != null){ //caso o tio for vermelho
+                avo.cor = true;
+                if(avo.esq != null && avo.dir != null && avo.esq.cor && avo.dir.cor){
+                    avo.esq.cor = false;
+                    avo.dir.cor = false;
+                    avo.cor = false;
+                    
+                    if(bisavo != null)
+                        bisavo = rotacionar(bisavo, avo);
+                
+                }else{ // pai e o inserido vermelho
+                    avo = rotacionar(avo, pai);
+                    
+                    if(bisavo == null){
+                        raiz = avo;
+                    }else if(bisavo.esq == avo){
+                        bisavo.esq = avo;
+                    }else{
+                        bisavo.dir = avo;
+                    }
+                    
+                    avo.cor = false;
+                    avo.esq.cor = true;
+                    avo.dir.cor = true;
+                }
+                
+            }
+        }
+        
+        return i;
+    }
+    
+    public static void main(String[] args){
+        ArvoreRB arvore = new ArvoreRB();
+    }
+}

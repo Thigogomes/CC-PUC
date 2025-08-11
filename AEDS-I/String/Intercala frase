@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+char *frases(char *str, char *str2){
+    int k = 0, z=0, t=0, i=0,x=0, cont1=0;
+
+    while(*(str+k) != '\0'){
+        k++;
+    }
+    while(*(str2+z) != '\0'){
+        z++;
+    }
+
+    char *str3 = (char *)malloc((k+z+2)*sizeof(char));
+
+    while (*(str+i) != '\0' || *(str2+x) != '\0') {
+        while(*(str+i) != ' ' && *(str+i) != '\0'){
+            *(str3+t) = *(str+i);
+            i++;
+            t++;
+        }
+        i++;
+        *(str3+t) = ' ';
+        t++;
+        while(*(str2+x) != ' ' && *(str2+x) != '\0'){
+            *(str3+t) = *(str2+x);
+            x++;
+            t++;
+        }
+        x++;
+        *(str3+t) = ' ';
+        t++;
+    }
+    if(*(str3+t-1) == ' '){
+        *(str3+t-1) = '\0';
+    }
+    return str3;
+}
+
+int main(){
+    char str[20], str2[20], *str3;
+    int n;
+    fgets(str,sizeof(str),stdin);
+    if(str[sizeof(str)-1] == '\n'){
+        str[sizeof(str)-1] = '\0';
+    }
+    fgets(str2,sizeof(str2),stdin);
+     if(str[sizeof(str2)-1] == '\n'){
+        str[sizeof(str2)-1] = '\0';
+    }
+    str3 = frases(str, str2);
+    printf("%s", str3);
+}

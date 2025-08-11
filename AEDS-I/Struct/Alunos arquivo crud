@@ -1,0 +1,135 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct Aluno{
+    int num;
+    char nome[50];
+    char curso[50];
+    float notas[2];
+}Aluno;
+
+void cadastrar (char t[]){
+    Aluno p, h;
+    FILE *alunos = fopen(t, "a+");
+    printf("Digite o numero do aluno: ");
+    scanf("%d", &p.num);
+    getchar();
+    while(fscanf(alunos, "%d\n%[^\n]\n%[^\n]\n%f\n%f\n", &h.num, h.nome, h.curso, &h.notas[0], &h.notas[1]) != EOF){
+        if(h.num == p.num){
+            while(h.num == p.num){
+                printf("Digite outro numero para o aluno: ");
+                scanf("%d", &p.num);
+                getchar();
+            }
+        }
+    }
+    printf("Digite o nome do aluno: ");
+    scanf("%100[^\n]", p.nome);
+    getchar();
+    printf("Digite o curso do aluno: ");
+    scanf("%100[^\n]", p.curso);
+    getchar();
+    for(int i = 0; i < 2; i++){
+        printf("Digite a nota %d do aluno: ", i+1);
+        scanf("%f", &p.notas[i]);
+    }
+    fprintf(alunos, "%d\n", p.num);
+    fprintf(alunos, "%s\n", p.nome);
+    fprintf(alunos, "%s\n", p.curso);
+    for(int i = 0; i < 2; i++){
+        fprintf(alunos, "%.2f\n", p.notas[i]);
+    }
+    fclose(alunos);
+}
+
+void editar(char t[]){
+    Aluno p, h;
+    int id;
+    char *x = ("aluno1.txt");
+    FILE *alunos = fopen(t, "a+");
+    FILE *temp = fopen(x, "w");
+    printf("Digite o numero do aluno que voce deseja editar: ");
+    scanf("%d", &id);
+    getchar();
+    while(fscanf(alunos, "%d\n%[^\n]\n%[^\n]\n%f\n%f\n", &h.num, h.nome, h.curso, &h.notas[0], &h.notas[1]) == 5){
+        if(id == h.num){
+            printf("INFORMACOES ATUAIS: \n");
+            printf("%d\n", h.num);
+            printf("%s\n", h.nome);
+            printf("%s\n", h.curso);
+            printf("%.2f\n", h.notas[0]);
+            printf("%.2f\n", h.notas[1]);
+            printf("---------------------------\n\n");
+            printf("Digite o novo numero: ");
+            scanf("%d", &p.num);
+            getchar();
+            printf("Digite o novo nome: ");
+            scanf("%100[^\n]", p.nome);
+            getchar();
+            printf("Digite o novo curso: ");
+            scanf("%100[^\n]", p.curso);
+            getchar();
+            for(int i = 0; i < 2; i++){
+                printf("Digite o nova nota %d: ", i+1);
+                scanf("%f", &p.notas[i]);
+                getchar();
+            }
+            fprintf(temp, "%d\n", p.num);
+            fprintf(temp, "%s\n", p.nome);
+            fprintf(temp, "%s\n", p.curso);
+            fprintf(temp, "%.2f\n", p.notas[0]);
+            fprintf(temp, "%.2f\n", p.notas[1]);
+        }else{
+            fprintf(temp, "%d\n", h.num);
+            fprintf(temp, "%s\n", h.nome);
+            fprintf(temp, "%s\n", h.curso);
+            fprintf(temp, "%.2f\n", h.notas[0]);
+            fprintf(temp, "%.2f\n", h.notas[1]);
+        }
+    }
+    fclose(alunos);
+    fclose(temp);
+    remove(t);
+    rename(x, t);
+}
+
+void cursoNome(char t[]){
+    Aluno p;
+    char curso[100];
+    printf("Digite o nome do curso: ");
+    scanf("%100[^\n]", curso);
+    getchar();
+    FILE *alunos = fopen(t, "r");
+    printf("Nome dos alunos do curso: \n");
+    while(fscanf(alunos, "%d\n%[^\n]\n%[^\n]\n%f\n%f\n", &p.num, p.nome, p.curso, &p.notas[0], &p.notas[1]) == 5){
+        if(strcmp(p.curso, curso) == 0){
+            printf("%s\n", p.nome);
+        }
+    }
+}
+
+void mediaNotas(char t[]){
+    Aluno p;
+    float soma = 0, media;
+    FILE *alunos = fopen(t, "r");
+    printf("\nAlunos que estao de recuperacao: \n\n");
+    while(fscanf(alunos, "%d\n%[^\n]\n%[^\n]\n%f\n%f\n", &p.num, p.nome, p.curso, &p.notas[0], &p.notas[1]) == 5){
+        soma = p.notas[0] + p.notas[1];
+        media = soma / 2;
+        if(media < 6){
+            printf("Nome: %s ; Media: %.2f\n", p.nome, media);
+        }
+        soma = 0;
+        media = 0;
+    }
+    fclose(alunos);
+}
+
+int main(){
+    char *t = ("aluno.txt");
+    //cadastrar(t);
+    //editar(t);
+    //cursoNome(t);
+    mediaNotas(t);
+    return 0;
+}

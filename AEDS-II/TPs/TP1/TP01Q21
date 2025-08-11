@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+char* inverter(char palavra[],int inicio, int fim, char novaPalavra[]){
+    if(fim == 0){
+        novaPalavra[inicio] = '\0';
+        return novaPalavra;
+    }else{
+        novaPalavra[inicio] = palavra[fim-1];
+        return inverter(palavra, inicio+1, fim-1, novaPalavra);
+    }
+}
+
+char* inverteString(char palavra[]){
+    int tam = strlen(palavra);
+    char* novaPalavra = (char*)malloc((tam + 1) * sizeof(char));
+    return inverter(palavra, 0, tam, novaPalavra);
+}
+
+
+int main(){
+    int x = 1;
+    char palavra[1000];
+    char* result;
+    while(x == 1){
+        scanf(" %[^\n]", palavra);
+        if(strcmp(palavra, "FIM") == 0){
+            x = -1;
+        }else{
+            result = inverteString(palavra);
+            printf("%s\n", result);
+            free(result);
+        }
+    }
+    return 0;
+}

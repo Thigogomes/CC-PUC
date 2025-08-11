@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Concursos</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/filtro_conc.css">
+</head>
+
+<body>
+    <header class="cabecalho">
+        <a href="./homepage.html"><img src="./assets/images/logo.png" class="logo"></a>
+        <div class="icones">
+            <a href="./suaconta.html"><img src="./assets/images/suaconta.png" class="conta"></a>
+            <a href="./config.html"><img src="./assets/images/config.png" class="config"></a>
+            <a href="./notificacao.html"><img src="./assets/images/notificacoes.png" class="notificacao"></a>
+        </div>
+    </header>
+
+    <div class="container">
+
+
+        <section id="filtros">
+            <h2>Filtros</h2>
+            <form id="form-filtros">
+                <div class="form-group">
+                    <label for="nome">Nome do Concurso:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite o nome do concurso">
+                </div>
+
+                <div class="form-group">
+                    <label for="data">Data:</label>
+                    <input type="date" id="data" name="data">
+                </div>
+
+                <div class="form-group">
+                    <label for="nivelEnsino">Nível de Ensino:</label>
+                    <select id="nivelEnsino" name="nivelEnsino">
+            <option value="">Selecione</option>
+            <option value="nível médio">Nível Médio</option>
+            <option value="nível superior">Nível Superior</option>
+            <option value="nível técnico">Nível Técnico</option>
+          </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="localizacao">Localização:</label>
+                    <input type="text" id="localizacao" name="localizacao" placeholder="Digite a localização">
+                </div>
+
+                <button type="button" id="btn-pesquisar">Pesquisar</button>
+            </form>
+        </section>
+
+        <section id="resultados">
+            <h2>Resultados</h2>
+            <div id="lista-resultados"></div>
+        </section>
+    </div>
+
+    <script src="./assets/js/filtro_conc.js"></script>
+    <footer>
+        <p>&copy; 2024 VagaCerta. Todos os direitos reservados.</p>
+        <p>Contato: vagacerta@gmail.com</p>
+    </footer>
+    
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('btn-pesquisar');
+  const nomeInput = document.getElementById('nome');
+  const dataInput = document.getElementById('data');
+  const nivelInput = document.getElementById('nivelEnsino');
+  const localInput = document.getElementById('localizacao');
+  const resultadosDiv = document.getElementById('lista-resultados');
+
+  // função que chama o backend e renderiza
+  async function fetchEExibe() {
+    const params = new URLSearchParams();
+    if (nomeInput.value)         params.set('nome', nomeInput.value);
+    if (dataInput.value)         params.set('data', dataInput.value);
+    if (nivelInput.value)        params.set('nivelEnsino', nivelInput.value);
+    if (localInput.value)        params.set('localizacao', localInput.value);
+
+    const res = await fetch(`/concursos?${params.toString()}`);
+    const concursos = await res.json();
+
+    resultadosDiv.innerHTML = '';
+    if (concursos.length === 0) {
+      resultadosDiv.innerHTML = '<p>Nenhum concurso encontrado.</p>';
+      return;
+    }
+
+    for (const c of concursos) {
+      const card = document.createElement('div');
+      card.className = 'concurso-card';
+      card.innerHTML = `
+        <h3>${c.nome}</h3>
+        <p><strong>Inscrições:</strong> ${new Date(c.inicioIncricoes).toLocaleDateString()} 
+            até ${new Date(c.terminoIncricoes).toLocaleDateString()}</p>
+        <p><strong>Nível:</strong> ${c.escolaridade}</p>
+        <p><strong>Local:</strong> ${c.localizacao}</p>
+        <p><strong>Banca:</strong> ${c.banca}</p>
+        <a href="concursos/exibir/${c.ID}">Ver Mais</a>
+      `;
+      resultadosDiv.appendChild(card);
+    }
+  }
+
+  // dispara via botão
+  btn.addEventListener('click', fetchEExibe);
+
+  // opcional: dispara quando usuário digita enter no campo nome
+  nomeInput.addEventListener('keypress', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      fetchEExibe();
+    }
+  });
+
+  // se quiser buscar já ao carregar com parâmetros de URL:
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('nome') || urlParams.has('data') ||
+      urlParams.has('nivelEnsino') || urlParams.has('localizacao')) {
+    nomeInput.value        = urlParams.get('nome') || '';
+    dataInput.value        = urlParams.get('data') || '';
+    nivelInput.value       = urlParams.get('nivelEnsino') || '';
+    localInput.value       = urlParams.get('localizacao') || '';
+    fetchEExibe();
+  }
+});
+</script>
+</body>
+
+</html>

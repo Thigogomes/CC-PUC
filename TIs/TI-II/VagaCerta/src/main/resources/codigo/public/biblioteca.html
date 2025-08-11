@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Livros</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/styleBib.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <a href="homepage.html"><img src="./assets/images/logo.png" class="logo"></a>
+        <div class="icones">
+            <a href="suaconta.html"><img src="./assets/images/suaconta.png" class="conta"></a>
+            <a href="config.html"><img src="./assets/images/config.png" class="config"></a>
+            <a href="notificacao.html"><img src="./assets/images/notificacoes.png" class="notificacao"></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>CADASTRO DE LIVROS</h1>
+        <form id="cadastro-form" action="/livros" method="POST">
+            <div class="form-group">
+                <input type="text" id="titulo" name="titulo" placeholder="Título" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="autor" name="autor" placeholder="Autor" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="versao" name="versao" placeholder="Versão do Livro" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="materia" name="materia" placeholder="Matéria" required>
+            </div>
+            <div class="form-group">
+                <input type="url" id="link" name="link" placeholder="Link" required>
+            </div>
+            <button type="submit">CADASTRAR</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1>ATUALIZAÇÃO DE LIVROS</h1>
+        <form id="atualizacao-form" onsubmit="this.action = '/livros/' + document.getElementById('livro-id-update').value;" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            
+            <div class="form-group">
+                <input type="number" id="livro-id-update" name="id" placeholder="ID do Livro" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="titulo-update" name="titulo" placeholder="Título">
+            </div>
+            <div class="form-group">
+                <input type="text" id="autor-update" name="autor" placeholder="Autor">
+            </div>
+            <div class="form-group">
+                <input type="number" id="versao-update" name="versao" placeholder="Versão do Livro">
+            </div>
+            <div class="form-group">
+                <input type="text" id="materia-update" name="materia" placeholder="Matéria">
+            </div>
+            <div class="form-group">
+                <input type="url" id="link-update" name="link" placeholder="Link">
+            </div>
+            <button type="submit">ATUALIZAR</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1>DELETAR LIVROS</h1>
+        <form id="delecao-form" onsubmit="this.action = '/livros/' + document.getElementById('livro-id-delete').value;" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <div class="form-group">
+                <input type="number" id="livro-id-delete" name="id" placeholder="ID do Livro" required>
+            </div>
+            <button type="submit">DELETAR</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1>BUSCAR LIVRO</h1>
+        <form id="busca-form" onsubmit="this.action = '/livros/' + document.getElementById('livro-id-search').value;" method="GET">
+            <div class="form-group">
+                <input type="number" id="livro-id-search" name="id" placeholder="ID do Livro" required>
+            </div>
+            <button type="submit">BUSCAR</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 VagaCerta. Todos os direitos reservados.</p>
+        <p>Contato: vagacerta@gmail.com</p>
+    </footer>
+</body>
+</html>

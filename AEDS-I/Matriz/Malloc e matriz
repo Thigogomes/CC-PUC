@@ -1,0 +1,85 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void preencher(int **mat, int lin, int col){
+    for(int i = 0; i < lin; i++){
+        for(int j = 0; j < col;j++){
+            mat[i][j] = rand()%10;
+        }
+    }
+}
+
+void imprimir (int **mat, int lin, int col){
+    for(int i = 0; i < lin; i++){
+        for(int j = 0; j < col; j++){
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void media (int **mat, int lin, int col){
+    float soma = 0.0;
+    printf("\nMEDIAS: ");
+    for(int i = 0; i < lin; i++){
+        for(int j = 0; j < col; j++){
+            soma = soma + mat[i][j];
+        }
+        printf("%.2f ", soma/lin);
+        soma = 0;
+    }
+}
+
+void somal (int **mat, int lin, int col){
+    printf("\nSOMAS: ");
+    int soma = 0;
+    for(int i = 0; i < lin; i++){
+        for(int j = 0; j < col;j++){
+            soma = soma + mat[i][j];
+        }
+        printf("%d ", soma);
+        soma = 0;
+    }
+}
+
+void livre(int **mat, int lin, int col){
+    for(int i = 0; i < col; i++){
+        free(mat[i]);
+    }
+    free(mat);
+}
+
+void maiorEmenor(int **mat, int lin, int col){
+    int maior, menor;
+    for(int i =0; i < lin; i++){
+        for(int j = 0; j < col; j++){
+            if(i == 0){
+                maior = mat[i][j];
+                menor = mat[i][j];
+            }
+            if(mat[i][j] > maior){
+                maior = mat[i][j];
+            }
+            if(mat[i][j] < menor){
+                menor = mat[i][j];
+            }
+        }
+    }
+    printf("\nMAIOR: %d", maior);
+    printf("\nMENOR: %d", menor);
+}
+
+int main(){
+    int lin = 4, col=3;
+    int **mat;
+    mat = (int **)malloc(lin*sizeof(int));
+    for(int i = 0; i < lin; i++){
+        mat[i] = (int *)malloc(col*sizeof(int));
+    }
+    preencher(mat, lin,col);
+    imprimir(mat, lin, col);
+    somal(mat, lin, col);
+    media(mat, lin, col);
+    maiorEmenor(mat,lin,col);
+    livre(mat,lin,col);
+}

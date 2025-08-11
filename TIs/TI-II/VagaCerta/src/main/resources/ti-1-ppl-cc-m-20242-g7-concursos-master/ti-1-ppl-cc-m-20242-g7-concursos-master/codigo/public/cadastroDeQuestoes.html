@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Questões</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/cadastrocs.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <a href="homepage.html"><img src="./assets/images/logo.png" class="logo"></a>
+    <div class="icones">
+      <a href="suaconta.html"><img src="./assets/images/suaconta.png" class="conta"></a>
+      <a href="config.html"><img src="./assets/images/config.png" class="config"></a>
+      <a href="notificacao.html"><img src="./assets/images/notificacoes.png" class="notificacao"></a>
+    </div>
+  </header>
+
+  <!-- CADASTRO -->
+  <div class="container">
+    <h1>CADASTRO DE QUESTÕES</h1>
+    <form id="cadastro-form" action="/concursos" method="POST">
+      <div class="form-group"><input type="text" name="Enunciado" placeholder="Enunciado" required></div>
+      <div class="form-group"><input type="text" name="a" placeholder="Alternativa A" required></div>
+      <div class="form-group"><input type="text" name="b" placeholder="Alternativa B" required></div>
+      <div class="form-group"><input type="text" name="c" placeholder="Alternativa C"></div>
+      <div class="form-group"><input type="text" name="d" placeholder="Alternativa D"></div>
+      <div class="form-group"><input type="text" name="Resposta" placeholder="Resposta"></div>
+      <button type="submit">CADASTRAR</button>
+    </form>
+  </div>
+
+  <!-- ATUALIZAÇÃO -->
+  <div class="container">
+    <h1>ATUALIZAÇÃO DE QUESTÕES</h1>
+    <form id="atualizacao-form" onsubmit="this.action='/concursos/' + document.getElementById('cod').value;" method="POST">
+      <input type="hidden" name="_method" value="PUT">
+      <div class="form-group"><input type="text" id="cod" name="id" placeholder="ID do Questão" required></div>
+      <div class="form-group"><input type="text" name="Enunciado" placeholder="Enunciado" required></div>
+      <div class="form-group"><input type="text" name="a" placeholder="Alternativa A" required></div>
+      <div class="form-group"><input type="text" name="b" placeholder="Alternativa B" required></div>
+      <div class="form-group"><input type="text" name="c" placeholder="Alternativa C"></div>
+      <div class="form-group"><input type="text" name="d" placeholder="Alternativa D"></div>
+      <div class="form-group"><input type="text" name="Resposta" placeholder="Resposta"></div>
+      <button type="submit">ATUALIZAR</button>
+    </form>
+  </div>
+
+  <!-- DELEÇÃO -->
+  <div class="container">
+    <h1>DELETAR QUESTÕES</h1>
+    <form id="delecao-form" onsubmit="this.action='/concursos/' + document.getElementById('delete-id').value;" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <div class="form-group"><input type="text" id="delete-id" name="id" placeholder="ID da Questão" required></div>
+      <button type="submit">DELETAR</button>
+    </form>
+  </div>
+
+<div class="container">
+    <h1>BUSCAR QUESTÕES</h1>
+    <form id="busca-form" onsubmit="return redirecionarParaDetalhes();">
+    <div class="form-group upload-group">
+        <div class="upload-btn"></div>
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="detalhes_id" name="detalhes_id" placeholder="Código de Cadastro da Questão" required>
+    </div>
+
+    <button type="submit">BUSCAR</button>
+</form>
+
+<script>
+    function redirecionarParaDetalhes() {
+        const id = document.getElementById('detalhes_id').value;
+        if (id.trim() !== '') {
+            window.location.href = 'detalhes.html?id=' + encodeURIComponent(id);
+        }
+        return false; // evita o submit tradicional
+    }
+</script>
+</div>
+
+</body>
+<footer>
+  <p>&copy; 2024 VagaCerta. Todos os direitos reservados.</p>
+  <p>Contato: vagacerta@gmail.com</p>
+</footer>
+</html>
+

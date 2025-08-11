@@ -1,0 +1,100 @@
+#include <stdlib.h>
+#include <err.h>
+#include <stdio.h>
+
+typedef struct No{
+    int elemento;
+    struct No* dir;
+    struct No* esq;
+}No;
+
+typedef struct ArvoreBinaria{
+    No* raiz;
+}ArvoreBinaria;
+
+ArvoreBinaria* newArvoreBinaria(){
+    ArvoreBinaria* nova = (ArvoreBinaria*)malloc(sizeof(ArvoreBinaria));
+    nova->raiz = NULL;
+    return nova;
+}
+
+No* newNo(int x){
+    No* novo = (No*)malloc(sizeof(No));
+    novo->dir = NULL;
+    novo->esq = NULL;
+    novo->elemento = x;
+    return novo;
+}
+
+No* inserirRecursivo(No* i, int x){
+    if(i == NULL){
+        i = newNo(x);
+    }else if(x < i->elemento){
+        i->esq = inserirRecursivo(i->esq, x);
+    }else if(x > i->elemento){
+        i->dir = inserirRecursivo(i->dir, x);
+    }else{
+        printf("Erro!");
+    }
+    return i;
+}
+
+void inserir(ArvoreBinaria* arvore, int x){
+    arvore->raiz = inserirRecursivo(arvore->raiz, x);
+}
+
+void caminharCentralRecursivo(No *i){
+    if(i != NULL){
+        caminharCentralRecursivo(i->esq);
+        printf("%d ", i->elemento);
+        caminharCentralRecursivo(i->dir);
+    }
+}
+
+void caminharCentral(ArvoreBinaria* arvore){
+    printf("[ ");
+    caminharCentralRecursivo(arvore->raiz);
+    printf("]\n");
+}
+
+No* maiorEsq(No* i, No* j){
+    if(j->dir == NULL){
+        i->elemento = j->elemento;
+        j = j->esq;
+    }else{
+       j->dir = maiorEsq(i, j->dir); 
+    }
+    
+    return j;
+}
+
+No* removerRecursivo(No* i, int x){
+    if(i == NULL){
+        errx(1, "Erro ao remover!");
+    }else if(x < i->elemento){
+        i->esq = removerRecursivo(i->esq, x);
+    }else if(x > i->elemento){
+        i->dir = removerRecursivo(i->dir, x);
+    }else if(i->dir == NULL){
+        i = i->esq;
+    }else if(i->esq == NULL){
+        i = i->dir;
+    }else{
+        i->esq = maiorEsq(i, i->esq);
+    }
+    
+    return i;
+}
+
+void remover(ArvoreBinaria* arvore, int x){
+    arvore->raiz = removerRecursivo(arvore->raiz, x);
+}
+
+int main(){
+    ArvoreBinaria* arvore = newArvoreBinaria();
+    inserir(arvore, 5);
+    inserir(arvore, 7);
+    inserir(arvore, 3);
+    caminharCentral(arvore);
+    return 0;
+}

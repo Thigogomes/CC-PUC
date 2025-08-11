@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class Quicksort {
+
+    public static void swap(int[] array, int a, int b) {
+        int temp = array[a];
+        array[a] = array[b];
+        array[b] = temp;
+    }
+
+    public static void quicksort(int[] array, int esq, int dir, long[] comparacoes, long[] movimentacoes) {
+        int i = esq, j = dir, pivo = array[(esq + dir) / 2];
+
+        while (i <= j) {
+            comparacoes[0]++;
+            while (array[i] < pivo) {
+                i++;
+                comparacoes[0]++;
+            }
+            comparacoes[0]++;
+            while (array[j] > pivo) {
+                j--;
+                comparacoes[0]++;
+            }
+            if (i <= j) {
+                swap(array, i, j);
+                movimentacoes[0] += 3;
+                i++;
+                j--;
+            }
+        }
+
+        if (esq < j) {
+            quicksort(array, esq, j, comparacoes, movimentacoes);
+        }
+        if (i < dir) {
+            quicksort(array, i, dir, comparacoes, movimentacoes);
+        }
+    }
+
+    public static void main(String[] args) {
+        int n = 10000;
+        for (int x = 1; x <= 30; x++) {
+            long[] comparacoes = new long[1];
+            long[] movimentacoes = new long[1];
+            Random rand = new Random();
+            int[] array = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                array[i] = rand.nextInt(n);
+            }
+
+            long inicioTempo = System.nanoTime();
+            quicksort(array, 0, n - 1, comparacoes, movimentacoes);
+            long fimTempo = System.nanoTime();
+
+            double duracao = (fimTempo - inicioTempo) / 1_000_000.0; // em milissegundos
+            System.out.println("Quicksort(" + n + ")(" + x + ");" 
+                + comparacoes[0] + ";" + movimentacoes[0] + ";" + duracao + "ms;");
+        }
+    }
+}

@@ -1,0 +1,101 @@
+#include<stdlib.h>
+#include<stdio.h>
+
+typedef struct FilaCircular{
+    int max;
+    int primeiro;
+    int ultimo;
+    int *array;
+    int n;
+}FilaCircular;
+
+FilaCircular *newFilaCircular(int max){
+    FilaCircular *fila = (FilaCircular*)malloc(sizeof(FilaCircular));
+    fila->primeiro = 0;
+    fila->ultimo = 0;
+    fila->max = max;
+    fila->n = 0;
+    fila->array = (int*)malloc(max*sizeof(int));
+    return fila;
+}
+
+void delFilaCircular(FilaCircular* fila){
+    if(fila != NULL){
+        free(fila->array);
+        free(fila);
+    }
+}
+
+int isVazia(FilaCircular *fila){
+    if(fila->primeiro == fila->ultimo){
+        return 1;
+    }
+    return 0;
+}
+
+int isCheia(FilaCircular *fila){
+    if((fila->ultimo+1) % fila->max == fila->primeiro){
+        return 1;
+    }
+    return 0;
+}
+
+void enfileirar(FilaCircular* fila, int elem){
+    if(fila->ultimo >= fila->max){
+        printf("Erro!");
+        return;
+    }
+    fila->array[fila->ultimo] = elem;
+    fila->ultimo = (fila->ultimo+1) % fila->max;
+    fila->n++;
+}
+
+int desenfileirar(FilaCircular* fila){
+    if(fila->primeiro == fila->ultimo){
+        printf("Erro!");
+        return -1;
+    }
+    int x = fila->array[fila->primeiro];
+    fila->primeiro = (fila->primeiro+1) % fila->max;
+    fila->n--;
+    return x;
+}
+
+void mostrar(FilaCircular *fila){
+    printf("[");
+    for(int i = 0; i < fila->n; i++){
+        int j = (fila->primeiro+i) % fila->max;
+        printf("%d", fila->array[j]);
+        if(j < fila->ultimo-1){
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
+int pesquisar(FilaCircular* fila, int elem){
+    for(int i = 0; i < fila->n; i++){
+        int j = (fila->primeiro+i) % fila->max;
+        if(fila->array[j] == elem){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main(){
+    FilaCircular *fila = newFilaCircular(6);
+    enfileirar(fila, 1);
+    enfileirar(fila, 2);
+    enfileirar(fila, 3);
+    enfileirar(fila, 4);
+    enfileirar(fila, 5);
+    mostrar(fila);
+    desenfileirar(fila);
+    desenfileirar(fila);
+    mostrar(fila);
+    int result = pesquisar(fila, 3);
+    printf("Existe o número 3 na fila circular: %d\n", result);
+    delFilaCircular(fila);
+    return 0;
+}

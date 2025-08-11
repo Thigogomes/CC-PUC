@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<string.h>
+
+void escreverArquivo(char c[], int n){
+    FILE *arq = fopen(c, "wb");
+    double num;
+    if(arq){
+       for(int i = 0; i < n; i++){
+            scanf("%lf", &num);
+            fwrite( &num, sizeof(double), 1, arq);
+       }
+    }
+    fclose(arq);
+}
+
+void imprimirArquivo(char c[], int n){
+    FILE *arq = fopen(c, "rb");
+    int x = 0;
+    double num;
+    fseek( arq, 0, SEEK_END );
+    double y = ftell(arq);
+    rewind(arq);
+    for(int i = 0; i < n; i++){
+        fseek( arq, (y -(i + 1)*sizeof(double)), SEEK_SET );
+        fread( &num, sizeof(double), 1, arq);
+        printf("%g\n", num);
+    }
+    fclose(arq);
+}
+
+int main(){
+    int n;
+    scanf("%d", &n);
+    char* arq = ("arquivo.bin");
+    escreverArquivo(arq, n);
+    imprimirArquivo(arq, n);
+    return 0;
+}

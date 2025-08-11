@@ -1,0 +1,178 @@
+import java.util.*;
+
+public class ListaFlexivel{
+    public Celula primeiro;
+    public Celula ultimo;
+    
+    public ListaFlexivel(){
+        primeiro = new Celula();
+        ultimo = primeiro;
+    }
+    
+    public void inserirFim(int x){
+        ultimo.prox = new Celula(x);
+        ultimo = ultimo.prox;
+    }
+    
+    public void inserirInicio(int x){
+        Celula temp = new Celula(x);
+        temp.prox = primeiro.prox;
+        primeiro.prox = temp;
+        if(primeiro == ultimo){
+            ultimo = temp;
+        }
+        temp = null;
+    }
+    
+    public int tamanho(){
+        int tam = 0;
+        for(Celula i = primeiro.prox; i != null; i = i.prox){
+            tam++;
+        }
+        return tam;
+    }
+    
+    public void inserir(int x, int pos){
+        int tam = tamanho();
+        if(pos < 0 || tam < pos){
+            throw new RuntimeException("Erro!");
+        }else if(pos == 0){
+            inserirInicio(x);
+        }else if(pos == tam){
+            inserirFim(x);
+        }else{
+            Celula i = primeiro;
+            for(int j = 0; j < pos; j++, i = i.prox);
+            Celula temp = new Celula(x);
+            temp.prox = i.prox;
+            i.prox = temp;
+            temp = i = null;
+        }
+    }
+    
+    public int remover(int pos){
+        int x = 0, tam = tamanho();
+        if(pos < 0 || tam < pos){
+            throw new RuntimeException("Erro!");
+        }else if(pos == 0){
+            x = removerInicio();
+        }else if(pos == tam-1){
+            x = removerFim();
+        }else{
+            Celula i = primeiro;
+            for(int j = 0; j < pos; j++, i = i.prox);
+            Celula temp = i.prox;
+            x = temp.elemento;
+            i.prox = temp.prox;
+            temp.prox = null;
+            temp = i = null;
+            return x;
+        }
+        return x;
+    }
+    
+    public int removerInicio(){
+        if(primeiro == ultimo)
+            throw new RuntimeException("Erro!");
+        Celula temp = primeiro.prox;
+        int x = temp.elemento;
+        primeiro.prox = temp.prox;
+        if(temp == ultimo){
+            ultimo = primeiro;
+        }
+        temp.prox = null;
+        temp = null;
+        return x;
+    }
+    
+    public int removerFim(){
+        if(primeiro == ultimo)
+            throw new RuntimeException("Erro!");
+        Celula i;
+        for(i = primeiro; i.prox != ultimo; i = i.prox);
+        int x = ultimo.elemento;
+        ultimo = i;
+        ultimo.prox = null;
+        return x;
+    }
+    
+    public void mostrar(){
+        System.out.print("[");
+        for(Celula i = primeiro.prox; i != ultimo.prox; i = i.prox){
+            System.out.print(i.elemento);
+            if(i.prox != ultimo.prox){
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+    
+    public boolean pesquisar(int x){
+        Celula i;
+        for(i = primeiro; i != ultimo.prox; i = i.prox){
+            if(i.elemento == x){
+                i = null;
+                return true;
+            }
+        }
+        i = null;
+        return false;
+    }
+    
+    public void mostrarInverso(){
+        int tam = tamanho();
+        System.out.print("[");
+        for(int j = tam; j > 0; j--){
+            Celula i;
+            int x = j;
+            for(i = primeiro; x > 0 ; x--, i = i.prox);
+            System.out.print(i.elemento);
+            if(j-1 != 0){
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+    
+    public void mostrarInversoRecurcivo(Celula i){
+        if(i.prox != null){
+            mostrarInversoRecurcivo(i.prox);
+        }
+        System.out.print(i.elemento);
+        if(i != primeiro.prox){
+            System.out.print(", ");
+        }
+    }
+    
+    public void mostrarInversoRecurcivo(){
+        Celula i = primeiro;
+        System.out.print("[");
+        mostrarInversoRecurcivo(i.prox);
+        System.out.println("]");
+    }
+    
+	public static void main(String[] args) {
+		ListaFlexivel lista = new ListaFlexivel();
+		lista.inserirFim(3);
+		lista.inserirFim(6);
+		lista.inserirFim(7);
+		lista.inserirFim(2);
+		lista.inserirFim(1);
+		lista.mostrar();
+		lista.removerFim();
+		lista.removerFim();
+		lista.mostrar();
+		lista.inserirInicio(1);
+		lista.inserirInicio(4);
+		lista.mostrar();
+		lista.removerInicio();
+		lista.removerInicio();
+		lista.mostrar();
+		lista.inserir(2, 1);
+		lista.mostrar();
+		lista.remover(1);
+		lista.mostrar();
+		lista.mostrarInverso();
+		System.out.println("tem o numero 2 na lista: " + lista.pesquisar(2));
+	}
+}

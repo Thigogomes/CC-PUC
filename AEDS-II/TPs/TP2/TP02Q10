@@ -1,0 +1,654 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<time.h>
+
+#define MAX 200
+#define MAX_LIST 11
+#define PATH "/tmp/disneyplus.csv"
+
+typedef struct Date{
+    int day;
+    int month;
+    int year;
+}Date;
+
+typedef struct Show {
+    char showId[MAX];
+    char type[MAX];
+    char title[MAX];
+    char director[MAX];
+    char cast[MAX_LIST][MAX];
+    char country[MAX];
+    char dateAdded[MAX];
+    Date date;
+    int releaseYear;
+    char rating[MAX];
+    char duration[MAX];
+    char listedIn[MAX_LIST][MAX];
+} Show;
+
+Show newShow();
+Show *ler();
+void atribuir(Show *show, char *linha, int index);
+char **separarLinha(char *linha);
+char **separarLista(char *lista);
+void ordenarLista(char **lista);
+void imprimir(Show show);
+int quantidade();
+int PesquisaBinaria(Show vet[], int tam, char titulo[], int comparacoes[]);
+void ordenaVetorDeShow(Show vetor[], int tam);
+Date dateToInt(char str[]);
+Show procurar(Show* show, int tam, char id[]);
+
+Show newShow() {
+    Show show;
+    strcpy(show.showId, "NaN");
+    strcpy(show.type, "NaN");
+    strcpy(show.title, "NaN");
+    strcpy(show.director, "NaN");
+    strcpy(show.cast[0], "NaN");
+    for (int i = 1; i < MAX_LIST; i++) {
+        show.cast[i][0] = '\0';
+    }
+    strcpy(show.country, "NaN");
+    strcpy(show.dateAdded, "NaN");
+    show.releaseYear = -1;
+    strcpy(show.rating, "NaN");
+    strcpy(show.duration, "NaN");
+    strcpy(show.listedIn[0], "NaN");
+    for (int i = 1; i < MAX_LIST; i++) {
+        show.listedIn[i][0] = '\0';
+    }
+    return show;
+}
+
+int quantidade() {
+    int cont = 0;
+    FILE *arq = fopen(PATH, "r");
+    char linha[1500];
+    if (arq) {
+        fgets(linha, sizeof(linha), arq);
+        while (fgets(linha, sizeof(linha), arq)) {
+            cont++;
+        }
+    } else {
+        printf("Erro ao abrir o arquivo!");
+    }
+    fclose(arq);
+    return cont;
+}
+
+Show *ler() {
+    int i = 0;
+    int quant = quantidade();
+    Show *show = (Show*)malloc(quant * sizeof(Show));
+    FILE *arq = fopen(PATH, "r");
+    char linha[1500];
+    if (arq) {
+        fgets(linha, sizeof(linha), arq);
+        while (fgets(linha, sizeof(linha), arq)) {
+            atribuir(show, linha, i);
+            i++;
+        }
+    } else {
+        printf("Erro ao abrir o arquivo!");
+    }
+    fclose(arq);
+    return show;
+}
+
+void atribuir(Show *show, char *linha, int index) {
+    show[index] = newShow();
+    char **str = separarLinha(linha);
+    strcpy(show[index].showId, str[0]);
+
+    if (strlen(str[1]) > 0) {
+        strcpy(show[index].type, str[1]);
+    } else {
+        strcpy(show[index].type, "NaN");
+    }
+
+    if (strlen(str[2]) > 0) {
+        strcpy(show[index].title, str[2]);
+    } else {
+        strcpy(show[index].title, "NaN");
+    }
+
+    if (strlen(str[3]) > 0) {
+        strcpy(show[index].director, str[3]);
+    } else {
+        strcpy(show[index].director, "NaN");
+    }
+
+    if (strlen(str[4]) > 0) {
+        char **lista = separarLista(str[4]);
+        for (int i = 0; i < MAX_LIST && lista[i][0] != '\0'; i++) {
+            strcpy(show[index].cast[i], lista[i]);
+        }
+        for (int i = 0; i < MAX_LIST; i++) {
+            free(lista[i]);
+        }
+        free(lista);
+    } else {
+        strcpy(show[index].cast[0], "NaN");
+        for (int i = 1; i < MAX_LIST; i++) {
+            show[index].cast[i][0] = '\0';
+        }
+    }
+
+    if (strlen(str[5]) > 0) {
+        strcpy(show[index].country, str[5]);
+    } else {
+        strcpy(show[index].country, "NaN");
+    }
+
+	if (strlen(str[6]) > 0) {
+		strcpy(show[index].dateAdded, str[6]);
+		show[index].date = dateToInt(str[6]);
+	} else {
+		strcpy(show[index].dateAdded, "March 1, 1900");
+		show[index].date = dateToInt("March 1, 1900");
+	}
+
+    show[index].releaseYear = atoi(str[7]);
+
+    if (strlen(str[8]) > 0) {
+        strcpy(show[index].rating, str[8]);
+    } else {
+        strcpy(show[index].rating, "NaN");
+    }
+
+    if (strlen(str[9]) > 0) {
+        strcpy(show[index].duration, str[9]);
+    } else {
+        strcpy(show[index].duration, "NaN");
+    }
+
+    if (strlen(str[10]) > 0) {
+        char **lista = separarLista(str[10]);
+        for (int i = 0; i < MAX_LIST && lista[i][0] != '\0'; i++) {
+            strcpy(show[index].listedIn[i], lista[i]);
+        }
+        for (int i = 0; i < MAX_LIST; i++) {
+            free(lista[i]);
+        }
+        free(lista);
+    } else {
+        strcpy(show[index].listedIn[0], "NaN");
+        for (int i = 1; i < MAX_LIST; i++) {
+            show[index].listedIn[i][0] = '\0';
+        }
+    }
+
+    for (int i = 0; i < MAX_LIST; i++) {
+        free(str[i]);
+    }
+    free(str);
+}
+
+char **separarLista(char *lista) {
+    char **str = (char**)malloc(MAX_LIST * sizeof(char*));
+    for (int k = 0; k < MAX_LIST; k++) {
+        str[k] = (char*)malloc((MAX + 1) * sizeof(char));
+        str[k][0] = '\0';
+    }
+
+    int i = 0, j = 0, pos = 0;
+    while (lista[i] != '\0') {
+        if (lista[i] != ',') {
+            str[pos][j] = lista[i];
+            j++;
+        } else {
+            str[pos][j] = '\0';
+            pos++;
+            j = 0;
+            if (lista[i + 1] == ' ') {
+                i++;
+            }
+        }
+        i++;
+    }
+    str[pos][j] = '\0';
+    ordenarLista(str);
+    return str;
+}
+
+void imprimir(Show show) {
+    int i = 0;
+    printf("=> %s ## ", show.showId);
+    printf("%s ## ", show.title);
+    printf("%s ## ", show.type);
+    printf("%s ## ", show.director);
+    printf("[");
+    while (show.cast[i][0] != '\0') {
+        printf("%s", show.cast[i]);
+        if (show.cast[i + 1][0] != '\0') {
+            printf(", ");
+        }
+        i++;
+    }
+    printf("] ## ");
+    printf("%s ## ", show.country);
+    printf("%s ## ", show.dateAdded);
+    printf("%d ## ", show.releaseYear);
+    printf("%s ## ", show.rating);
+    printf("%s ## ", show.duration);
+    printf("[");
+    i = 0;
+    while (show.listedIn[i][0] != '\0') {
+        printf("%s", show.listedIn[i]);
+        if (show.listedIn[i + 1][0] != '\0') {
+            printf(", ");
+        }
+        i++;
+    }
+    printf("] ##\n");
+}
+
+void ordenarLista(char **lista) {
+    char temp[MAX];
+    int tam = 0;
+    while (lista[tam][0] != '\0') {
+        tam++;
+    }
+    tam--;
+    for (int i = tam; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
+            if (strcmp(lista[j], lista[j + 1]) > 0) {
+                strcpy(temp, lista[j]);
+                strcpy(lista[j], lista[j + 1]);
+                strcpy(lista[j + 1], temp);
+            }
+        }
+    }
+}
+
+char **separarLinha(char *linha) {
+    char **str = (char**)malloc(MAX_LIST * sizeof(char*));
+    for (int k = 0; k < MAX_LIST; k++) {
+        str[k] = (char*)malloc((MAX + 1) * sizeof(char));
+        str[k][0] = '\0';
+    }
+
+    int aux = 0, i = 0, j = 0;
+    while (i < strlen(linha) && aux < 11) {
+        char letra = linha[i];
+        char letra2;
+        if (i + 1 < strlen(linha)) {
+            letra2 = linha[i + 1];
+        }
+        if (letra == ',' && letra2 != ' ') {
+            str[aux][j] = '\0';
+            aux++;
+            j = 0;
+        } else {
+            if (letra != '"') {
+                str[aux][j] = letra;
+                j++;
+            } else {
+                i++;
+                letra = linha[i];
+                while (i < strlen(linha) && linha[i] != '"') {
+                    str[aux][j] = letra;
+                    j++;
+                    i++;
+                    letra = linha[i];
+                }
+            }
+        }
+        i++;
+    }
+    if (j > 0 && aux < MAX_LIST) {
+        str[aux][j] = '\0';
+    }
+    return str;
+}
+
+int mesParaNumero(char mes[]){
+    if(strcmp(mes, "January") == 0){
+        return 1;
+    }else if(strcmp(mes, "February") == 0){
+        return 2;
+    }else if(strcmp(mes, "March") == 0){
+        return 3;
+    }else if(strcmp(mes, "April") == 0){
+        return 4;
+    }else if(strcmp(mes, "May") == 0){
+        return 5;
+    }else if(strcmp(mes, "June") == 0){
+        return 6;
+    }else if(strcmp(mes, "July") == 0){
+        return 7;
+    }else if(strcmp(mes, "August") == 0){
+        return 8;
+    }else if(strcmp(mes, "September") == 0){
+        return 9;
+    }else if(strcmp(mes, "October") == 0){
+        return 10;
+    }else if(strcmp(mes, "November") == 0){
+        return 11;
+    }else if(strcmp(mes, "December") == 0){
+        return 12;
+    }else{
+        printf("Erro!");
+        return -1;
+    }
+}
+
+Date dateToInt(char data[]){
+    Date d;
+    char mes[15], dia[3], ano[5];
+    int j = 0, k = 0;
+    while(data[j] != ' '){
+        mes[k++] = data[j++];
+    }
+    mes[k] = '\0';
+    j++;
+    k = 0;
+    while(data[j] != ','){
+        dia[k++] = data[j++];
+    }
+    dia[k] = '\0';
+    j += 2;
+    k = 0;
+    while(data[j] != '\0'){
+        ano[k++] = data[j++];
+    }
+    ano[k] = '\0';
+        
+    d.day = atoi(dia);
+    d.month = mesParaNumero(mes);
+    d.year = atoi(ano);
+    return d;
+}
+
+//***********//
+
+typedef struct CelulaDupla{
+    Show elemento;
+    struct CelulaDupla* prox;
+    struct CelulaDupla* ant;
+}CelulaDupla;
+
+typedef struct ListaDupla{
+    CelulaDupla* primeiro;
+    CelulaDupla* ultimo;
+}ListaDupla;
+
+ListaDupla* newListaDupla(){
+    ListaDupla* lista = (ListaDupla*)malloc(sizeof(ListaDupla));
+    lista->primeiro = NULL;
+    lista->ultimo = NULL;
+    return lista;
+}
+
+int tamanho(ListaDupla* lista){
+    int tam = 0;
+    for(CelulaDupla* i = lista->primeiro; i != NULL; i = i->prox){
+        tam++;
+    }
+    return tam;
+}
+
+void inserirInicio(ListaDupla* lista, Show x){
+    CelulaDupla* temp = (CelulaDupla*)malloc(sizeof(CelulaDupla));
+    temp->elemento = x;
+    temp->ant = NULL;
+    temp->prox = lista->primeiro;
+    
+    if(lista->primeiro == NULL){
+        lista->ultimo = temp;
+    }else{
+        lista->primeiro->ant = temp;
+    }
+    lista->primeiro = temp;
+    temp = NULL;
+}
+
+void inserirFim(ListaDupla* lista, Show x){
+    CelulaDupla* temp = (CelulaDupla*)malloc(sizeof(CelulaDupla));
+    temp->elemento = x;
+    temp->prox = NULL;
+    temp->ant = lista->ultimo;
+    
+    if(lista->primeiro == NULL){
+        lista->primeiro = temp;
+        lista->ultimo = temp;
+    }else{
+        lista->ultimo->prox = temp;
+    }
+    lista->ultimo = temp;
+    
+    temp = NULL;
+}
+
+void inserir(ListaDupla* lista, Show x, int pos){
+    int tam = tamanho(lista);
+    if(pos < 0 || pos > tam){
+        printf("Erro! Possicao invalida!");
+        return;
+    }else if(pos == 0){
+        inserirInicio(lista, x);
+    }else if(pos == tam){
+        inserirFim(lista, x);
+    }else{
+        CelulaDupla*  i = lista->primeiro;
+        CelulaDupla* temp = (CelulaDupla*)malloc(sizeof(CelulaDupla));
+        temp->elemento = x;
+        
+        for(int j = 0; j < pos-1; i = i->prox, j++);
+        temp->prox = i->prox;
+        temp->ant = i;
+        i->prox->ant = temp;
+        i->prox = temp;
+        
+        i = temp = NULL;
+    }
+}
+
+Show removerFim(ListaDupla* lista){
+    Show x;
+    int tam = tamanho(lista);
+    if(tam == 0){
+        printf("Erro! Lista vazia!");
+        return newShow();
+    }
+    x = lista->ultimo->elemento;
+    lista->ultimo = lista->ultimo->ant;
+    
+    if(lista->ultimo == NULL){
+        lista->primeiro = NULL;
+    } else {
+        lista->ultimo->prox->ant = NULL;
+        lista->ultimo->prox = NULL;
+    }
+    
+    return x;
+}
+
+Show removerInicio(ListaDupla* lista){
+    Show x;
+    int tam = tamanho(lista);
+    if(tam == 0){
+        printf("Erro! Lista vazia!");
+        return newShow();
+    }
+    x = lista->primeiro->elemento;
+    lista->primeiro = lista->primeiro->prox;
+    
+    if(lista->primeiro == NULL){
+        lista->ultimo = NULL;
+    }else{
+        lista->primeiro->ant->prox = NULL;
+        lista->primeiro->ant = NULL;
+    }
+    
+    return x;
+}
+
+Show remover(ListaDupla* lista, int pos){
+    Show x;
+    int tam = tamanho(lista);
+    if(pos < 0 || tam < pos){
+        printf("Erro! Possicao Invalida!");
+        return newShow();
+    }else if(tam == 0){
+        printf("Erro! Lista vazia!");
+        return newShow();
+    }else if(pos == 0){
+        x = removerInicio(lista);
+    }else if(pos == tam-1){
+        x = removerFim(lista);
+    }else{
+        CelulaDupla* i = lista->primeiro;
+        x = i->elemento;
+        
+        for(int j = 0; j < pos; i = i->prox, j++);
+        i->ant->prox = i->prox;
+        i->prox->ant = i->ant;
+        free(i);
+    }
+    return x;
+}
+
+Show procurar(Show* show, int tam, char id[]) {
+    for (int i = 0; i < tam; i++) {
+        if (strcmp(show[i].showId, id) == 0) {
+            return show[i];
+        }
+    }
+    return newShow();
+}
+
+Show pegar(ListaDupla* lista, int pos){
+    int tam = tamanho(lista);
+    if (lista == NULL || lista->primeiro == NULL || pos < 0 || pos >= tam) {
+        printf("Erro!\n");
+        return newShow();
+    }
+    CelulaDupla* i = lista->primeiro;
+    for(int j = 0; j < pos; j++, i = i->prox);
+    return i->elemento;
+}
+
+void set(ListaDupla* lista, int pos, Show x){
+    int tam = tamanho(lista);
+    if(pos < 0 || pos >= tam){
+        printf("Erro! Posição invalida!\n");
+        return;
+    }
+    CelulaDupla* i = lista->primeiro;
+    for(int j = 0; j < pos; j++, i = i->prox);
+    i->elemento = x;
+}
+
+//***********//
+
+void swap(ListaDupla* lista, int a, int b){
+    Show temp = pegar(lista, a);
+    set(lista, a, pegar(lista, b));
+    set(lista, b, temp);
+}
+
+int comparaMenor(ListaDupla* lista, int i, Show pivo){
+    if(pegar(lista, i).date.year < pivo.date.year){
+        return 1;
+    }else if(pegar(lista, i).date.year == pivo.date.year && pegar(lista, i).date.month < pivo.date.month){
+        return 1;
+    }else if(pegar(lista, i).date.year == pivo.date.year && pegar(lista, i).date.month == pivo.date.month && pegar(lista, i).date.day < pivo.date.day){
+        return 1;
+    }else if (pegar(lista, i).date.year == pivo.date.year && pegar(lista, i).date.month == pivo.date.month && pegar(lista, i).date.day == pivo.date.day && strcasecmp(pegar(lista, i).title, pivo.title) < 0){
+        return 1;
+    }
+    return 0;
+}
+
+int comparaMaior(ListaDupla* lista, int i, Show pivo){
+    if(pegar(lista, i).date.year > pivo.date.year){
+        return 1;
+    }else if(pegar(lista, i).date.year == pivo.date.year && pegar(lista, i).date.month > pivo.date.month){
+        return 1;
+    }else if(pegar(lista, i).date.year == pivo.date.year && pegar(lista, i).date.month == pivo.date.month && pegar(lista, i).date.day > pivo.date.day){
+        return 1;
+    }else if (pegar(lista, i).date.year == pivo.date.year && pegar(lista, i).date.month == pivo.date.month && pegar(lista, i).date.day == pivo.date.day && strcasecmp(pegar(lista, i).title, pivo.title) > 0){
+        return 1;
+    }
+    return 0;
+}
+
+void quicksort(ListaDupla* lista, int esq, int dir, int comparacoes[], int movimentacoes[]){
+    int i = esq, j = dir, resp;
+    Show pivo = pegar(lista, ((dir+esq)/2));
+    
+    while(i <= j){
+        while((resp = comparaMenor(lista, i, pivo)) != 0){
+            i++;
+            comparacoes[0]++;
+        }
+        comparacoes[0]++;
+        while((resp = comparaMaior(lista, j, pivo)) != 0){
+            j--;
+            comparacoes[0]++;
+        }
+        comparacoes[0]++;
+        if(i <= j){
+            swap(lista, i, j);
+            movimentacoes[0] += 3;
+            i++;
+            j--;
+        }
+    }
+    if(esq < j){
+        quicksort(lista, esq, j, comparacoes, movimentacoes);
+    }
+    if(i < dir){
+        quicksort(lista, i, dir, comparacoes, movimentacoes);
+    }
+}
+
+void arquivoLog(int matricula, double duracao, int comparacoes[], int movimentacoes[]) {
+	FILE *arq = fopen("1543790_quicksort2.txt", "w");
+	if(arq) {
+		fprintf(arq, "%d\t%d\t%d\t%fs", matricula, comparacoes[0], movimentacoes[0], duracao);
+	}
+	fclose(arq);
+}
+
+int main() {
+	int comparacoes[1] = {0};
+	int movimentacoes[1] = {0};
+	int contIds = 0;
+	Show *show = ler();
+	int quant = quantidade();
+	char id[MAX_LIST];
+	
+	ListaDupla* lista = newListaDupla();
+	
+	scanf("%[^\n]", id);
+	getchar();
+	while (strcmp(id, "FIM") != 0) {
+		for (int i = 0; i < quant; i++) {
+			if (strcmp(id, show[i].showId) == 0) {
+				inserirFim(lista, show[i]);
+				contIds++;
+			}
+		}
+		scanf("%[^\n]", id);
+		getchar();
+	}
+	
+	clock_t inicioTempo = clock();
+	quicksort(lista, 0, contIds-1, comparacoes, movimentacoes);
+	clock_t fimTempo = clock();
+	
+	for(int i = 0; i < contIds; i++){
+	    imprimir(pegar(lista, i));
+	}
+	
+	free(show);
+	free(lista);
+	double duracao = ((double)(fimTempo-inicioTempo))/CLOCKS_PER_SEC;
+    arquivoLog(1543790, duracao, comparacoes, movimentacoes);
+	return 0;
+}

@@ -1,0 +1,79 @@
+#include<stdlib.h>
+#include <stdio.h>
+
+typedef struct FilaLinear{
+    int max;
+    int n;
+    int *array;
+}FilaLinear;
+
+FilaLinear *newFilaLinear(int max){
+    FilaLinear *fila = (FilaLinear*)malloc(sizeof(FilaLinear));
+    fila->max = max;
+    fila->n = 0;
+    fila->array = (int*)malloc(max*sizeof(int));
+    return fila;
+}
+
+void delFilaLinear(FilaLinear* fila){
+    if(fila != NULL){
+        free(fila->array);
+        free(fila);
+    }
+}
+
+void enfileirar(FilaLinear* fila, int elem){
+    if(fila->n >= fila->max){
+        printf("Erro!");
+        return;
+    }
+    fila->array[fila->n++] = elem;
+}
+
+int desenfileirar(FilaLinear* fila){
+    if(fila->n == 0){
+        printf("Erro!");
+        return -1;
+    }
+    int x = fila->array[0];
+    fila->n--;
+    for(int i = 0; i < fila->n; i++){
+        fila->array[i] = fila->array[i+1];
+    }
+    return x;
+}
+
+void mostrar(FilaLinear *fila){
+    printf("[");
+    for(int i = 0; i < fila->n; i++){
+        printf("%d", fila->array[i]);
+        if(i < fila->n-1){
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
+int pesquisar(FilaLinear* fila, int elem){
+    for(int i = 0; i < fila->n; i++){
+        if(elem == fila->array[i]){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main(){
+    FilaLinear *fila = newFilaLinear(6);
+    enfileirar(fila, 1);
+    enfileirar(fila, 2);
+    enfileirar(fila, 3);
+    enfileirar(fila, 4);
+    enfileirar(fila, 5);
+    desenfileirar(fila);
+    mostrar(fila);
+    int result = pesquisar(fila, 4);
+    printf("O número 4 existe na fila: %d\n", result);
+    delFilaLinear(fila);
+    return 0;
+}

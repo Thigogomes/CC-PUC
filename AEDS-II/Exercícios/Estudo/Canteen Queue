@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class CanteenQueue{
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int m, aux;
+		for(int i = 0; i < n; i++){
+			m = sc.nextInt();
+			int cont = 0;
+			int[] array = new int[m];
+			int[] vet = new int[m];
+			for(int j = 0; j < m; j++){
+				array[j] = sc.nextInt();
+				vet[j] = array[j];
+			}
+			for(int j = m-1; j > 0; j--){
+				for(int k = 0; k < j; k++){
+					if(vet[k] < vet[k+1]){
+						aux = vet[k];
+						vet[k] = vet[k+1];
+						vet[k+1] = aux;
+					}
+				}
+			}
+			for(int j = 0; j < m; j++){
+				if(array[j] == vet[j]){
+					cont++;
+				}
+			}
+			System.out.println(cont);
+		}
+	}
+}

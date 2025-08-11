@@ -1,0 +1,131 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct ListaLinear{
+    int max;
+    int *array;
+    int n;
+}ListaLinear;
+
+ListaLinear* newListaLinear(int max){
+    ListaLinear *lista = (ListaLinear*) malloc(sizeof(ListaLinear));
+    lista->max = max;
+    lista->n = 0;
+    lista->array = (int*)malloc(max*sizeof(int));
+    return lista;
+}
+
+void delListaLinear(ListaLinear* lista){
+    if(lista != NULL){
+        free(lista->array);
+        free(lista);
+    }
+}
+    
+void inserirInicio(ListaLinear* lista, int elem){
+    if(lista->n >= lista->max){
+        printf("Erro!");
+        return; 
+    }
+    for(int i = lista->n; i > 0; i--){
+        lista->array[i] = lista->array[i-1];
+    }
+    lista->array[0] = elem;
+    lista->n++;
+}    
+
+
+void mostrar(ListaLinear* lista){
+    printf("[");
+    for(int i = 0; i < lista->n; i++){
+        printf("%d", lista->array[i]);
+        if(i < lista->n -1){
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
+void inserirFim(ListaLinear* lista, int elem){
+    if(lista->n >= lista->max){
+        printf("Erro!");
+        return; 
+    }
+    lista->array[lista->n++] = elem;
+}
+
+int removerInicio(ListaLinear* lista){
+    if(lista->n == 0){
+        printf("Erro!");
+        return -1;
+    }
+    int x = lista->array[0];
+    for(int i = 0; i < lista->n; i++){
+        lista->array[i] = lista->array[i+1];
+    }
+    lista->n--;
+    return x;
+}
+
+int removerFim(ListaLinear* lista){
+    if(lista->n == 0){
+        printf("Erro!");
+        return -1;
+    }
+    lista->n--;
+    int x = lista->array[lista->n];
+    return x;
+}
+
+void inserir(ListaLinear* lista, int elem, int pos){
+    if(lista->n >= lista->max || pos < 0 || pos > lista->n){
+        printf("Erro!");
+        return;
+    }
+    for(int i = lista->n; i > pos; i--){
+        lista->array[i] = lista->array[i-1];
+    }
+    lista->array[pos] = elem;
+    lista->n++;
+}
+
+int remover(ListaLinear* lista, int pos){
+    if(lista->n >= lista->max || pos < 0 || pos > lista->n){
+        printf("Erro!");
+        return -1;
+    }
+    int x = lista->array[pos];
+    for(int i = pos; i < lista->n-1; i++){
+        lista->array[i] = lista->array[i+1];
+    }
+    lista->n--;
+    return x;
+}
+
+ int pesquisar(ListaLinear* lista, int elem){
+    for(int i = 0; i < lista->n; i++){
+        if(lista->array[i] == elem){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main(){
+    ListaLinear *lista = newListaLinear(6);
+    inserirInicio(lista, 1);
+    inserirInicio(lista,2);
+    inserirInicio(lista, 3);
+    inserirFim(lista, 4);
+    removerInicio(lista);
+    removerFim(lista);
+    mostrar(lista);
+    inserir(lista, 8, 0);
+    mostrar(lista);
+    remover(lista, 0);
+    mostrar(lista);
+    int result = pesquisar(lista, 2);
+    printf("Tem o item 2: %d", result);
+    delListaLinear(lista);
+    return 0;
+}

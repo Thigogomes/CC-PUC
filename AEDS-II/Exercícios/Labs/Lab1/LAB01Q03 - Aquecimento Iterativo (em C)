@@ -1,0 +1,28 @@
+#include<stdio.h>
+#include<ctype.h>
+#include<string.h>
+
+int maiuscula(char str[]){
+	int tam = strlen(str);
+	int  cont = 0;
+	for(int i = 0; i < tam; i++){
+		if(isupper(str[i])){
+			cont++;
+		}
+	}
+	return cont;
+}
+
+int main(){
+	char str[100];
+	int result;
+	scanf("%[^\n]", str);
+	getchar();
+	while(strcmp(str, "FIM") != 0){
+		result = maiuscula(str);
+		printf("%d\n", result);
+		scanf("%[^\n]", str);
+		getchar();
+	}
+	return 0;
+}

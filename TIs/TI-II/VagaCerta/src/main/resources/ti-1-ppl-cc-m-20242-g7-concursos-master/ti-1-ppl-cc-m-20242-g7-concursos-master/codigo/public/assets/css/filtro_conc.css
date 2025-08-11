@@ -1,0 +1,47 @@
+#filtros {
+  padding: 20px 0;
+  background-color: #e0e7ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#filtros h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+#filtros .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+#filtros .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#filtros .form-group input,
+#filtros .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#filtros button {
+  background-color: #00509e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+#filtros button:hover {
+  background-color: #003f7f;
+}

@@ -1,0 +1,58 @@
+import java.util.*;
+
+public class Data{
+	public static void main(String[] args){
+		Scanner input = new Scanner(System.in);
+		while(input.hasNext()){
+			int n = input.nextInt();
+			Stack<Integer> stack = new Stack<>();
+			Queue<Integer> queue = new LinkedList<>();
+			PriorityQueue<Integer> pQueue = new PriorityQueue<>(Collections.reverseOrder());
+			boolean isStack = true;
+			boolean isQueue = true;
+			boolean isPriority = true;
+			for(int i = 0; i < n; i++){
+				int op = input.nextInt();
+				int x = input.nextInt();
+				if(op == 1){
+					if(isStack){
+						stack.push(x);
+					}
+					if(isQueue){
+						queue.offer(x);
+					}
+					if(isPriority){
+						pQueue.offer(x);
+					}
+				}else{
+					if(isStack && !stack.isEmpty()){
+						if(stack.pop() != x){
+							isStack = false;
+						}
+					}
+					if(isQueue && !queue.isEmpty()){
+						if(queue.poll() != x){
+							isQueue = false;
+						}
+					}
+					if(isPriority && !pQueue.isEmpty()){
+						if(pQueue.poll() != x){
+							isPriority = false;
+						}
+					}
+				}
+			}
+			if(!isStack && !isQueue && !isPriority){
+				System.out.println("impossible");
+			}else if(!isStack && !isQueue && isPriority){
+				System.out.println("priority queue");
+			}else if(!isStack && isQueue && !isPriority){
+				System.out.println("queue");
+			}else if(isStack && !isQueue && !isPriority){
+				System.out.println("stack");
+			}else{
+				System.out.println("not sure");
+			}
+		}
+	}
+}

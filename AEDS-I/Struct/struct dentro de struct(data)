@@ -1,0 +1,21 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct data_de_nascimento{
+    int dia, mes, ano;
+}dataN;
+
+typedef struct tipo_pessoa{
+    dataN data;
+    int idade;
+    float peso;
+    char nome[50];
+}Pessoa;
+
+
+int main(){
+    Pessoa pessoa;
+    printf("DIGITE SUA DATA DE NASCIMENTO: ");
+    scanf("%d %d %d", &pessoa.data.dia, &pessoa.data.mes, &pessoa.data.ano);
+    printf("%d|%d|%d", pessoa.data.dia, pessoa.data.mes, pessoa.data.ano);
+}

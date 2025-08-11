@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+
+int somaDosNumeros(int numeros[], int tam){
+    if(tam < 0){
+        return 0;
+    }
+    return numeros[tam] + somaDosNumeros(numeros,tam-1);
+}
+
+int somaDeDigitos(char digitos[]){
+    int tam = strlen(digitos);
+    int numeros[100];
+    for(int i = 0; i < tam; i++){
+        numeros[i] = digitos[i] - '0';
+    }
+    return somaDosNumeros(numeros, tam-1);
+}
+
+int main(){
+    int result, x = 1;
+    char digitos[100];
+    while(x == 1){
+        scanf(" %[^\n]", digitos);
+        if(strcmp(digitos, "FIM") == 0){
+            x = -1;
+        }else{
+            result = somaDeDigitos(digitos);
+            printf("%d\n", result);
+        }
+    }
+    return 0;
+}

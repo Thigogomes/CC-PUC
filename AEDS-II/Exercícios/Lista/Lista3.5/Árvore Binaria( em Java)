@@ -1,0 +1,291 @@
+import java.util.*;
+
+class No {
+	public int elemento;
+	public No dir;
+	public No esq;
+	
+	No(int elemento) {
+		this.elemento = elemento;
+		this.dir = null;
+		this.esq = null;
+	}
+	
+	No(int elemento, No dir, No esq) {
+		this.elemento = elemento;
+		this.dir = dir;
+		this.esq = esq;
+	}
+}
+
+public class ArvoreBinaria {
+	public No raiz;
+
+	public ArvoreBinaria() {
+		this.raiz = null;
+	}
+
+	public void inserir(int x) {
+		raiz = inserir(x, raiz);
+	}
+
+	public No inserir(int x, No i) {
+		if(i == null) {
+		    return new No(x);
+		} else if(x < i.elemento) {
+			i.esq = inserir(x, i.esq);
+		} else if(x > i.elemento) {
+			i.dir = inserir(x, i.dir);
+		} else {
+			throw new RuntimeException("Erro!");
+		}
+		
+		return i;
+	}
+
+	public void inserirPai(int x) {
+		if(raiz == null) {
+			raiz = new No(x);
+		} else if(x < raiz.elemento) {
+			inserirPai(x, raiz.esq, raiz);
+		} else if(x > raiz.elemento) {
+            inserirPai(x, raiz.dir, raiz);
+		} else {
+			throw new RuntimeException("Erro!");
+		}
+	}
+	
+	public void inserirPai(int x, No i, No pai){
+	    if(i == null){
+	        if(x < pai.elemento){
+	            pai.esq = new No(x);
+	        }else if(x > pai.elemento){
+	            pai.dir = new No(x);
+	        }
+	    }else if(x < i.elemento){
+	        inserirPai(x, i.esq, i);
+	    }else if(x > i.elemento){
+	        inserirPai(x, i.dir, i);
+	    }else{
+	        throw new RuntimeException("Erro!");
+	    }
+	}
+	
+	public boolean pesquisar(int x){
+	    return pesquisar(x, raiz);
+	}
+	
+	public boolean pesquisar(int x, No i){
+	    if(i == null){
+	        return false;
+	    }else if(x == i.elemento){
+	        return true;
+	    }else if(x > i.elemento){
+	        return pesquisar(x, i.dir);
+	    }else{
+	        return pesquisar(x, i.esq);
+	    }
+	}
+	
+	public void caminharCentral(){
+	    System.out.print("[ ");
+	    caminharCentral(raiz);
+	    System.out.println("]");
+	}
+	
+	public void caminharCentral(No i){
+	    if(i != null){
+	        caminharCentral(i.esq);
+	        System.out.print(i.elemento + " ");
+	        caminharCentral(i.dir);
+	    }
+	}
+	
+	public int altura(){
+	    return altura(raiz);
+	}
+	
+	public int altura(No i){
+	    if(i == null){
+	        return -1;
+	    }
+	    int esq = altura(i.esq);
+	    int dir = altura(i.dir);
+	    
+	    if(dir < esq){
+	        return esq+1;
+	    }else{
+	        return dir+1;
+	    }
+	}
+	
+	public int somar(){
+	    return somar(raiz);
+	}
+	
+	public int somar(No i){
+	    if(i == null){
+	        return 0;
+	    }
+	    
+	    return i.elemento + somar(i.esq) + somar(i.dir);
+	}
+	
+	public boolean compare(ArvoreBinaria arv2){
+	    return compare(raiz, arv2.raiz);
+	}
+	
+	public boolean compare(No i, No j){
+	    if(i == null && j == null)
+	        return true;
+	        
+	    if(i == null || j == null)
+            return false;
+            
+	    if(i.elemento!= j.elemento)
+	         return false;
+	    
+	    return compare(i.esq, j.esq) && compare(i.dir, j.dir);
+	}
+	
+	public int getMaior(){
+	    return getMaior(raiz);
+	}
+	
+	public int getMaior(No i){
+	    if(i.dir == null){
+	        return i.elemento;
+	    }else{
+	        return getMaior(i.dir);
+	    }
+	}
+	
+	public int getMenor(){
+	    return getMenor(raiz);
+	}
+	
+	public int getMenor(No i){
+	    if(i.esq == null){
+	        return i.elemento;
+	    }else{
+	        return getMenor(i.esq);
+	    }
+	}
+	
+	public void remover(int x){
+	    raiz = remover(x, raiz);
+	}
+	
+	public No remover(int x, No i){
+	    if(i == null){
+	        throw new RuntimeException("Erro!");
+	    }else if(x < i.elemento){
+	        i.esq = remover(x, i.esq);
+	    }else if(x > i.elemento){
+	        i.dir = remover(x, i.dir);
+	    }else if(i.dir == null){
+	        i = i.esq;
+	    }else if(i.esq == null){
+	        i = i.dir;
+	    }else{
+	       i.esq = maiorEsq(i, i.esq);
+	    }   
+	    return i;
+	}
+	
+	public No maiorEsq(No i, No j){
+	    if(j.dir == null){
+	        i.elemento = j.elemento;
+	        j = j.esq;
+	    }else{
+	        j.dir = maiorEsq(i, j.dir);
+	    }
+	    return j;
+	}
+	
+	public No rotacionarEsq(No i){
+	    No noDir = i.dir;
+	    No noDirEsq = noDir.esq;
+	    
+	    noDir.esq = i;
+	    i.dir = noDirEsq;
+	    
+	    return noDir;
+	}
+	
+	public No rotacionarDir(No i){
+	    No noEsq = i.esq;
+	    No noEsqDir = noEsq.dir;
+	    
+	    noEsq.dir = i;
+	    i.esq = noEsqDir;
+	    
+	    return noEsq;
+	}
+	
+	public No rotacionarDirEsq(No i){
+	    i.dir = rotacionarDir(i.dir);
+	    return rotacionarEsq(i);
+	}
+	
+	public No rotacionarEsqDir(No i){
+	    i.esq = rotacionarEsq(i.esq);
+	    return rotacionarDir(i);
+	}
+	
+	public No balanciar(No i){
+	    if(i == null){
+	        return null;
+	    }
+	    
+	    if (i.esq == null && i.dir != null) {
+            if (i.dir.dir != null) {
+                return rotacionarEsq(i);
+            } else if (i.dir.esq != null) {
+                return rotacionarDirEsq(i);
+            }
+        }
+
+        if (i.dir == null && i.esq != null) {
+            if (i.esq.dir != null) {
+                return rotacionarEsqDir(i);
+            } else if (i.esq.esq != null) {
+                return rotacionarDir(i);
+            }
+        }
+	    
+	    return i;
+	}
+
+	public static void main(String[] args) {
+		ArvoreBinaria arvore = new ArvoreBinaria();
+		ArvoreBinaria arvore2 = new ArvoreBinaria();
+		arvore.inserir(6);
+		arvore.inserir(4);
+		arvore.inserir(2);
+		arvore.inserir(3);
+		arvore.inserir(1);
+		arvore.inserir(10);
+		arvore.inserir(7);
+		arvore.inserir(8);
+		
+		arvore2.inserir(6);
+		arvore2.inserir(4);
+		arvore2.inserir(2);
+		arvore2.inserir(3);
+		arvore2.inserir(1);
+		arvore2.inserir(10);
+		arvore2.inserir(7);
+		arvore2.inserir(8);
+		arvore2.remover(2);
+        System.out.println(arvore.pesquisar(2));
+        arvore.caminharCentral();
+        System.out.println("Maior elemento: " + arvore.getMaior());
+        System.out.println("Menor elemento: " + arvore.getMenor());
+        arvore.remover(2);
+        arvore.caminharCentral();
+        System.out.println("Altura: " + arvore.altura());
+        System.out.println("Soma: " + arvore.somar());
+        System.out.println("São iguais: " + arvore.compare(arvore2));
+	}
+}

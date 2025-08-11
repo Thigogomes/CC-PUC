@@ -1,0 +1,84 @@
+class FilaCircular {
+	public int[] array;
+	public int ultimo;
+	public int primeiro;
+	public int n;
+	public int max;
+
+	public  FilaCircular(int max) {
+		primeiro = 0;
+		ultimo = 0;
+		this.max = max;
+		n = 0;
+		array = new int[max];
+	}
+
+    public void enfilerar(int elem){
+        if(isCheia()){
+            throw new RuntimeException("Erro!");
+        }
+        array[ultimo] = elem;
+        ultimo = (ultimo+1) % array.length;
+        n++;
+    }
+    
+    public void mostrar(){
+        System.out.print("[");
+        for(int i = 0; i < n; i++){
+            int j = (primeiro+i) % array.length;
+            System.out.print(array[j]);
+            if(j < ultimo-1){
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+    
+    public int desinfilerar(){
+        if(isVazia()){
+            throw new RuntimeException("Erro!");
+        }
+        int x = array[primeiro];
+        primeiro = (primeiro+1) % array.length;
+        n--;
+        return x;
+    }
+    
+    public boolean pesquisar(int elem){
+        for(int i = primeiro; i < ultimo; i++){
+            if(array[i] == elem);{
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isVazia(){
+        if(primeiro == ultimo)
+            return true;
+        return false;
+    }
+    
+    public boolean isCheia(){
+        if((ultimo + 1) % array.length == primeiro)
+            return true;
+        return false;
+    }
+
+	public static void main(String[] args) {
+		FilaCircular fila = new FilaCircular(6);
+		System.out.println("Está vazia: " + fila.isVazia());
+		fila.enfilerar(1);
+		fila.enfilerar(2);
+		fila.enfilerar(3);
+		fila.enfilerar(4);
+		fila.enfilerar(5);
+		System.out.println("Está cheia: " + fila.isCheia());
+		System.out.println("Está vazia: " + fila.isVazia());
+		fila.mostrar();
+		fila.desinfilerar();
+		fila.desinfilerar();
+		fila.mostrar();
+		System.out.println("Tem o número 5: " + fila.pesquisar(5));
+	}
+}

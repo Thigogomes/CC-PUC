@@ -1,0 +1,76 @@
+import java.util.*;
+
+public class Is{
+    public static boolean vogais(String str){
+        int tam = str.length();
+        for(int i = 0; i < tam; i++){
+            if(str.charAt(i) != 'a' && str.charAt(i) != 'e' && str.charAt(i) != 'i' && str.charAt(i) != 'o' && str.charAt(i) != 'u'){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static boolean consoante(String str){
+        int tam = str.length();
+        char carac;
+        for(int i = 0; i < tam; i++){
+            carac = str.charAt(i);
+            if(str.charAt(i) == 'a' || str.charAt(i) == 'e' || str.charAt(i) == 'i' || str.charAt(i) == 'o' || str.charAt(i) == 'u'|| Character.isDigit(carac)){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static boolean real(String str){
+        int tam = str.length(), cont = 0;
+        char carac;
+        for(int i = 0; i < tam; i++){
+            carac = str.charAt(i);
+            if(Character.isDigit(carac) == false){
+                if((carac == '.' || carac == ',') && cont == 0){
+                    cont++;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public static boolean inteiro(String str){
+        int tam = str.length();
+        char carac;
+        for(int i = 0; i < tam; i++){
+            carac = str.charAt(i);
+            if(Character.isDigit(carac) == false){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static String resp(boolean x){
+        if(x == false){
+            return "NAO ";
+        }else{
+            return "SIM ";
+        }
+    }
+    
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		String str = "";
+		int x = 1;
+		while(x == 1){
+		    str = input.nextLine();
+		    if(str.equals("FIM")){
+		        x = -1;
+		    }else{
+		        System.out.println(resp(vogais(str)) + resp(consoante(str)) + resp(inteiro(str)) + resp(real(str)));
+		    }
+		}
+	    input.close();	
+	}
+}

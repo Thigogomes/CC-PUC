@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include<string.h>
+
+int main(){
+    int p;
+    int l = 0, o = 0, n = 0, s = 0;
+    char str[5];
+    char leste[10][5];
+    char oeste[10][5];
+    char norte[10][5];
+    char sul[10][5];
+    scanf("%d", &p);
+    getchar();
+    while(p != 0){
+        while(scanf("%[^\n]", str) == 1){
+            if(p == -1){
+                strcpy(oeste[o++], str);
+            }else if(p == -2){
+                strcpy(sul[s++], str);
+            }else if(p == -3){
+                strcpy(norte[n++], str);
+            }else if(p == -4){
+                strcpy(leste[l++], str);
+            }
+        }
+        scanf("%d", &p);
+    }
+    int po = 0, pl = 0, ps = 0, pn = 0;
+    while(s != 0 || n != 0 || o != 0 || l != 0){
+        if(o != 0){
+            printf("%s ", oeste[po++]);
+            o--;
+        }
+        if(n != 0){
+            printf("%s ", norte[pn++]);
+            n--;
+        }
+        if(s != 0){
+            printf("%s ", sul[ps++]);
+            s--;
+        }
+        if(l != 0){
+            printf("%s ", leste[pl++]);
+            l--;
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,80 @@
+import java.util.*;
+
+class PilhaLinear{
+    public int[] array;
+    public int n;
+    
+    public PilhaLinear(int max){
+        array = new int[max];
+        n = 0;
+    }
+    
+    public void empilhar(int elem){
+        if(n >= array.length){
+            throw new RuntimeException("Erro!");
+        }
+        array[n++] = elem;
+    }
+    
+    public int desimpilhar(){
+        if(n == 0){
+            throw new RuntimeException("Erro!");
+        }
+        int x = array[--n];
+        return x;
+    }
+    
+    public void mostrar(){
+        System.out.print("[");
+        for(int i = n; i > 0; i--){
+            System.out.print(array[i-1]);
+            if(i != 1){
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+    
+    public boolean pesquisar(int elem){
+        for(int i = 0; i < n; i++){
+            if(array[i] == elem){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void mostrarOrdemInseridos(int i){
+        if(i == 0){
+            System.out.print("[");
+        }
+        System.out.print(array[i]);
+        if(i < n){
+            System.out.print(", ");
+        }
+        if(i < n){
+            mostrarOrdemInseridos(i+1);
+        }
+        return;
+    }
+    
+    public void mostrarOrdemInseridos(){
+        mostrarOrdemInseridos(0);
+        System.out.println("]");
+    }
+    
+    public static void main(String[] args){
+        PilhaLinear pilha = new PilhaLinear(6);
+        pilha.empilhar(1);
+        pilha.empilhar(2);
+        pilha.empilhar(3);
+        pilha.empilhar(4);
+        pilha.empilhar(5);
+        pilha.mostrar();
+        pilha.desimpilhar();
+        pilha.desimpilhar();
+        pilha.mostrar();
+        System.out.println(pilha.pesquisar(2));
+        pilha.mostrarOrdemInseridos();
+    }
+}

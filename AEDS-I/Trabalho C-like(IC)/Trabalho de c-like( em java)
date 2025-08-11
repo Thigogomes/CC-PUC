@@ -1,0 +1,23 @@
+public class main{
+    public static void main(String[] args) {
+        Scanner ler = new Scanner(System.in);
+        System.out.println("DIGITE O NUMERO DE PAES VENDIDOS NA SEMANA:");
+        int P = ler.nextInt();
+        System.out.println("DIGITE O NUMERO DE DOCES VENDIDOS NA SEMANA:");
+        int D = ler.nextInt();
+        D = D * 2;
+        System.out.println("DIGITE O NUMERO DE BOLOS VENDIDOS NA SEMANA:");
+        int B = ler.nextInt();
+        B = B * 2;
+        int soma = P + D +  B;
+        if(soma >= 150){
+            System.out.println("B");
+        }else if(soma >= 120){
+            System.out.println("D");
+        }else if(soma >= 100){
+            System.out.println("P");
+        }else{
+            System.out.println("N");
+        }
+    }
+}

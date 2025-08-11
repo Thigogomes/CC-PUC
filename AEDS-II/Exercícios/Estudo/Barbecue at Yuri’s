@@ -1,0 +1,37 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct carne{
+	int dias;
+	char nome[50];
+}carne;
+
+int main(){
+	int n;
+	while(scanf("%d", &n) == 1){
+		carne c[n];
+		int vet[n], aux;
+		for(int i = 0; i < n; i++){
+			scanf("%s %d", c[i].nome, &c[i].dias);
+			vet[i] = c[i].dias;
+		}
+		for(int i = n-1; i > 0; i--){
+			for(int j = 0; j < i; j++){
+				if(vet[j] > vet[j+1]){
+					aux = vet[j];
+					vet[j] = vet[j+1];
+					vet[j+1] = aux;		
+				}
+			}
+		}
+		for(int i = 0; i < n; i++){
+			for(int j = 0; j < n; j++){
+				if(vet[i] == c[j].dias){
+					printf("%s ", c[j].nome);
+				}
+			}
+		}
+		printf("\n");		
+	}
+	return 0;
+}

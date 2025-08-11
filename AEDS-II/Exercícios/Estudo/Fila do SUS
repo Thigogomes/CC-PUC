@@ -1,0 +1,51 @@
+#include<stdio.h>
+
+int atendimento(int hora, int min, int h, int m){
+    int tempo = 0;
+    int resto;
+    if(min == 0 && m != 0){
+        min = 60;
+        hora--;
+    }
+    if(hora - h != 0){
+        resto = hora - h;
+        resto = resto*60;
+    }
+    tempo = min - m + resto;
+    return tempo;
+}
+
+int main(){
+    int n, h, m, c;
+    int morte = 0, hora = 7, min = 0;
+    
+    while(scanf("%d", &n) == 1){
+        for(int i = 0; i < n; i++){
+            scanf("%d %d %d", &h, &m, &c);
+            if(hora >= h){
+                if(c - atendimento(hora, min, h, m) < 0){
+                    morte++;
+                }
+                min += 30;
+                if(min >= 60){
+                    min = min%60;
+                    hora += 1;
+                }
+            }else{
+                hora = h;
+                min = m;
+                if(c - atendimento(hora, min, h, m) < 0){
+                    morte++;
+                }
+                min += 30;
+                if(min >= 60){
+                    min = min%60;
+                    hora += 1;
+                }
+            }
+        }
+        printf("%d\n", morte);
+        morte = 0;
+    }
+    return 0;
+}

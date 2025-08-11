@@ -1,0 +1,101 @@
+.livros-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.livros-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-around;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.livros-header div {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+}
+
+.livros-header div label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.livros-header div select,
+.livros-header div input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.livros-header div select:focus,
+.livros-header div input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.livros {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.livro {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 300px;
+}
+
+.livro:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.livro h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.livro p {
+    margin:14px 0;
+    font-size: 14px;
+    color: #666;
+    text-align: justify;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .livros-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .livros-header div {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .livros-header div select,
+    .livros-header div input {
+        width: 100%;
+    }
+}

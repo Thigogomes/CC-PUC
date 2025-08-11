@@ -1,0 +1,140 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Celula{
+    int elemento;
+    struct Celula* prox;
+}Celula;
+
+Celula* newCelula();
+int tamanho(Celula* lista);
+void inserirInicio(Celula* lista, int x);
+void inserirFim(Celula* lista, int x);
+void inserir(Celula* lista, int x, int pos);
+void mostrar(Celula* lista);
+int remover(Celula* lista, int pos);
+int removerInicio(Celula* lista);
+int removerFim(Celula* lista);
+
+Celula* newCelula(){
+    Celula* cel = (Celula*)malloc(sizeof(Celula));
+    cel->prox = NULL;
+    return cel;
+}
+
+int tamanho(Celula* lista){
+    int tam = 0;
+    Celula* i;
+    for(i = lista->prox; i != NULL; i = i->prox){
+        tam++;
+    }
+    return tam;
+}
+
+void inserirInicio(Celula* lista, int x){
+    Celula* novo = (Celula*)malloc(sizeof(Celula));
+    novo->elemento = x;
+    novo->prox = lista->prox;
+    lista->prox = novo;
+}
+
+void inserirFim(Celula* lista, int x){
+    Celula* nova = (Celula*)malloc(sizeof(Celula));
+    Celula* i;
+    for(i = lista; i->prox != NULL; i = i->prox);
+    nova->prox = NULL;
+    nova->elemento = x;
+    i->prox = nova;
+}
+
+void inserir(Celula* lista, int x, int pos){
+    int tam = tamanho(lista);
+    if(pos < 0 || pos > tam){
+        printf("Erro!\n");
+        return;
+    }else if(pos == 0){
+        inserirInicio(lista, x);
+    }else if(pos == tam){
+        inserirFim(lista, x);
+    }else{
+        Celula* nova = (Celula*)malloc(sizeof(Celula));
+        Celula* i = lista;
+        nova->elemento = x;
+        for(int j = 0; j < pos; j++, i = i->prox);
+        nova->prox = i->prox;
+        i->prox = nova;
+    }
+}
+
+int remover(Celula* lista, int pos){
+    int x = 0, tam = tamanho(lista);
+    if(pos < 0 || pos > tam){
+        printf("Erro!\n");
+        return -1;
+    }else if(pos == 0){
+        x = removerInicio(lista);
+    }else if(pos == tam-1){
+        x = removerFim(lista);
+    }else{
+        Celula* i = lista;
+        for(int j = 0; j < pos; j++, i = i->prox);
+        x = i->prox->elemento;
+        i->prox = i->prox->prox;
+        return x;
+    }
+    return x;
+}
+
+int removerInicio(Celula* lista){
+    if(lista->prox == NULL){
+        printf("Erro!\n");
+        return -1;
+    }
+    int x = lista->prox->elemento;
+    lista->prox = lista->prox->prox;
+    return x;
+}
+
+int removerFim(Celula* lista){
+    if(lista->prox == NULL){
+        printf("Erro!\n");
+        return -1;
+    }
+    Celula* i;
+    for(i = lista; i->prox->prox != NULL; i = i->prox);
+    int x = i->prox->elemento;
+    i->prox = NULL;
+    return x;
+}
+
+void mostrar(Celula* lista){
+    Celula* i;
+    printf("[");
+    for(i = lista->prox; i != NULL; i = i->prox){
+        printf("%d", i->elemento);
+        if(i->prox != NULL){
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+    
+int main(){
+    Celula* lista = newCelula();
+    inserirFim(lista, 2);
+    inserirFim(lista, 9);
+    inserirFim(lista, 8);
+    inserirFim(lista, 7);
+    mostrar(lista);
+    removerFim(lista);
+    mostrar(lista);
+    inserirInicio(lista, 5);
+    mostrar(lista);
+    removerInicio(lista);
+    mostrar(lista);
+    inserir(lista, 3, 1);
+    mostrar(lista);
+    remover(lista, 2);
+    mostrar(lista);
+    return 0;
+}

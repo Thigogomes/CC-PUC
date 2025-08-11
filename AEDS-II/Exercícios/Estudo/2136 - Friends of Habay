@@ -1,0 +1,64 @@
+import java.util.*;
+
+class BFF{
+	public static String winner(String[] nomes, int n){
+		int maior = 0, pos = 0;
+		for(int i = 0; i < n; i++){
+			if(maior < nomes[i].length()){
+				maior = nomes[i].length();
+				pos = i;
+			}
+		}
+		return nomes[pos];
+	}
+
+	public static void sort(String[] nomes, int n){
+		for(int i =  0; i < n-1; i++){
+			int menor = i;
+			for(int j = i+1; j < n; j++){
+				if(nomes[menor].compareTo(nomes[j]) > 0){
+					menor = j;
+				}
+			}
+			swap(nomes, menor, i);
+		}
+	}
+
+	public static void swap(String[] array, int a, int b){
+		String temp = array[a];
+		array[a] = array[b];
+		array[b] = temp;
+	}
+
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		String[] yes = new String[200];
+		String[] no = new String[200];
+		int n = 0, y = 0;
+		String nome = sc.next();
+		String resp = sc.next();
+		while(!nome.equals("FIM")){
+			if(resp.equals("YES")){
+				yes[y++] = nome;
+			}else{
+				no[n++] = nome;
+			}
+			nome = sc.next();
+			if(!nome.equals("FIM")){
+				resp = sc.next();
+			}
+		}
+		String friend = winner(yes, y);
+		sort(yes, y);
+		sort(no, n);
+		for(int i = 0; i < y; i++){
+			if(i == 0 || !yes[i-1].equals(yes[i])){
+				System.out.println(yes[i]);
+			}
+		}
+		for(int i = 0; i < n; i++){
+			System.out.println(no[i]);
+		}
+		System.out.println("\nAmigo do Habay: \n" + friend);
+	}
+}

@@ -1,0 +1,16 @@
+Você foi designado para realizar uma análise de desempenho de algoritmos clássicos de ordenação. 
+A tarefa consiste em comparar os tempos de execução, o número de comparações e o número de movimentações realizadas pelos seguintes algoritmos de ordenação: 
+Ordenação por Seleção (Selection Sort), Ordenação por Inserção (Insertion Sort), Ordenação por Bolha (Bubble Sort) e Quicksort.
+A partir de uma vetor de números inteiros aleatórios, execute os quatro algoritmos para entradas de diferentes tamanhos: 100, 1000, 10000 e 100000 números aleatórios.
+Para cada execução, registre o tempo de execução, o número de comparações e o número de movimentações realizadas pelos algoritmos.
+Primeiramente, você deverá implementar cada um dos algoritmos de ordenação mencionados.
+Em seguida, gere quatro vetores diferentes com 100, 1000, 10000 e 100000 números inteiros aleatórios e execute cada algoritmo nas respectivas vetores.
+Durante a execução, registre o tempo de execução (em milissegundos),
+o número de comparações realizadas e o número de movimentações realizadas durante o processo de ordenação.
+Após realizar as execuções, construa gráficos que comparem o tempo de execução de cada algoritmo para as diferentes entradas,
+o número de comparações realizadas e o número de movimentações realizadas por cada algoritmo. Utilize a biblioteca matplotlib (ou outra similar) para gerar os gráficos.
+Por fim, elabore um relatório em LaTeX  com a análise crítica dos resultados obtidos.
+Use como modelo o template overleaf da SBC (https://www.overleaf.com/latex/templates/sbc-conferences-template/blbxwjwzdngrLinks to an external site.).
+Comente sobre o comportamento de cada algoritmo conforme o tamanho da entrada aumenta.
+Discuta quais algoritmos são mais eficientes em termos de tempo, comparações e movimentações,
+e explique as razões pelas quais certos algoritmos se comportam de maneira diferente com vetores maiores e menores.

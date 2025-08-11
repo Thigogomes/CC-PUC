@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class SomaDigitos{
+    public static int somaDigitos(int[] numeros, int tam){
+        if(tam < 0){
+           return 0; 
+        }else{
+            return numeros[tam] + somaDigitos(numeros, tam-1);
+        }
+    }
+    public static int somaDigitos(String digitos){
+        int tam = digitos.length();
+        int[] numeros = new int[100];
+        for(int i = 0; i < tam; i++){
+            numeros[i] = digitos.charAt(i) - '0';
+        }
+        return somaDigitos(numeros, tam);
+    }
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		String digitos;
+		int x = 1;
+		while(x == 1){
+		    digitos = input.nextLine();
+		    if(digitos.equals("FIM")){
+		        x = -1;
+		    }else{
+		        System.out.println(somaDigitos(digitos));
+		    }
+		}
+		input.close();
+	}
+}

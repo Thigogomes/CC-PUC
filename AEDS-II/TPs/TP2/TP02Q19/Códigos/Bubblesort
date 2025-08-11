@@ -1,0 +1,40 @@
+import java.util.*;
+
+public class Bubblesort {
+
+    public static void bubblesort(int[] array, int n, long[] comparacoes, long[] movimentacoes) {
+        for (int i = n - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                comparacoes[0]++;
+                if (array[j] > array[j + 1]) {
+                    int aux = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = aux;
+                    movimentacoes[0] += 3;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int n = 100;
+        for (int x = 1; x <= 30; x++) {
+            long[] comparacoes = new long[1];
+            long[] movimentacoes = new long[1];
+            Random rand = new Random();
+            int[] array = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                array[i] = rand.nextInt(n);
+            }
+
+            long inicioTempo = System.nanoTime();
+            bubblesort(array, n, comparacoes, movimentacoes);
+            long fimTempo = System.nanoTime();
+
+            double duracao = (fimTempo - inicioTempo) / 1_000_000.0; // em milissegundos
+            System.out.println("Bubblesort(" + n + ")(" + x + ");" 
+                + comparacoes[0] + ";" + movimentacoes[0] + ";" + duracao + "ms;");
+        }
+    }
+}

@@ -1,0 +1,40 @@
+cff-version: 1.0.1
+message: Please cite this software using these metadata.
+title: VagaCerta
+authors:
+  - family-names: Böuch Soncin Rocha
+    given-names: Lawer
+  - family-names: Matos Nogueira
+    given-names: Gabriel
+  - family-names: Lopes Oliveira
+    given-names: Gustavo
+  - family-names: Cristina Borges
+    given-names: Isabel
+  - family-names: de Deus Natividade Oliveira Saraiva
+    given-names: João Paulo
+  - family-names: Campos Soares
+    given-names: Nayron
+  - family-names: Guimaraes Matos
+    given-names: Rafael
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Oliveira Caetano
+    given-names: João Carlos
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Mara Freitas Diniz
+    given-names: Luciana
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Vieira Carneiro
+    given-names: Rommel
+keywords:
+ - Concursos
+ - Editais
+ - Vagas públicas
+ - Editais de concurso
+ - Concursos públicos.
+repository-code: https://github.com/ICEI-PUC-Minas-PMGCC-TI/ti-1-ppl-cc-m-20242-g7-concursos
+license: CC-BY-4.0
+version: 1.0.0
+date-released: 2022-07-14

@@ -1,0 +1,33 @@
+#include<stdio.h>
+
+void maiusculo(char *str);
+void minusculo(char *str);
+
+int main(){
+    char str[20];
+    fgets(str,sizeof(str), stdin);
+    maiusculo(str);
+    printf("%s", str);
+    minusculo(str);
+    printf("%s", str);
+}
+
+void maiusculo(char *str){
+    int i =0;
+    while(*(str+i) != '\0'){
+        if(*(str+i) >= 'a' && *(str+i) <= 'z'){
+            *(str+i) = *(str+i) - 32;
+        }
+        i++;
+    }
+}
+
+void minusculo(char *str){
+    int i = 0;
+    while(*(str+i) != '\0'){
+        if(*(str+i) >= 'A' && *(str+i) <= 'Z'){
+            *(str+i) = *(str+i) + 32;
+        }
+        i++;
+    }
+}

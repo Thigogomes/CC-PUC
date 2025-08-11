@@ -1,0 +1,14 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int r, l, saida;
+        double volume;
+        r = sc.nextInt();
+        l = sc.nextInt();
+        volume = ((4 * 3.1415 * (r*r*r))/3);
+        saida =(int)(l / volume);
+        System.out.println(saida);
+    }
+}

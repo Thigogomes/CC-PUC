@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalhes do Concurso</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('./assets/images/fundo-concursos.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #201e1e;
+      line-height: 1.6;
+      background-color: rgba(205, 202, 202, 0.578);
+    }
+
+    .cabecalho {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(34, 77, 122, 0.9);
+      padding: 10px 20px;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .conteudo {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 30px auto;
+    }
+
+    h1 {
+      color: #e48808;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .detalhes {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00000030;
+    }
+
+    .detalhes p {
+      font-size: 1.1em;
+      margin: 10px 0;
+    }
+
+    footer {
+      text-align: center;
+      background-color: rgba(0,0,0,0.8);
+      padding: 15px;
+      color: #ccc;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header class="cabecalho">
+    <img src="./assets/images/logo.png" alt="Logo" class="logo">
+  </header>
+
+  <main class="conteudo">
+    <h1>Detalhes do Concurso</h1>
+    <section class="detalhes" id="detalhes">
+      <p>Carregando dados...</p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Plataforma de Concursos - Todos os direitos reservados.
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) {
+      document.getElementById("detalhes").innerHTML = "<p style='color:red;'>ID do concurso não informado.</p>";
+    } else {
+      fetch(`/concursos/${id}`)
+        .then(response => {
+          if (!response.ok) throw new Error("Erro ao buscar concurso");
+          return response.json();
+        })
+        .then(data => {
+          const container = document.getElementById("detalhes");
+          container.innerHTML = `
+<p><strong>ID:</strong> ${data.iD}</p>
+            <p><strong>Nome:</strong> ${data.nome}</p>
+            <p><strong>Escolaridade:</strong> ${data.escolaridade}</p>
+            <p><strong>Localização:</strong> ${data.localizacao}</p>
+            <p><strong>Categoria:</strong> ${data.categoria}</p>
+            <p><strong>Banca:</strong> ${data.banca}</p>
+            <p><strong>Descrição:</strong> ${data.descricao}</p>
+            <p><strong>Órgão:</strong> ${data.orgao}</p>
+            <p><strong>Cargo:</strong> ${data.cargo}</p>
+            <p><strong>Materiais de Estudo:</strong> ${data.materiaisDeEstudo}</p>
+            <p><strong>Horário:</strong> ${data.horario}</p>
+            <p><strong>Status:</strong> ${data.status}</p>
+            <p><strong>Início das Inscrições:</strong> ${data.inicioIncricoes}</p>
+            <p><strong>Término das Inscrições:</strong> ${data.terminoIncricoes}</p>
+          `;
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("detalhes").innerHTML = "<p style='color:red;'>Erro ao carregar os dados do concurso.</p>";
+        });
+    }
+  </script>
+</body>
+</html>

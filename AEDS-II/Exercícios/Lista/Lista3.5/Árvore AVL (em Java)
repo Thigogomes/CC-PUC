@@ -1,0 +1,193 @@
+import java.util.*;
+
+class NoAvl {
+	public int elemento;
+	public int altura;
+	public NoAvl dir;
+	public NoAvl esq;
+	
+	NoAvl(int elemento) {
+		this.elemento = elemento;
+		this.altura = 0;
+		this.dir = null;
+		this.esq = null;
+	}
+	
+	NoAvl(int elemento, NoAvl dir, NoAvl esq) {
+		this.elemento = elemento;
+		this.altura = 0;
+		this.dir = dir;
+		this.esq = esq;
+	}
+}
+
+public class ArvoreAvl {
+	public NoAvl raiz;
+
+	public ArvoreAvl() {
+		this.raiz = null;
+	}
+	
+	public void inserir(int x) {
+		raiz = inserir(x, raiz);
+	}
+
+	public NoAvl inserir(int x, NoAvl i) {
+		if(i == null) {
+		    return new NoAvl(x);
+		} else if(x < i.elemento) {
+			i.esq = inserir(x, i.esq);
+		} else if(x > i.elemento) {
+			i.dir = inserir(x, i.dir);
+		} else {
+			throw new RuntimeException("Erro!");
+		}
+		
+		return balanciar(i);
+	}
+	
+	public NoAvl rotacionarEsq(NoAvl i){
+	    NoAvl noDir = i.dir;
+	    NoAvl noDirEsq = noDir.esq;
+	    
+	    noDir.esq = i;
+	    i.dir = noDirEsq;
+	    
+	    atualizarAltura(i);
+	    atualizarAltura(noDir);
+	    
+	    return noDir;
+	}
+	
+	public NoAvl rotacionarDir(NoAvl i){
+	    NoAvl noEsq = i.esq;
+	    NoAvl noEsqDir = noEsq.dir;
+	    
+	    noEsq.dir = i;
+	    i.esq = noEsqDir;
+	    
+	    atualizarAltura(i);
+	    atualizarAltura(noEsq);
+	    
+	    return noEsq;
+	}
+	
+	public NoAvl rotacionarDirEsq(NoAvl i){
+	    i.dir = rotacionarDir(i.dir);
+	    return rotacionarEsq(i);
+	}
+	
+	public NoAvl rotacionarEsqDir(NoAvl i){
+	    i.esq = rotacionarEsq(i.esq);
+	    return rotacionarDir(i);
+	}
+	
+	public int altura(){
+	    return altura(raiz);
+	}
+	
+	public int altura(NoAvl i){
+	    if(i == null){
+	        return -1;
+	    }
+	    int esq = altura(i.esq);
+	    int dir = altura(i.dir);
+	    
+	    if(dir < esq){
+	        return esq+1;
+	    }else{
+	        return dir+1;
+	    }
+	}
+	
+	public void atualizarAltura(NoAvl i){
+	    i.altura = 1 + Math.max(altura(i.esq), altura(i.dir));
+	}
+	
+	public int fatorBalanciamento(NoAvl i){
+	    return altura(i.dir) - altura(i.esq);
+	}
+	
+	public NoAvl balanciar(NoAvl i){
+	    atualizarAltura(i);
+	    int fator = fatorBalanciamento(i);
+	    
+	    if(fator > 1){
+	        if(fatorBalanciamento(i.dir) < 0){
+	            i = rotacionarDirEsq(i);
+	        }else{
+	            i = rotacionarEsq(i);
+	        }
+	    }else if(fator < -1){
+	        if(fatorBalanciamento(i.esq) > 0){
+	            i = rotacionarEsqDir(i);
+	        }else{
+	            i  = rotacionarDir(i);
+	        }
+	    }
+	    
+	    return i;
+	}
+	
+	public void caminharCentral(){
+	    System.out.print("[ ");
+	    caminharCentral(raiz);
+	    System.out.println("]");
+	}
+	
+	public void caminharCentral(NoAvl i){
+	    if(i != null){
+	        caminharCentral(i.esq);
+	        System.out.print(i.elemento + " ");
+	        caminharCentral(i.dir);
+	    }
+	}
+	
+	public void remover(int x){
+	    raiz = remover(x, raiz);
+	}
+	
+	public NoAvl remover(int x, NoAvl i){
+	    if(i == null){
+	        throw new RuntimeException("Erro!");
+	    }else if(x < i.elemento){
+	        i.esq = remover(x, i.esq);
+	    }else if(x > i.elemento){
+	        i.dir = remover(x, i.dir);
+	    }else if(i.dir == null){
+	        i = i.esq;
+	    }else if(i.esq == null){
+	        i = i.dir;
+	    }else{
+	       i.esq = maiorEsq(i, i.esq);
+	    }   
+	    
+	    if(i != null){
+	        atualizarAltura(i);
+	        i = balanciar(i);
+	    }
+	    
+	    return i;
+	}
+	
+	public NoAvl maiorEsq(NoAvl i, NoAvl j){
+	    if(j.dir == null){
+	        i.elemento = j.elemento;
+	        j = j.esq;
+	    }else{
+	        j.dir = maiorEsq(i, j.dir);
+	    }
+	    return j;
+	}
+
+	public static void main(String[] args) {
+	    ArvoreAvl arvore = new ArvoreAvl();
+	    arvore.inserir(4);
+	    arvore.inserir(2);
+	    arvore.inserir(6);
+	    arvore.inserir(1);
+	    arvore.inserir(0);
+	    arvore.inserir(3);
+	    arvore.caminharCentral();
+	}
+}

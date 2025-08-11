@@ -1,0 +1,236 @@
+#include <stdlib.h>
+#include <err.h>
+#include <stdio.h>
+
+typedef struct No{
+    int elemento;
+    int altura;
+    struct No* dir;
+    struct No* esq;
+}No;
+
+typedef struct ArvoreAvl{
+    No* raiz;
+}ArvoreAvl;
+
+int fatorDeBalanciamento(No* i);
+No* balanciar(No* i);
+No* rotacionarEsqDir(No* i);
+No* rotacionarDirEsq(No* i);
+No* rotacionarDir(No* i);
+No* rotacionarEsq(No* i);
+int getAltura(ArvoreAvl* arvore);
+void atualizarAltura(No* i);
+int getMax(int a, int b);
+int getAlturaRecursivo(No* i);
+void remover(ArvoreAvl* arvore, int x);
+No* removerRecursivo(No* i, int x);
+No* maiorEsq(No* i, No* j);
+void caminharCentral(ArvoreAvl* arvore);
+void caminharCentralRecursivo(No *i);
+void inserir(ArvoreAvl* arvore, int x);
+No* inserirRecursivo(No* i, int x);
+No* newNo(int x);
+ArvoreAvl* newArvoreAvl();
+
+ArvoreAvl* newArvoreAvl(){
+    ArvoreAvl* nova = (ArvoreAvl*)malloc(sizeof(ArvoreAvl));
+    nova->raiz = NULL;
+    return nova;
+}
+
+No* newNo(int x){
+    No* novo = (No*)malloc(sizeof(No));
+    novo->dir = NULL;
+    novo->esq = NULL;
+    novo->elemento = x;
+    return novo;
+}
+
+No* inserirRecursivo(No* i, int x){
+    if(i == NULL){
+        i = newNo(x);
+    }else if(x < i->elemento){
+        i->esq = inserirRecursivo(i->esq, x);
+    }else if(x > i->elemento){
+        i->dir = inserirRecursivo(i->dir, x);
+    }else{
+        printf("Erro!");
+    }
+    return i;
+}
+
+void inserir(ArvoreAvl* arvore, int x){
+    arvore->raiz = inserirRecursivo(arvore->raiz, x);
+}
+
+void caminharCentralRecursivo(No *i){
+    if(i != NULL){
+        caminharCentralRecursivo(i->esq);
+        printf("%d ", i->elemento);
+        caminharCentralRecursivo(i->dir);
+    }
+}
+
+void caminharCentral(ArvoreAvl* arvore){
+    printf("[ ");
+    caminharCentralRecursivo(arvore->raiz);
+    printf("]\n");
+}
+
+No* maiorEsq(No* i, No* j){
+    if(j->dir == NULL){
+        i->elemento = j->elemento;
+        j = j->esq;
+    }else{
+       j->dir = maiorEsq(i, j->dir); 
+    }
+    
+    return j;
+}
+
+No* removerRecursivo(No* i, int x){
+    if(i == NULL){
+        errx(1, "Erro ao remover!");
+    }else if(x < i->elemento){
+        i->esq = removerRecursivo(i->esq, x);
+    }else if(x > i->elemento){
+        i->dir = removerRecursivo(i->dir, x);
+    }else if(i->dir == NULL){
+        i = i->esq;
+    }else if(i->esq == NULL){
+        i = i->dir;
+    }else{
+        i->esq = maiorEsq(i, i->esq);
+    }
+    
+    if(i != NULL){
+        atualizarAltura(i);
+        i = balanciar(i);
+    }
+    
+    return i;
+}
+
+void remover(ArvoreAvl* arvore, int x){
+    arvore->raiz = removerRecursivo(arvore->raiz, x);
+}
+
+int getAlturaRecursivo(No* i){
+    if(i == NULL){
+        return -1;
+    }
+    
+    int esq = getAlturaRecursivo(i->esq);
+    int dir = getAlturaRecursivo(i->dir);
+    
+    if(dir < esq){
+        return esq+1;
+    }else{
+        return dir+1;
+    }
+}
+
+int getMax(int a, int b){
+    if(a < b){
+        return b;
+    }else{
+        return a;
+    }
+}
+
+void atualizarAltura(No* i){
+    i->altura = getMax(getAlturaRecursivo(i->esq), getAlturaRecursivo(i->dir));
+}
+
+int getAltura(ArvoreAvl* arvore){
+    return getAlturaRecursivo(arvore->raiz);
+}
+
+No* rotacionarEsq(No* i){
+    No* noDir = i->dir;
+    No* noDirEsq = noDir->esq;
+    
+    noDir->esq = i;
+    i->dir = noDirEsq;
+    
+    atualizarAltura(i);
+    atualizarAltura(noDir);
+    
+    return noDir;
+}
+
+No* rotacionarDir(No* i){
+    No* noEsq = i->esq;
+    No* noEsqDir = noEsq->dir;
+    
+    noEsq->dir = i;
+    i->dir = noEsqDir;
+    
+    atualizarAltura(i);
+    atualizarAltura(noEsq);
+    
+    return noEsq;
+}
+
+No* rotacionarDirEsq(No* i){
+    i->dir = rotacionarDir(i->dir);
+    return rotacionarEsq(i);
+}
+
+No* rotacionarEsqDir(No* i){
+    i->esq = rotacionarEsq(i->esq);
+    return rotacionarDir(i);
+}
+
+int fatorDeBalanciamento(No* i){
+    return getAlturaRecursivo(i->dir) - getAlturaRecursivo(i->esq);
+}
+
+No* balanciar(No* i){
+    atualizarAltura(i);
+    int fator = fatorDeBalanciamento(i);
+    
+    if(fator > 1){
+        if(fatorDeBalanciamento(i->dir) < 0){
+            i = rotacionarDirEsq(i);
+        }else{
+            i = rotacionarEsq(i);
+        }
+    }else if(fator < -1){
+        if(fatorDeBalanciamento(i->esq) > 0){
+            i = rotacionarEsqDir(i);
+        }else{
+            i = rotacionarDir(i);
+        }
+    }
+    
+    return balanciar(i);
+}
+
+int pesquisarRescursivo(No *i, int x){
+    if(i == NULL){
+        return -1;
+    }else if(i->elemento == x){
+        return 1;
+    }else if(i->elemento < x){
+        return pesquisarRescursivo(i->dir, x);
+    }else{
+        return pesquisarRescursivo(i->esq, x);
+    }
+}
+
+int pesquisar(ArvoreAvl *arvore, int x){
+    return pesquisarRescursivo(arvore->raiz, x);
+}
+
+int main(){
+    ArvoreAvl* arvore = newArvoreAvl();
+    inserir(arvore, 5);
+    inserir(arvore, 7);
+    inserir(arvore, 3);
+    //remover(arvore, 7);
+    printf("%d\n", pesquisar(arvore, 5));
+    caminharCentral(arvore);
+    return 0;
+}

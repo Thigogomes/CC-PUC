@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Noel{
+	public static void main(String[] args){
+		Scanner input = new Scanner(System.in);
+		int n, m;
+		n = input.nextInt();
+		input.nextLine();
+		String[] lingua = new String[n];
+		String[] feliz = new String[n];
+		for(int i = 0; i < n; i++){
+			lingua[i] = input.nextLine();
+			feliz[i] = input.nextLine();
+		}
+		m = input.nextInt();
+		input.nextLine();
+		String[] nome = new String[m];
+		String[] linguaCrianca = new String[m];
+		for(int i = 0; i < m; i++){
+			nome[i] = input.nextLine();
+			linguaCrianca[i] = input.nextLine();
+		}
+		for(int i = 0; i < m; i++){
+			System.out.println(nome[i]);
+			for(int j = 0; j < n; j++){
+				if(linguaCrianca[i].equals(lingua[j])){
+					System.out.println(feliz[j] + "\n");
+				}				
+			}
+		}
+	}
+}

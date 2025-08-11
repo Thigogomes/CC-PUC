@@ -1,0 +1,43 @@
+import java.util.*;
+
+class No2{
+    public String palavra;
+    public No2 dir;
+    public No2 esq;
+    
+    public No2(String palavra){
+        this.palavra = palavra;
+        this.dir = null;
+        this.esq = null;
+    }
+}
+
+class No{
+    public char letra;
+    public No esq;
+    public No dir;
+    public No2 raiz;
+    
+    public No(char letra){
+        this.letra = letra;
+        this.dir = null;
+        this.esq = null;
+        this.raiz = null;
+    }
+}
+
+public class ArvoreDeArvore{
+    public No raiz;
+    
+    public ArvoreDeArvore(){
+        this.raiz = null;
+    }
+    
+    public void inserir(int x){
+        raiz = inserir(raiz, x);
+    }
+    
+	public static void main(String[] args) {
+		ArvoreDeArvore arv = new ArvoreDeArvore
+	}
+}

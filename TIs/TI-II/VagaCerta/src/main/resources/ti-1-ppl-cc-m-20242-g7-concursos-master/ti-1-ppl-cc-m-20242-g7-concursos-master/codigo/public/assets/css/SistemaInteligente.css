@@ -1,0 +1,214 @@
+:root {
+    --cor-primaria: #3498db;
+    --cor-secundaria: #2980b9;
+    --cor-fundo: #f4f4f4;
+    --cor-texto-claro: #ffffff;
+    --cor-texto-escuro: #333;
+    --cor-sombra: rgba(0, 0, 0, 0.1);
+    --cor-sombra-hover: rgba(0, 0, 0, 0.2);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-escuro);
+    margin: 0;
+    padding-top: 70px;
+    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* --- Cabeçalho e Rodapé (baseado em homepage.css) --- */
+.cabecalho, footer {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.cabecalho {
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer {
+    bottom: 0;
+    background-color: var(--cor-secundaria);
+    text-align: center;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.cabecalho .logo {
+    height: 40px;
+    width: auto;
+}
+
+.cabecalho .icones a {
+    margin-left: 15px;
+}
+
+.cabecalho .icones img {
+    height: 24px;
+    width: 24px;
+    transition: transform 0.2s ease;
+}
+
+.cabecalho .icones img:hover {
+    transform: scale(1.1);
+}
+
+/* --- Conteúdo Principal e Card da Webcam --- */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.webcam-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 640px;
+    box-shadow: 0 4px 15px var(--cor-sombra);
+}
+
+.webcam-container h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    color: var(--cor-texto-escuro);
+}
+
+.webcam-container p {
+    margin-bottom: 2rem;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* --- Área do Vídeo e Recorte --- */
+#videoContainer {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid #ddd;
+}
+
+#video {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: scaleX(-1);
+}
+
+#cropArea {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 65%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px dashed rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+/* --- Botões e Controles (estilo do Vaga Certa) --- */
+.controls, .output-controls {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.button {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.button:hover:not(:disabled) {
+    background-color: var(--cor-secundaria);
+    transform: translateY(-2px);
+}
+
+.button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.button.secondary {
+    background-color: #f39c12;
+}
+.button.secondary:hover:not(:disabled) {
+    background-color: #e67e22;
+}
+
+/* --- Área de Resultado (Canvas) --- */
+.output-area {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+    display: none;
+}
+
+#canvas {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* --- Caixa de Notificação (Substitui o alert) --- */
+.notification {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e74c3c;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+.notification.show {
+    opacity: 1;
+    visibility: visible;
+}
+.notification.success {
+    background-color: #2ecc71;
+}

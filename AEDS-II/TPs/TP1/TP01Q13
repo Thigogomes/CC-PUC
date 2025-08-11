@@ -1,0 +1,98 @@
+import java.util.*;
+import java.io.*;
+import java.net.*;
+
+public class Html{
+    public static int contador(String path, char letra){
+        String linha;
+        int cont = 0;
+        char carac = 'a';
+        try{
+            URL url = new URL(path);
+            HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
+            BufferedReader leitor = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+            linha = leitor.readLine();
+            while (linha != null) {
+                for(int i = 0;  i < linha.length(); i++){
+                    carac = linha.charAt(i);
+                    if(carac == letra){
+                        cont++;
+                    }
+                }
+                linha = leitor.readLine();
+            }
+            leitor.close();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        return cont;
+    }
+    
+    public static int contadorConsoante(String path){
+        String linha, consoantes = "bcdfghjklmnpqrstvwxyz";
+        int cont = 0;
+        char carac = 'a';
+        try{
+            URL url = new URL(path);
+            HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
+            BufferedReader leitor = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+            linha = leitor.readLine();
+            while (linha != null) {
+                for(int i = 0;  i < linha.length(); i++){
+                    carac = linha.charAt(i);
+                    if(consoantes.contains(String.valueOf(carac))){
+                        cont++;
+                    }
+                }
+                linha = leitor.readLine();
+            }
+            leitor.close();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        return cont;
+    }
+    
+    public static int contadorStr(String path, String str){
+        int cont = 0;
+        String linha = "";
+        try{
+            URL url = new URL(path);
+            HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
+            BufferedReader leitor = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+            linha = leitor.readLine();
+            while (linha != null) {
+                if(linha.equals(str)){
+                    cont++;
+                };
+                linha = leitor.readLine();
+            }
+            leitor.close();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        return cont;
+    }
+    
+	public static void main(String[] args) {
+	    Scanner input = new Scanner(System.in);
+	    String nome = "", path = "";
+		int x = 1;
+		int[] c = {97, 101, 105, 111, 117, 225,233,237, 243, 250, 224, 232, 236, 242, 249, 227, 245, 226, 234, 238, 244, 251};
+		while(x == 1){
+		   	nome = input.nextLine();
+    		if(nome.equals("FIM")){
+    		    x = -1;
+    		}else{
+    		    path = input.nextLine();
+    		    for(int i = 0; i < 22; i++){
+    		        System.out.print((char)c[i]+"("+contador(path,(char)c[i])+") ");
+    		    }
+    		    System.out.print("consoante("+contadorConsoante(path)+") ");
+    		    System.out.print("<br>(" + contadorStr(path, "<br>")+") ");
+    		    System.out.print("<table>(" + contadorStr(path, "<table>")+") ");
+    		    System.out.println(nome);
+    		}
+	    }
+	}
+}

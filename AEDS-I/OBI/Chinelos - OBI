@@ -1,0 +1,25 @@
+OBI 2023 - Fase 1 - Programação Nível Junior - Chinelos
+
+#include <stdio.h>
+
+int main(){
+    int n, p, j, resposta =0;
+    printf("DIGITE O VALOR DE N: ");
+    scanf("%d", &n);
+    int estoque[n+1];
+    for(int i = 0; i< n+1;i++){
+        printf("DIGITE O ESTOQUE DO CHILENO NA POSICAO %d: ", i);
+        scanf("%d", &estoque[i]);
+    }
+    printf("DIGITE O VALOR DE P: ");
+    scanf("%d", &p);
+    for(int i = 0; i < p; i++){
+        printf("DIGITE O QUAL CHINELO DO ESTOQUE: ");
+        scanf("%d", &j);
+        if(estoque[j] > 0){
+             resposta++;
+             estoque[j]--;
+        }
+    }
+    printf("A RESPOSTA E: %d", resposta);
+}

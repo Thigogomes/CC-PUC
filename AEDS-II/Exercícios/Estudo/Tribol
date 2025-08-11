@@ -1,0 +1,60 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int c, p;
+        c = sc.nextInt();
+        for(int i = 0; i < c; i++){
+            int b=0, g=0, r =0,maior =0;
+            p = sc.nextInt();
+            sc.nextLine();
+            for(int j = 0; j < p; j++){
+                String linha = "";
+                linha = sc.nextLine();
+                char carac = linha.charAt(0);
+                char carac2 = linha.charAt(2);
+                if(carac == 'B'){
+                    b++;
+                    if(carac2 == 'R'){
+                        b++;
+                    }
+                }else if(carac == 'R'){
+                    r++;
+                    if(carac2 == 'G'){
+                        r++;
+                    }
+                }else{
+                    g++;
+                    if(carac2 == 'B'){
+                        g++;
+                    }
+                }
+            }
+            if(maior < b){
+                maior = b;
+            }
+            if(maior < r){
+                maior = r;
+            }
+            if(maior < g){
+                maior = g;
+            }
+            if(maior == r && maior == g && maior == b){
+                System.out.println("trempate");
+            }else if(maior == b && maior != g && maior != r){
+                System.out.println("blue");
+            }else if(maior != b && maior != g && maior == r){
+                System.out.println("red");
+            }else if(maior != b && maior == g && maior != r){
+                System.out.println("green");
+            }else{
+                System.out.println("empate");
+            }
+            b=0;
+            g=0;
+            r =0;
+            maior =0;
+        }
+    }
+}

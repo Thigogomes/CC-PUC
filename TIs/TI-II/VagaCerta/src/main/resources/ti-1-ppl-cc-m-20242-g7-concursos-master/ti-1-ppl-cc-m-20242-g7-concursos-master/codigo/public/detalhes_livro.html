@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalhes do Livro</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('./assets/images/fundo-livros.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #201e1e;
+      line-height: 1.6;
+      background-color: rgba(205, 202, 202, 0.578);
+    }
+    .cabecalho {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(34, 77, 122, 0.9);
+      padding: 10px 20px;
+    }
+    .logo {
+      height: 50px;
+    }
+    .conteudo {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: 30px auto;
+    }
+    h1 {
+      color: #e48808;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .detalhes {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00000030;
+    }
+    .detalhes p {
+      font-size: 1.1em;
+      margin: 10px 0;
+      word-wrap: break-word;
+    }
+    .botao-voltar {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: rgba(34, 77, 122, 0.9);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .botao-voltar:hover {
+      background-color: rgba(34, 77, 122, 1);
+    }
+    footer {
+      text-align: center;
+      background-color: rgba(0,0,0,0.8);
+      padding: 15px;
+      color: #ccc;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header class="cabecalho">
+    <img src="./assets/images/logo.png" alt="Logo" class="logo">
+  </header>
+  <main class="conteudo">
+    <h1>Detalhes do Livro</h1>
+    <section class="detalhes" id="detalhes">
+      <p>Carregando dados...</p>
+    </section>
+    <div style="text-align: center;">
+      <a href="/biblioteca.html" class="botao-voltar">Voltar à Biblioteca</a>
+    </div>
+  </main>
+  <footer>
+    &copy; 2025 Biblioteca - Todos os direitos reservados.
+  </footer>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    if (!id) {
+      document.getElementById("detalhes").innerHTML = "<p style='color:red;'>ID do livro não informado.</p>";
+    } else {
+      fetch(`/livros/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Erro ao buscar livro: " + response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const container = document.getElementById("detalhes");
+          container.innerHTML = `
+            <p><strong>ID:</strong> ${data.id}</p>
+            <p><strong>Título:</strong> ${escapeHtml(data.titulo)}</p>
+            <p><strong>Autor:</strong> ${escapeHtml(data.autor)}</p>
+            <p><strong>Versão:</strong> ${data.versao}</p>
+            <p><strong>Matéria:</strong> ${escapeHtml(data.materia)}</p>
+            <p><strong>Link:</strong> <a href="${escapeHtml(data.link)}" target="_blank">${escapeHtml(data.link)}</a></p>
+          `;
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("detalhes").innerHTML = "<p style='color:red;'>Erro ao carregar os dados do livro.</p>";
+        });
+    }
+    function escapeHtml(text) {
+      if (!text) return "";
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

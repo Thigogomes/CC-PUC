@@ -1,0 +1,64 @@
+import java.util.*;
+
+class FilaLinear{
+    public int[] array;
+    public int n;
+    
+    public FilaLinear(int max){
+        n = 0;
+        array = new int[max];
+    }
+    
+    public void enfilerar(int elem){
+        if(n >= array.length){
+            throw new RuntimeException("Erro!");
+        }
+        array[n++] = elem;
+    }
+    
+    public void mostrar(){
+        System.out.print("[");
+        for(int i = 0; i < n; i++){
+            System.out.print(array[i]);
+            if(i < n-1){
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+    
+    public int desinfilerar(){
+        if(n >= array.length){
+            throw new RuntimeException("Erro!");
+        }
+        int x = array[0];
+        for(int i = 0; i < n; i++){
+            array[i] = array[i+1];
+        }
+        n--;
+        return x;
+    }
+    
+    public boolean pesquisar(int elem){
+        for(int i = 0; i < n; i++){
+            if(array[i] == elem){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static void main(String[] args){
+        FilaLinear fila = new FilaLinear(6);
+        fila.enfilerar(1);
+        fila.enfilerar(2);
+        fila.enfilerar(3);
+        fila.enfilerar(4);
+        fila.enfilerar(5);
+        fila.mostrar();
+        fila.desinfilerar();
+        fila.desinfilerar();
+        fila.mostrar();
+        System.out.println(fila.pesquisar(6));
+    }
+}

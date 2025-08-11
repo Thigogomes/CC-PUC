@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaga Certa - Captura Inteligente</title>
+    
+    <!-- CSS específico desta página -->
+    <link rel="stylesheet" href="assets/css/SistemaInteligente.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <a href="homepage_usuario.html">
+            <img src="assets/images/logo.png" alt="Logo VagaCerta" class="logo">
+        </a>
+        <div class="icones">
+            <a href="suaconta.html"><img src="assets/images/suaconta.png" alt="Sua Conta" class="conta"></a>
+            <a href="config.html"><img src="assets/images/config.png" alt="Configurações" class="config"></a>
+            <a href="notificacao.html"><img src="assets/images/notificacoes.png" alt="Notificações" class="notificacao"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="webcam-container">
+            <h2>Sistema Inteligente de Captura</h2>
+            <p>Posicione o livro na área demarcada.</p>
+            
+            <div id="videoContainer">
+                <video id="video" autoplay playsinline muted></video>
+                <div id="cropArea"></div>
+            </div>
+
+            <div class="controls">
+                <button id="snap" class="button">
+                    <!-- ícone da câmera -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                        <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828-.828A2 2 0 0 1 3.172 4H2zm.5 4a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                    </svg>
+                    Tirar Foto
+                </button>
+            </div>
+
+            <!-- Área de preview e envio -->
+            <div class="output-area" id="outputArea" style="display: none;">
+                <h3>Pré-visualização</h3>
+                <canvas id="canvas"></canvas>
+                
+                <!-- Título extraído -->
+                <div id="tituloResult" class="titulo-result">
+                    <strong>Título detectado:</strong> <span id="tituloText">—</span>
+                </div>
+
+                <div class="output-controls">
+                    <button id="download" class="button secondary" disabled>Baixar Foto</button>
+                    <button id="send" class="button" disabled>Enviar Foto</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 VagaCerta. Todos os direitos reservados.</p>
+        <p>Contato: vagacerta@gmail.com</p>
+    </footer>
+
+    <!-- Caixinha de notificação -->
+    <div id="notification-box" class="notification"></div>
+
+    <!-- JS do sistema inteligente -->
+    <script>
+    console.log('[DEBUG] Script SistemaInteligente carregado');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const snapBtn = document.getElementById('snap');
+      const downloadBtn = document.getElementById('download');
+      const sendBtn = document.getElementById('send');
+      const outputArea = document.getElementById('outputArea');
+      const tituloText = document.getElementById('tituloText');
+      const notificationBox = document.getElementById('notification-box');
+
+      // inicia webcam
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => video.srcObject = stream)
+        .catch(err => console.error("[DEBUG] Erro ao acessar webcam:", err));
+
+      // tira foto
+      snapBtn.addEventListener('click', () => {
+        console.log('[DEBUG] snapBtn clicado');
+        const ctx = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0);
+        outputArea.style.display = 'block';
+        downloadBtn.disabled = false;
+        sendBtn.disabled = false;
+      });
+
+      // baixa foto
+      downloadBtn.addEventListener('click', () => {
+        console.log('[DEBUG] downloadBtn clicado');
+        const link = document.createElement('a');
+        link.download = `foto_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+
+      // envia para o backend
+      sendBtn.addEventListener('click', async () => {
+        console.log('[DEBUG] sendBtn clicado');
+        const dataURL = canvas.toDataURL('image/png');
+        const base64 = dataURL.split(',')[1];
+        try {
+          console.log('[DEBUG] Fazendo fetch para /upload…');
+          const res = await fetch('/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: base64 })
+          });
+          console.log('[DEBUG] fetch retornou, status:', res.status);
+          const json = await res.json();
+          console.log('[DEBUG] JSON recebido:', json);
+
+          if (json.status === 'ok') {
+            // Pega o título reconhecido
+            const titulo = (json.titulo || '').trim();
+            // Redireciona para a página de busca de livros, passando o 'search'
+            const params = new URLSearchParams({
+            search: titulo,
+            materia: 'all'
+            });
+            window.location.href = `/exiLivros.html?${params.toString()}`;
+          } else {
+            throw new Error(json.message);
+          }
+        } catch (e) {
+          console.error('[DEBUG] Erro no envio:', e);
+          notificationBox.textContent = `Erro: ${e.message}`;
+          notificationBox.classList.add('show', 'error');
+        } finally {
+          sendBtn.disabled = true;
+          // opcional: desabilitar novamente snap, ou manter
+        }
+      });
+
+      // esconde notificação após 3s
+      setTimeout(() => {
+        notificationBox.classList.remove('show', 'error');
+      }, 3000);
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+import java.util.*;
+
+public class MatrizFlexivel {
+	private Celula inicio;
+
+	public MatrizFlexivel() {
+		this(3,3);
+	}
+
+	public MatrizFlexivel(int linha, int coluna) {
+		if(linha <= 0 || coluna <= 0) {
+			throw new RuntimeException("Erro!");
+		}
+
+		Celula lin1 = new Celula(0);
+		inicio = lin1;
+		Celula temp = lin1;
+
+		for(int i = 1; i < coluna; i++) {
+			temp.dir = new Celula(0);
+			temp.dir.esq = temp;
+			temp = temp.dir;
+		}
+
+		for(int i = 1; i < linha; i++) {
+			Celula lin2 = new Celula(0);
+			lin1.inf = lin2;
+			lin2.sup = lin1;
+			temp = lin2;
+			for(int j = 1; j < coluna; j++) {
+				temp.dir = new Celula(0);
+				temp.dir.esq = temp;
+				temp.sup.dir.inf = temp.dir;
+				temp.dir.sup = temp.sup.dir;
+				temp = temp.dir;
+			}
+			lin1 = lin1.inf;
+		}
+	}
+
+	public void inserir(int lin, int col, int x) {
+		if(lin < 0 || col < 0) {
+			throw new RuntimeException("Erro!");
+		}
+		Celula atual = inicio;
+		for(int i = 0; i < lin; i++) {
+			if(atual.inf == null) {
+				throw new IndexOutOfBoundsException("Erro! Linha invalida!");
+			}
+			atual = atual.inf;
+		}
+		for(int j = 0; j < col; j++) {
+			if(atual.dir == null) {
+				throw new IndexOutOfBoundsException("Erro! Coluna invalida!");
+			}
+			atual = atual.dir;
+		}
+		atual.elemento = x;
+	}
+
+	public int remover(int lin, int col) {
+		if(lin < 0 || col < 0) {
+			throw new RuntimeException("Erro!");
+		}
+		Celula atual = inicio;
+		for(int i = 0; i < lin; i++) {
+			if(atual.inf == null) {
+				throw new IndexOutOfBoundsException("Erro! Linha invalida!");
+			}
+			atual = atual.inf;
+		}
+		for(int j = 0; j < col; j++) {
+			if(atual.dir == null) {
+				throw new IndexOutOfBoundsException("Erro! Coluna invalida!");
+			}
+			atual = atual.dir;
+		}
+		int x = atual.elemento;
+		atual.elemento = 0;
+		return x;
+	}
+
+	public int tamanhoColunas() {
+		int tam = 0;
+		for(Celula i = inicio; i != null; i = i.dir) {
+			tam++;
+		}
+		return tam;
+	}
+
+	public int tamanholinhas() {
+		int tam = 0;
+		for(Celula i = inicio; i != null; i = i.inf) {
+			tam++;
+		}
+		return tam;
+	}
+
+	public void printDS() {
+		int lin = tamanholinhas(), col = tamanhoColunas();
+		if(lin != col) {
+			throw new RuntimeException("Erro!");
+		}
+		Celula atual = inicio;
+		Celula aux = inicio;
+		for(int i = 0; i < lin; i++) {
+			aux = atual;
+			for(int j = 0; j < col; j++) {
+				if(i+j == col-1) {
+					System.out.print(atual.elemento + " ");
+				}
+				atual = atual.dir;
+			}
+			atual = aux.inf;
+		}
+		System.out.println();
+	}
+
+	public void printDP() {
+		int lin = tamanholinhas(), col = tamanhoColunas();
+		if(lin != col) {
+			throw new RuntimeException("Erro!");
+		}
+		Celula atual = inicio;
+		Celula aux = inicio;
+		for(int i = 0; i < lin; i++) {
+			aux = atual;
+			for(int j = 0; j < col; j++) {
+				if(j == i) {
+					System.out.print(atual.elemento + " ");
+				}
+				atual = atual.dir;
+			}
+			atual = aux.inf;
+		}
+		System.out.println();
+	}
+
+	public MatrizFlexivel somaMatriz(MatrizFlexivel matriz2) {
+		int lin = tamanholinhas(), col = tamanhoColunas();
+		MatrizFlexivel m3 = new MatrizFlexivel(lin, col);
+		Celula m2 = matriz2.inicio;
+		Celula m1 = inicio;
+
+		Celula aux = inicio;
+		Celula aux2 = m2;
+		for(int i = 0; i < lin; i++) {
+			aux = m1;
+			aux2 = m2;
+			for(int j = 0; j < col; j++) {
+				m3.inserir(i, j, m1.elemento+m2.elemento);
+				m1 = m1.dir;
+				m2 = m2.dir;
+			}
+			m1 = aux.inf;
+			m2 = aux2.inf;
+		}
+		return m3;
+	}
+
+	public MatrizFlexivel multiplicaMatriz(MatrizFlexivel m2) {
+		int lin2 = m2.tamanholinhas(), col2 = m2.tamanhoColunas();
+		MatrizFlexivel m3 = new MatrizFlexivel(lin2, col2);
+
+		Celula atual1 = inicio;
+		for(int i = 0; i < lin2; i++) {
+			Celula atual2 = m2.inicio;
+			Celula temp1 = atual1;
+			for(int j = 0; j < col2; j++) {
+				int soma = 0;
+				Celula aux2 = atual2;
+				for(int k = 0; k < lin2; k++) {
+					soma += (atual1.elemento*atual2.elemento);
+					atual1 = atual1.dir;
+					atual2 = atual2.inf;
+				}
+				atual2 = aux2.dir;
+				atual1 = temp1;
+				m3.inserir(i, j, soma);
+			}
+			atual1 = temp1.inf;
+		}
+		return m3;
+	}
+
+	public void mostrar() {
+		for(Celula i = inicio; i != null; i = i.inf) {
+			for(Celula j = i; j != null; j = j.dir) {
+				System.out.print(j.elemento);
+				if(j.dir != null) {
+					System.out.print(" ");
+				}
+			}
+			System.out.println();
+		}
+	}
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		for(int t = 0; t < n; t++) {
+			int l1 = sc.nextInt();
+			int c1 = sc.nextInt();
+			MatrizFlexivel matriz1 = new MatrizFlexivel(l1, c1);
+			for(int i = 0; i < l1; i++) {
+				for(int j  = 0; j < c1; j++) {
+					int num = sc.nextInt();
+					matriz1.inserir(i, j, num);
+				}
+			}
+			int l2 = sc.nextInt();
+			int c2 = sc.nextInt();
+			MatrizFlexivel matriz2 = new MatrizFlexivel(l2, c2);
+			for(int i = 0; i < l2; i++) {
+				for(int j  = 0; j < c2; j++) {
+					int num = sc.nextInt();
+					matriz2.inserir(i, j, num);
+				}
+			}
+			MatrizFlexivel matrizSoma = matriz1.somaMatriz(matriz2);
+			MatrizFlexivel matrizMult = matriz1.multiplicaMatriz(matriz2);
+			matriz1.printDP();
+			matriz1.printDS();
+			matrizSoma.mostrar();
+			matrizMult.mostrar();
+		}
+	}
+}
+
+class Celula {
+	public int elemento;
+	public Celula sup;
+	public Celula esq;
+	public Celula dir;
+	public Celula inf;
+
+	public Celula() {
+		this.elemento = 0;
+		this.dir = null;
+		this.esq = null;
+		this.sup = null;
+		this.inf = null;
+	}
+
+	public Celula(int elemento) {
+		this.elemento = elemento;
+		this.dir = null;
+		this.esq = null;
+		this.sup = null;
+		this.inf = null;
+	}
+}

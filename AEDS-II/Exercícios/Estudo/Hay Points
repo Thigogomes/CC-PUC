@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct dicio{
+	char str[200];
+	int valor;
+}dicio;
+
+int pontos(dicio d[], int m){
+	char palavra[200];
+	int pont = 0;
+	scanf("%s", palavra);
+	while(strcmp(palavra, ".") != 0){
+		for(int i = 0; i < m; i++){
+			if(strcmp(palavra, d[i].str) == 0){
+				pont += d[i].valor;
+			}
+		}
+		scanf("%s", palavra);
+	}
+	return pont;
+}
+
+int main(){
+	int m, n, result;
+	scanf("%d %d", &m, &n);
+	dicio d[m];
+	for(int i = 0; i < m; i++){
+		scanf("%s", d[i].str);
+		scanf("%d", & d[i].valor);
+		getchar();
+	}
+	for(int i = 0; i < n; i++){
+		result = pontos(d, m);
+		printf("%d\n", result);
+	}
+	return 0;
+}

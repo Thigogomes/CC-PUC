@@ -1,0 +1,21 @@
+#include<stdio.h>
+
+int binario(int);
+
+int main(){
+    int num, result;
+    scanf("%d", &num);
+    result = binario(num);
+    printf("%d", result);
+}
+
+int binario(int num){
+    int resto, quociente=num;
+    resto = quociente % 10;
+    quociente = quociente / 10;
+    if(num == 0 ){
+        return num;
+    }else{
+        return resto + 2 * binario(quociente);
+    }
+}

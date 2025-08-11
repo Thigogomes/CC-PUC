@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Insertionsort {
+
+    public static void insertionsort(int[] array, int n, long[] comparacoes, long[] movimentacoes) {
+        for (int i = 1; i < n; i++) {
+            int temp = array[i];
+            movimentacoes[0]++;
+            int j = i - 1;
+            comparacoes[0]++;
+            while ((j >= 0) && (array[j] > temp)) {
+                array[j + 1] = array[j];
+                j--;
+                movimentacoes[0]++;
+            }
+            array[j + 1] = temp;
+            movimentacoes[0]++;
+        }
+    }
+
+    public static void main(String[] args) {
+        int n = 100;
+        for (int x = 1; x <= 30; x++) {
+            long[] comparacoes = new long[1];
+            long[] movimentacoes = new long[1];
+            Random rand = new Random();
+            int[] array = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                array[i] = rand.nextInt(n);
+            }
+
+            long inicioTempo = System.nanoTime();
+            insertionsort(array, n, comparacoes, movimentacoes);
+            long fimTempo = System.nanoTime();
+
+            double duracao = (fimTempo - inicioTempo) / 1_000_000.0; // em milissegundos
+            System.out.println("Insertionsort(" + n + ")(" + x + ");" 
+                + comparacoes[0] + ";" + movimentacoes[0] + ";" + duracao + "ms;");
+        }
+    }
+}

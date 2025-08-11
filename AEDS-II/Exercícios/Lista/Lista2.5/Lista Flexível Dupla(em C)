@@ -1,0 +1,176 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct CelulaDupla{
+    int elemento;
+    struct CelulaDupla* prox;
+    struct CelulaDupla* ant;
+}CelulaDupla;
+
+typedef struct ListaDupla{
+    CelulaDupla* primeiro;
+    CelulaDupla* ultimo;
+}ListaDupla;
+
+ListaDupla* newListaDupla(){
+    ListaDupla* lista = (ListaDupla*)malloc(sizeof(ListaDupla));
+    lista->primeiro = NULL;
+    lista->ultimo = NULL;
+    return lista;
+}
+
+int tamanho(ListaDupla* lista){
+    int tam = 0;
+    for(CelulaDupla* i = lista->primeiro; i != NULL; i = i->prox){
+        tam++;
+    }
+    return tam;
+}
+
+void mostrar(ListaDupla* lista){
+    CelulaDupla* i;
+    printf("[");
+    for(i = lista->primeiro; i != NULL; i = i->prox){
+        printf("%d", i->elemento);
+        if(i->prox != NULL){
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
+void inserirInicio(ListaDupla* lista, int x){
+    CelulaDupla* temp = (CelulaDupla*)malloc(sizeof(CelulaDupla));
+    temp->elemento = x;
+    temp->ant = NULL;
+    temp->prox = lista->primeiro;
+    
+    if(lista->primeiro == NULL){
+        lista->ultimo = temp;
+    }else{
+        lista->primeiro->ant = temp;
+    }
+    lista->primeiro = temp;
+    temp = NULL;
+    free(temp);
+}
+
+void inserirFim(ListaDupla* lista, int x){
+    CelulaDupla* temp = (CelulaDupla*)malloc(sizeof(CelulaDupla));
+    temp->elemento = x;
+    temp->prox = NULL;
+    temp->ant = lista->ultimo;
+    
+    if(lista->primeiro == NULL){
+        lista->primeiro = temp;
+        lista->ultimo = temp;
+    }else{
+        lista->ultimo->prox = temp;
+    }
+    lista->ultimo = temp;
+    
+    temp = NULL;
+    free(temp);
+}
+
+void inserir(ListaDupla* lista, int x, int pos){
+    int tam = tamanho(lista);
+    if(pos < 0 || pos > tam){
+        printf("Erro! Possicao invalida!");
+        return;
+    }else if(pos == 0){
+        inserirInicio(lista, x);
+    }else if(pos == tam){
+        inserirFim(lista, x);
+    }else{
+        CelulaDupla*  i = lista->primeiro;
+        CelulaDupla* temp = (CelulaDupla*)malloc(sizeof(CelulaDupla));
+        temp->elemento = x;
+        
+        for(int j = 0; j < pos-1; i = i->prox, j++);
+        temp->prox = i->prox;
+        temp->ant = i;
+        i->prox->ant = temp;
+        i->prox = temp;
+        
+        i = temp = NULL;
+        free(temp);
+    }
+}
+
+int removerFim(ListaDupla* lista){
+    int x = 0, tam = tamanho(lista);
+    if(tam == 0){
+        printf("Erro! Lista vazia!");
+        return -1;
+    }
+    x = lista->ultimo->elemento;
+    lista->ultimo = lista->ultimo->ant;
+    
+    if(lista->ultimo == NULL){
+        lista->primeiro = NULL;
+    } else {
+        lista->ultimo->prox->ant = NULL;
+        lista->ultimo->prox = NULL;
+    }
+    
+    return x;
+}
+
+int removerInicio(ListaDupla* lista){
+    int x = 0, tam = tamanho(lista);
+    if(tam == 0){
+        printf("Erro! Lista vazia!");
+        return -1;
+    }
+    x = lista->primeiro->elemento;
+    lista->primeiro = lista->primeiro->prox;
+    
+    if(lista->primeiro == NULL){
+        lista->ultimo = NULL;
+    }else{
+        lista->primeiro->ant->prox = NULL;
+        lista->primeiro->ant = NULL;
+    }
+    
+    return x;
+}
+
+int remover(ListaDupla* lista, int pos){
+    int x = 0, tam = tamanho(lista);
+    if(pos < 0 || tam < pos){
+        printf("Erro! Possicao Invalida!");
+        return -1;
+    }else if(tam == 0){
+        printf("Erro! Lista vazia!");
+        return -1;
+    }else if(pos == 0){
+        x = removerInicio(lista);
+    }else if(pos == tam-1){
+        x = removerFim(lista);
+    }else{
+        CelulaDupla* i = lista->primeiro;
+        x = i->elemento;
+        
+        for(int j = 0; j < pos; i = i->prox, j++);
+        i->ant->prox = i->prox;
+        i->prox->ant = i->ant;
+        free(i);
+    }
+    return x;
+}
+
+int main(){
+    ListaDupla* lista = newListaDupla();
+    inserirInicio(lista, 1);
+    inserirInicio(lista, 9);
+    inserirInicio(lista, 4);
+    inserirFim(lista, 2);
+    inserirFim(lista, 3);
+    inserir(lista, 7, 1);
+    removerFim(lista);
+    removerInicio(lista);
+    remover(lista, 2);
+    mostrar(lista);
+    return 0;
+}

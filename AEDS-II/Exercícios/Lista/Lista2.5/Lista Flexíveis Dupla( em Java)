@@ -1,0 +1,178 @@
+import java.util.*;
+
+public class ListaDupla {
+    public Celula primeiro;
+    public Celula ultimo;
+
+    public ListaDupla() {
+        primeiro = new Celula();
+        ultimo = primeiro;
+    }
+
+    public int tamanho() {
+        int tam = 0;
+        for (Celula i = primeiro.prox; i != ultimo.prox; i = i.prox) {
+            tam++;
+        }
+        return tam;
+    }
+
+    public void inserirFim(int x) {
+        ultimo.prox = new Celula(x);
+        ultimo.prox.ant = ultimo;
+        ultimo = ultimo.prox;
+    }
+
+    public void inserirInicio(int x) {
+        Celula temp = new Celula(x);
+        temp.prox = primeiro.prox;
+        temp.ant = primeiro;
+        primeiro.prox = temp;
+
+        if (ultimo == primeiro) {
+            ultimo = temp;
+        } else {
+            primeiro.prox.ant = temp;
+        }
+
+        temp = null;
+    }
+
+    public void inserir(int x, int pos) {
+        int tam = tamanho();
+
+        if (pos < 0 || pos > tam) {
+            throw new RuntimeException("Erro!");
+        } else if (pos == 0) {
+            inserirInicio(x);
+        } else if (pos == tam) {
+            inserirFim(x);
+        } else {
+            Celula i = primeiro;
+            for (int j = 0; j < pos; j++, i = i.prox);
+            Celula temp = new Celula(x);
+            temp.prox = i.prox;
+            temp.ant = i;
+            i.prox.ant = temp;
+            i.prox = temp;
+            i = temp = null;
+        }
+    }
+
+    public int removerFim() {
+        if (ultimo == primeiro)
+            throw new RuntimeException("Erro!");
+
+        int x = ultimo.elemento;
+        ultimo = ultimo.ant;
+        ultimo.prox.ant = null;
+        ultimo.prox = null;
+        return x;
+    }
+
+    public int removerInicio() {
+        if (ultimo == primeiro)
+            throw new RuntimeException("Erro!");
+
+        Celula temp = primeiro.prox;
+        int x = temp.elemento;
+        primeiro.prox = temp.prox;
+
+        if (temp == ultimo) {
+            ultimo = primeiro;
+        } else {
+            temp.prox.ant = temp.ant;
+        }
+
+        temp.prox = temp.ant = null;
+        temp = null;
+        return x;
+    }
+
+    public int remover(int pos) {
+        int x = 0, tam = tamanho();
+
+        if (pos < 0 || pos >= tam) {
+            throw new RuntimeException("Erro!");
+        } else if (pos == 0) {
+            x = removerInicio();
+        } else if (pos == tam - 1) {
+            x = removerFim();
+        } else {
+            Celula i = primeiro;
+            for (int j = 0; j < pos; j++, i = i.prox);
+            Celula temp = i.prox;
+            x = temp.elemento;
+            i.prox = temp.prox;
+            temp.prox.ant = temp.ant;
+            temp.ant = temp.prox = null;
+            temp = null;
+        }
+
+        return x;
+    }
+
+    public void removerPrimeiroElemento(int x) {
+        int n = tamanho();
+        Celula i = primeiro.prox;
+
+        for (int j = 0; j < n; j++, i = i.prox) {
+            if (x == i.elemento) {
+                remover(j);
+                return;
+            }
+        }
+    }
+
+    public void selectsort() {
+        for (Celula i = primeiro.prox; i != null; i = i.prox) {
+            Celula menor = i;
+            for (Celula j = i.prox; j != null; j = j.prox) {
+                if (menor.elemento > j.elemento) {
+                    menor = j;
+                }
+            }
+            int temp = i.elemento;
+            i.elemento = menor.elemento;
+            menor.elemento = temp;
+        }
+    }
+
+    public void mostrar() {
+        System.out.print("[");
+        for (Celula i = primeiro.prox; i != ultimo.prox; i = i.prox) {
+            System.out.print(i.elemento);
+            if (i.prox != ultimo.prox) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+
+    public static void main(String[] args) {
+        ListaDupla lista = new ListaDupla();
+        lista.inserirFim(1);
+        lista.inserirFim(6);
+        lista.inserirFim(3);
+        lista.inserirFim(4);
+        lista.inserirFim(2);
+        lista.mostrar();
+        lista.removerFim();
+        lista.removerFim();
+        lista.inserirInicio(4);
+        lista.inserirInicio(0);
+        lista.inserirInicio(8);
+        lista.inserirInicio(10);
+        lista.mostrar();
+        lista.removerInicio();
+        lista.removerInicio();
+        lista.mostrar();
+        lista.inserir(7, 1);
+        lista.mostrar();
+        lista.remover(2);
+        lista.mostrar();
+        lista.selectsort();
+        lista.removerPrimeiroElemento(1);
+        lista.mostrar();
+    }
+}

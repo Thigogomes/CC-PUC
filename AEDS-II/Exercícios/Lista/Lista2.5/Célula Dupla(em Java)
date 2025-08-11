@@ -1,0 +1,17 @@
+public class Celula{
+    public int elemento;
+    public Celula prox;
+    public Celula ant;
+    
+    public Celula(){
+        this.elemento = 0;
+        this.prox = null;
+        this.ant = null;
+    }
+    
+    public Celula(int elemento){
+        this.elemento = elemento;
+        this.prox = null;
+        this.ant = null;
+    }
+}

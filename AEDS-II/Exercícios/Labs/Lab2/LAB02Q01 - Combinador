@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+char* combinador(char* str1, char* str2){
+    int tam1 = strlen(str1);
+    int tam2 = strlen(str2);
+    char* novaStr = (char*)malloc((tam1+tam2+1)*sizeof(char));
+    int j = 0;
+    if(tam1 < tam2){
+        for(int i = 0; i < tam1; i++){
+            novaStr[j] = str1[i];
+            j++;
+            novaStr[j] = str2[i];
+            j++;
+        }
+        for(int i = tam1; i < tam2;i++){
+            novaStr[j] = str2[i];
+            j++;
+        }
+        novaStr[j] = '\0';
+    }else if(tam1 > tam2){
+        for(int i = 0; i < tam2; i++){
+            novaStr[j] = str1[i];
+            j++;
+            novaStr[j] = str2[i];
+            j++;
+        }
+        for(int i = tam2; i < tam1; i++){
+            novaStr[j] = str1[i];
+            j++;
+        }
+        novaStr[j] = '\0';
+    }else{
+        for(int i = 0; i < tam1; i++){
+            novaStr[j] = str1[i];
+            j++;
+            novaStr[j] = str2[i];
+            j++;
+        }
+        novaStr[j] = '\0';
+    }
+    return novaStr;
+}
+
+int main(){
+    char str1[100];
+    char str2[100];
+    while(scanf("%s", str1) == 1){
+        getchar();
+        scanf("%s", str2);
+        getchar();
+        char* result= combinador(str1, str2);
+        printf("%s\n", result); 
+    }
+    return 0;
+}

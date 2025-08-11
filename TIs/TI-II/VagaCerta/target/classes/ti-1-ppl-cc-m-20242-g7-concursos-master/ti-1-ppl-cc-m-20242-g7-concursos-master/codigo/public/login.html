@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - VagaCerta</title>
+  <link rel="stylesheet" href="./assets/css/login.css">
+</head>
+<body>
+
+  <header class="cabecalho">
+    <a href="index.html">
+      <img src="./assets/images/logo.png" class="logo" alt="Logo VagaCerta">
+    </a>
+  </header>
+
+  <main class="container">
+    <div class="abas">
+      <button class="aba active" onclick="mostrarAba('concurseiro')">Concurseiro</button>
+      <button class="aba" onclick="mostrarAba('admin')">Administrador</button>
+    </div>
+
+    <!-- Login Concurseiro (sem alterações) -->
+    <div class="formulario" id="concurseiro">
+      <h2>Login de Concurseiro</h2>
+      <form id="loginForm" onsubmit="return loginUsuario(event)">
+        <input type="text" id="cpfUsuario" name="cpf" placeholder="CPF" required>
+        <input type="password" id="senhaUsuario" name="senha" placeholder="Senha" required>
+        <div class="botoes">
+          <button type="submit">Entrar</button>
+          <button type="button" onclick="abrirModal('concurseiro')">Registrar</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Login Administrador ajustado -->
+    <div class="formulario hidden" id="admin">
+      <h2>Login de Administrador</h2>
+<!-- Dentro de <div id="admin"> -->
+		<form id="loginFormAdmin" onsubmit="return loginAdmin(event)">
+  			<input type="text" id="adminUser"   name="user"     placeholder="Usuário" required>
+  			<input type="password" id="adminPass" name="password" placeholder="Senha"   required>
+  			<div class="botoes">
+    		<button type="submit">Entrar</button>
+  			</div>
+		</form>
+    </div>
+  </main>
+
+  <!-- Modal de registro de Concurseiro (sem alterações) -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Cadastro de Novo Usuário</h5>
+        <span class="close" onclick="fecharModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="registroForm" action="/usuario" method="POST">
+          <input type="text" id="txt_login"    name="login"      placeholder="CPF"               required>
+          <input type="text" id="txt_nome"     name="nome"       placeholder="Nome Completo"     required>
+          <input type="email" id="txt_email"   name="email"      placeholder="Email"             required>
+          <input type="text" id="escolaridade" name="escolaridade"placeholder="Escolaridade"     required>
+          <input type="password" id="txt_senha"   name="senha"      placeholder="Senha"             required>
+          <input type="password" id="txt_senha2"  name="senhaconf"  placeholder="Confirmação de Senha" required>
+          <div class="modal-footer">
+            <button type="button" onclick="fecharModal()">Cancelar</button>
+            <button type="submit" onclick="salvarCadastro()">Registrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function mostrarAba(id) {
+      document.querySelectorAll('.aba').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.formulario').forEach(f => f.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      event.target.classList.add('active');
+    }
+
+    // Concurseiro permanece igual
+    async function loginUsuario(event) {
+      event.preventDefault();
+      const cpfValue   = document.getElementById('cpfUsuario').value.trim();
+      const senhaValue = document.getElementById('senhaUsuario').value;
+      if (!cpfValue || !senhaValue) {
+        alert('Informe CPF e senha.');
+        return false;
+      }
+      try {
+        const res = await fetch(`http://localhost:8086/usuario/${cpfValue}`, { headers:{ 'Accept':'application/json' } });
+        if (res.status===404) { alert('Usuário não encontrado.'); return false; }
+        if (!res.ok) { throw new Error(res.status); }
+        const usuario = await res.json();
+        if (usuario.senha === senhaValue) {
+          window.location.href = 'homepage_usuario.html';
+        } else {
+          alert('Senha inválida.');
+        }
+      } catch(e) {
+        console.error(e);
+        alert('Erro no login de concurseiro.');
+      }
+      return false;
+    }
+
+    // Nova função de login para Admin
+async function loginAdmin(event) {
+  event.preventDefault();
+  const form = new URLSearchParams();
+  const user = document.getElementById('adminUser').value.trim();
+  const password = document.getElementById('adminPass').value;
+  if (!user || !password) {
+    alert('Preencha usuário e senha.');
+    return false;
+  }
+  form.append('user', user);
+  form.append('password', password);
+
+  try {
+	  const res = await fetch('http://localhost:8086/admin/login', {
+		    method: 'POST',
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		    body: form.toString()
+		});
+
+    if (res.status === 200) {
+      // login bem-sucedido
+      window.location.href = 'homepage_adm.html';
+    } else if (res.status === 404) {
+      alert('Usuário não encontrado.');
+    } else if (res.status === 401) {
+      alert('Senha inválida.');
+    } else {
+      throw new Error(res.status);
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao efetuar login de administrador.');
+  }
+
+  return false;
+}
+
+    // Funções do modal de registro (sem alterações)
+    let tipoCadastro = '';
+    function abrirModal(tipo) {
+      tipoCadastro = tipo;
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+    function fecharModal() {
+      document.getElementById('loginModal').style.display = 'none';
+    }
+    function salvarCadastro() {
+      const s1 = document.getElementById('txt_senha').value;
+      const s2 = document.getElementById('txt_senha2').value;
+      if (s1 !== s2) { alert('Senhas não coincidem.'); return; }
+      document.getElementById('registroForm').submit();
+    }
+    window.onclick = e => {
+      if (e.target === document.getElementById('loginModal')) fecharModal();
+    };
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+public class Celula{
+    public int elemento;
+    public Celula sup;
+    public Celula esq;
+    public Celula dir;
+    public Celula inf;
+    
+    public Celula(){
+        this.elemento = 0;
+        this.dir = null;
+        this.esq = null;
+        this.sup = null;
+        this.inf = null;
+    }
+    
+    public Celula(int elemento){
+        this.elemento = elemento;
+        this.dir = null;
+        this.esq = null;
+        this.sup = null;
+        this.inf = null;
+    }
+}

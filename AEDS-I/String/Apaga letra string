@@ -1,0 +1,29 @@
+/*Crie uma função que recebe uma string e um caractere, e apague todas as ocorrências desses caractere na string.*/
+
+#include<stdio.h>
+
+void apaga(char *, char);
+
+int main(){
+    char str[20], letra;
+    int n;
+    fgets(str,sizeof(str), stdin);
+    scanf(" %c", &letra);
+    apaga(str, letra);
+    printf("%s", str);
+}
+
+void apaga(char *str, char letra){
+    int i =0, k=1;
+    while(*(str+i) != '\0'){
+        if(*(str+i) == letra || *(str+i) == letra+32 || *(str+i) == letra-32){
+            while(*(str+k) != '\0'){
+                *(str+i) = *(str+i+k);
+                k++;
+            }
+            *(str+i+k) = '\0';
+            k=0;
+        }
+    i++;
+    }
+}

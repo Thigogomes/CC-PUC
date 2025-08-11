@@ -1,0 +1,51 @@
+#include<stdio.h>
+
+int main(){
+	int dim;
+	int cem = 0;
+	scanf("%d", &dim);
+	printf("%d\n", dim);
+	while(dim != 0 && dim / 100 != 0 ){
+		cem++;
+		dim -= 100;
+	}
+	printf("%d nota(s) de R$ 100,00\n", cem);
+	cem = 0;
+	while(dim != 0 && dim/50 != 0){
+		cem++;
+		dim -= 50;
+	}
+	printf("%d nota(s) de R$ 50,00\n", cem);
+	cem = 0;
+	while(dim != 0 && dim/20 != 0){
+		cem++;
+		dim -= 20;
+	}
+	printf("%d nota(s) de R$ 20,00\n", cem);
+	cem = 0;
+	while(dim != 0 && dim/10 != 0){
+		cem++;
+		dim-=10;
+	}
+	printf("%d nota(s) de R$ 10,00\n", cem);
+	cem = 0;
+	while(dim != 0 && dim/5 != 0){
+		cem++;
+		dim-=5;
+	}
+	printf("%d nota(s) de R$ 5,00\n", cem);
+	cem = 0;
+	while(dim != 0 && dim/2 != 0){
+		cem++;
+		dim-=2;
+	}
+	printf("%d nota(s) de R$ 2,00\n", cem);
+	cem = 0;
+	while(dim != 0 && dim/1 != 0){
+		cem++;
+		dim-=1;
+	}
+	printf("%d nota(s) de R$ 1,00\n", cem);
+
+	return 0;
+}

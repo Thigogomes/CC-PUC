@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Best{
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		String[] antigos = new String[100];
+		String[]  novos = new String[100];
+		String linha = sc.nextLine();
+		antigos = linha.split(" ");
+		linha = sc.nextLine();
+		novos = linha.split(" ");
+		String nome = sc.nextLine();
+		int tam1 = antigos.length;
+		int tam2 = novos.length;
+		if(nome.equals("nao")){
+			for(int i = 0; i < tam1; i++){
+				System.out.print(antigos[i] + " ");
+			}
+			for(int i = 0; i < tam2; i++){
+				System.out.print(novos[i] + " ");
+			}	
+		}else{
+			int i = 0;
+			while(!antigos[i].equals(nome)){
+				System.out.print(antigos[i++] + " ");
+			}
+			for(int j = 0; j < tam2; j++){
+				System.out.print(novos[j] + " ");
+			}
+			for(; i < tam1; i++){
+				System.out.print(antigos[i] + " ");
+			}
+		}
+		System.out.println();
+	}
+}

@@ -1,0 +1,132 @@
+import java.util.*;
+
+public class AlgebraBooleana {
+	public static boolean operacao(String[] exp, Stack<String>stack, Stack<String>valores, int p) {
+		if(p >= exp.length) {
+		    return Boolean.parseBoolean(stack.pop());
+		}
+		String item = exp[p];
+		if(item.isEmpty()) {
+			return operacao(exp, stack, valores, p+1);
+		}
+		if(item.equals("false") || item.equals("true")) {
+			stack.push(item);
+			return operacao(exp, stack, valores, p+1);
+		}
+		if(item.equals(")")) {
+			String val = stack.pop();
+			while(!val.equals("(")){
+			   if(val.equals("false") || val.equals("true")){
+			       valores.push(val);
+			   }
+			   val = stack.pop();
+			}
+			String op = stack.pop();
+			if(op.equals("not")) {
+				boolean a = Boolean.parseBoolean(valores.pop());
+				stack.push(Boolean.toString(!a));
+				return operacao(exp, stack, valores, p+1);
+			}
+			if(op.equals("and")) {
+				if(valores.size() == 2){
+                    boolean b = Boolean.parseBoolean(valores.pop());
+				    boolean a = Boolean.parseBoolean(valores.pop());
+				    stack.push(Boolean.toString(a && b));
+				    return operacao(exp, stack, valores, p+1);
+                }else if(valores.size() == 3){
+                    boolean c = Boolean.parseBoolean(valores.pop());
+                    boolean b = Boolean.parseBoolean(valores.pop());
+				    boolean a = Boolean.parseBoolean(valores.pop());
+				    stack.push(Boolean.toString(a && b && c));
+				    return operacao(exp, stack, valores, p+1);
+                }else if(valores.size() == 4){
+                    boolean d = Boolean.parseBoolean(valores.pop());
+                    boolean c = Boolean.parseBoolean(valores.pop());
+                    boolean b = Boolean.parseBoolean(valores.pop());
+				    boolean a = Boolean.parseBoolean(valores.pop());
+				    stack.push(Boolean.toString(a && b && c && d));
+				    return operacao(exp, stack, valores, p+1);
+                }
+			}
+			if(op.equals("or")) {
+				if(valores.size() == 2){
+                    boolean b = Boolean.parseBoolean(valores.pop());
+				    boolean a = Boolean.parseBoolean(valores.pop());
+				    stack.push(Boolean.toString(a || b));
+				    return operacao(exp, stack, valores, p+1);
+                }else if(valores.size() == 3){
+                    boolean c = Boolean.parseBoolean(valores.pop());
+                    boolean b = Boolean.parseBoolean(valores.pop());
+				    boolean a = Boolean.parseBoolean(valores.pop());
+				    stack.push(Boolean.toString(a || b || c));
+				    return operacao(exp, stack, valores, p+1);
+                }else if(valores.size() == 4){
+                    boolean d = Boolean.parseBoolean(valores.pop());
+                    boolean c = Boolean.parseBoolean(valores.pop());
+                    boolean b = Boolean.parseBoolean(valores.pop());
+				    boolean a = Boolean.parseBoolean(valores.pop());
+				    stack.push(Boolean.toString(a || b || c || d));
+				    return operacao(exp, stack, valores, p+1);
+                }
+			}
+		}
+		stack.push(item);
+		return operacao(exp, stack, valores, p+1);
+	}
+
+	public static boolean trocaDeValores(int[] vet, String exp) {
+		String novaExp = "";
+		for(int i = 0; i < exp.length(); i++) {
+			char letra = exp.charAt(i);
+			if(letra == 'A') {
+				if(vet[0] == 1) {
+					novaExp = novaExp + "true";
+				} else {
+					novaExp = novaExp + "false";
+				}
+			} else if(letra == 'B') {
+				if(vet[1] == 1) {
+					novaExp = novaExp + "true";
+				} else {
+					novaExp = novaExp + "false";
+				}
+			} else if(letra == 'C') {
+				if(vet[2] == 1) {
+					novaExp = novaExp + "true";
+				} else {
+					novaExp = novaExp + "false";
+				}
+			} else {
+				novaExp = novaExp + letra;
+			}
+		}
+		novaExp = novaExp.replace(",", "");
+		String[] expressao = novaExp.split("(?<=\\b(or|and|not)\\b)|(?=[(),])|(?<=[(),])|\\s+");
+        for (int i = 0; i < expressao.length; i++) {
+            expressao[i] = expressao[i].trim();
+        }
+		Stack<String> stack = new Stack<>();
+		Stack<String>valores = new Stack<>();
+		return operacao(expressao, stack, valores, 0);
+	}
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		int n = input.nextInt();
+		while(n != 0) {
+			int[] vet = new int[n];
+			String exp = "";
+			for(int i = 0; i < n; i++) {
+				vet[i] = input.nextInt();
+			}
+			exp = input.nextLine();
+			boolean result = trocaDeValores(vet, exp);
+			if(result == true) {
+				System.out.println(1);
+			} else {
+				System.out.println(0);
+			}
+			n = input.nextInt();
+		}
+	}
+}

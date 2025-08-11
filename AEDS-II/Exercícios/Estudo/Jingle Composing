@@ -1,0 +1,49 @@
+import java.util.*;
+public class Jingle{
+	public static int duracao(String str){
+		int cont = 0;
+		float duracao = 0;
+		for(int i = 1; i < str.length(); i++){
+			char c = str.charAt(i);
+			if(c == 'W'){
+				duracao += 1;
+			}
+			if(c == 'H'){
+				duracao += 0.5;
+			}
+			if(c == 'Q'){
+				duracao += 0.25;
+			}
+			if(c == 'E'){
+				duracao += 0.125;
+			}
+			if(c == 'S'){
+				duracao += 0.0625;
+			}
+			if(c == 'T'){
+				duracao += 0.03125;
+			}
+			if(c == 'X'){
+				duracao += 0.015625;
+			}
+			if(c == '/'){
+				if(duracao == 1){
+					cont += 1;
+				}
+				duracao = 0;
+			}
+		}
+		return cont;
+	}
+
+	public static void main(String[] args){
+		Scanner input = new Scanner(System.in);
+		String str = "";
+		str = input.nextLine();
+		while(!str.equals("*")){
+			int result = duracao(str);
+			System.out.println(result);
+			str = input.nextLine();	
+		}
+	}
+}

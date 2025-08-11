@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class lab1{
+	public static int maiuscula(String s, int tam, int cont){
+		if(tam == 0){
+			return cont;
+		}
+		char c = s.charAt(tam-1);
+		if(Character.isUpperCase(c)){
+			return maiuscula(s, tam-1, cont+1);
+		}else{
+			return maiuscula(s, tam-1, cont);	
+		}
+	}
+
+	public static int maiuscula(String s){
+		return maiuscula(s, s.length(), 0);
+	}
+
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		String s = "";
+		int result;
+		s = sc.nextLine();
+		while(!s.equals("FIM")){
+			result = maiuscula(s);
+			System.out.println(result);
+			s = sc.nextLine();
+		}
+		sc.close();
+	}
+}

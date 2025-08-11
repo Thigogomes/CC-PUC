@@ -1,0 +1,18 @@
+class Solution {
+    public int climbStairs(int n) {
+        int ant = 1, atu = 2, aux;
+        for(int i = 1; i < n; i++){
+            aux = atu;
+            atu += ant;
+            ant = aux;
+        }
+        return ant;
+    }
+    /*public static void main(String[] args){
+        int n, resp;
+        Scanner input = new Scanner(System.in);
+        n = input.nextInt();
+        resp = climbStairs(n);
+        System.out.println(resp);
+    }*/
+}

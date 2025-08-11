@@ -1,0 +1,97 @@
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    zoom: 70%; /*Gabriel: Adicionei esse zoom para que o usuário consiga ver mais opções ao invês de ficar limitado à poucos concursos ocupando quase toda sua tela*/
+    font-family: Arial, sans-serif;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #FF9900;
+}
+
+.barra-pesquisa {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.barra-pesquisa input {
+    padding: 8px;
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.barra-pesquisa button {
+    padding: 8px 16px;
+    background-color: #FF9900;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.barra-pesquisa button:hover {
+    background-color: #FF9900;
+}
+
+#simulado-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.simulado-caixinha {
+    background-color: #4D9DE0;
+    width: 320px;
+    margin: 10px;
+    padding: 16px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.simulado-caixinha:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.simulado-caixinha p {
+    margin: 5px 0;
+}
+
+.simulado-duracao, .simulado-dificuldade {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.simulado-caixinha button {
+    background-color: #FF9900;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.simulado-caixinha button:hover {
+    background-color: #e68a00;
+}

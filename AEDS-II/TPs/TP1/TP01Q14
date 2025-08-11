@@ -1,0 +1,55 @@
+import java.util.*;
+import java.io.*;
+
+public class ArquivoJava{
+    public static void escreverArquivo(String arq){
+        try(BufferedWriter escritor = new BufferedWriter(new FileWriter(arq))){
+            Scanner input = new Scanner(System.in);
+            String numero = input.nextLine();
+            int n = Integer.parseInt(numero);
+		    for(int i = 0; i < n; i++){
+		        String str = input.nextLine();
+		        escritor.write(str);
+		        escritor.newLine();
+		    }
+		} catch(Exception e){
+		    e.printStackTrace();
+		}
+    }
+    
+    public static void lerArquivo(String arq){
+        int n = 0;
+        try (BufferedReader leitor = new BufferedReader(new FileReader(arq))) {
+            while (leitor.readLine() != null) {
+                n++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        double[] numeros = new double[n];
+        double num;
+        try(BufferedReader leitor = new BufferedReader(new FileReader(arq))){
+            for(int i = 0; i < n; i++){
+                String linha = leitor.readLine();
+                num = Double.parseDouble(linha);
+                numeros[i] = num;
+            }
+            for(int i = n-1; i >= 0; i--){
+                num = numeros[i];
+                if(num % 1 == 0){
+                    System.out.println((int)num);
+                }else{
+                    System.out.println(num);
+                }
+            }
+        }catch(Exception e){
+		    e.printStackTrace();
+		}
+    }
+    
+	public static void main(String[] args) {
+		String arq = "arquivo.txt";
+		escreverArquivo(arq);
+		lerArquivo(arq);
+	}
+}

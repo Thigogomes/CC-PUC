@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct professor{
+    int num;
+    char nome[20];
+    int cod;
+    int total;
+}profe;
+
+typedef struct titulo{
+    int cod;
+    char descricao[50];
+    float valor;
+}titulo;
+
+void cadastroProfessor(profe *prof, int *m){
+    printf("-------------CADASTRO PROF-------------------\n");
+    profe p;
+    printf("DIGITE O CODIGO DO TITULO: ");
+    scanf("%d", &p.cod);
+    getchar();
+    printf("DIGITE O NOME: ");
+    fgets(p.nome, sizeof(p.nome), stdin);
+    if (p.nome[strlen(p.nome) - 1] == '\n') {
+        p.nome[strlen(p.nome) - 1] = '\0';
+    }
+    printf("DIGITE O NUMERO DE REGISTRO: ");
+    scanf("%d", &p.num);
+    printf("DIGITE TOTAL DE HORA POR SEMANA: ");
+    scanf("%d", &p.total);
+    *(prof + *m) = p;
+    *(m)++;
+}
+
+
+void cadastroTitulo(titulo *tit, int *n){
+    printf("-------------CADASTRO TITULO-----------------\n");
+    titulo t;
+    printf("DIGITE O CODIGO DO TITULO: ");
+    scanf("%d", &t.cod);
+    getchar();
+    printf("DIGITE A DESCRICAO: ");
+    fgets(t.descricao, sizeof(t.descricao), stdin);
+    if (t.descricao[strlen(t.descricao) - 1] == '\n') {
+        t.descricao[strlen(t.descricao) - 1] = '\0';
+    }
+    printf("DIGITE O VALOR POR HORA: ");
+    scanf("%f", &t.valor);
+    *(tit + *n) = t;
+    *(n)++;
+}
+
+void tabela(titulo *tit, profe *prof){
+    int i =0, x;
+    for(int j = 0; j < 5; j++){
+        if(prof[i].cod == tit[j].cod){
+            x = j;
+        }
+    }
+    float totalGeral = (prof[i].total) * (tit[x].valor);
+    printf("| N DE REGISTRO: %d\n", prof[i].num);
+    printf("| NOME: %s\n", prof[i].nome);
+    printf("| TITULO: %s\n", tit[x].descricao);
+    printf("| VALOR H/A: %.2f\n", tit[x].valor);
+    printf("| TOTAL H/A: %d\n", prof[i].total);
+    printf("| TOTAL GERAL: %.2f\n\n", totalGeral);
+}
+
+int main(){
+    titulo tit[5];
+    profe prof[14];
+    int n=0, m=0;
+    cadastroTitulo(tit, &n);
+    cadastroProfessor(prof,&m);
+    tabela(tit, prof);
+}

@@ -1,0 +1,95 @@
+import java.util.*;
+
+public class Is{
+    public static boolean vogais(String str, int tam){
+        if(tam == 0){
+            return true;
+        }
+        if(str.charAt(tam-1) == 'a' || str.charAt(tam-1) == 'e' || str.charAt(tam-1) == 'i' || str.charAt(tam-1) == 'o' || str.charAt(tam-1) == 'u'){
+            return vogais(str, tam-1);
+        }
+        return false;
+    }
+    
+    public static boolean vogais(String str){
+        int tam = str.length();
+        return vogais(str, tam);
+    }
+    
+    public static boolean consoante(String str, int tam, char carac){
+        if(tam == 0){
+            return true;
+        }
+        carac = str.charAt(tam-1);
+        if(str.charAt(tam-1) != 'a' && str.charAt(tam-1) == 'e' && str.charAt(tam-1) == 'i' && str.charAt(tam-1) == 'o' && str.charAt(tam-1) == 'u' && Character.isDigit(carac) == false){
+            return consoante(str, tam -1, carac);
+        }
+        return false;
+    }
+    
+    public static boolean consoante(String str){
+        int tam = str.length();
+        char carac = 'c';
+        return consoante(str, tam, carac);
+    }
+    
+    public static boolean real(String str, int tam, char carac, int cont){
+        if(tam == 0){
+            return true;
+        }
+        carac = str.charAt(tam-1);
+        if(Character.isDigit(carac)){
+            return real(str, tam-1, carac, cont);
+        }
+        if((carac == '.' || carac == ',') && cont == 0){
+            return real(str, tam-1, carac, cont+1);
+        }
+        return false;
+    }
+    
+    public static boolean real(String str){
+        int tam = str.length();
+        char carac = 'a';
+        return real(str, tam, carac, 0);
+    }
+    
+    public static boolean inteiro(String str, int tam, char carac){
+        if(tam == 0){
+            return true;
+        }
+        carac = str.charAt(tam-1);
+        if(Character.isDigit(carac)){
+            return inteiro(str, tam-1, carac);
+        }
+        return false;
+    }
+    
+    public static boolean inteiro(String str){
+        int tam = str.length();
+        char carac = 'a';
+        return inteiro(str, tam, carac);
+    }
+    
+    public static String resp(boolean x){
+        if(x == false){
+            return "NAO ";
+        }else{
+            return "SIM ";
+        }
+    }
+    
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		String str = "";
+		int x = 1;
+		while(x == 1){
+		    str = input.nextLine();
+		    if(str.equals("FIM")){
+		        x = -1;
+		    }else{
+		        System.out.println(resp(vogais(str)) + resp(consoante(str)) + resp(inteiro(str)) + resp(real(str)));
+		    }
+		}
+	    input.close();	
+	}
+}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Concursos</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/cadastrocs.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <a href="homepage.html"><img src="./assets/images/logo.png" class="logo"></a>
+        <div class="icones">
+            <a href="suaconta.html"><img src="./assets/images/suaconta.png" class="conta"></a>
+            <a href="config.html"><img src="./assets/images/config.png" class="config"></a>
+            <a href="notificacao.html"><img src="./assets/images/notificacoes.png" class="notificacao"></a>
+        </div>
+    </header>
+    <div class="container">
+        <h1>CADASTRO DE CONCURSOS</h1>
+        <form id="cadastro-form" action="/concurso" method="POST">
+            <div class="form-group upload-group">
+                <div class="upload-btn"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="nome_cadastro" name="nome_cadastro" placeholder="Nome">
+            </div>
+
+            <div class="form-group">
+                <input type="date" id="data-inscricao_cadastro" name="data-inscricao_cadastro" placeholder="Data inscrição">
+            </div>
+
+            <div class="form-group">
+                <input type="date" id="data-prova_cadastro" name="data-prova_cadastro" placeholder="Data prova">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="categoria_cadastro" name="categoria_cadastro" placeholder="Categoria">
+            </div>
+                        
+            <div class="form-group">
+                <input type="text" id="cargo_cadastro" name="cargo_cadastro" placeholder="Cargo">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="nivel-ensino_cadastro" name="nivel-ensino_cadastro" placeholder="Nível de ensino">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="banca_cadastro" name="banca_cadastro" placeholder="Banca">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="orgao_cadastro" name="orgao_cadastro" placeholder="Orgao">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="localizacao_cadastro" name="localizacao_cadastro" placeholder="Localização">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="horario_cadastro" name="horario_cadastro" placeholder="Horário">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="status_cadastro" name="status_cadastro" placeholder="Status">
+            </div>
+
+            <div class="form-group">
+                <textarea id="descricao_cadastro" name="descricao_cadastro" placeholder="Descrição"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="url" id="link_cadastro" name="link_cadastro" placeholder="Link">
+            </div>
+
+            <div class="form-group">
+                <textarea id="materiais_cadastro" name="materiais_cadastro" placeholder="Materiais de Estudo"></textarea>
+            </div>
+
+            <button type="submit" value="Adicionar Concurso">CADASTRAR</button>
+        </form>
+
+        
+    </div>
+
+    <div class="container">
+        <h1>ATUALIZAÇÃO DE CONCURSOS</h1>
+        <form id="atualizacao-form" onsubmit="this.action = '/concurso/update/' + document.getElementById('cod').value;" method="POST">
+            <div class="form-group upload-group">
+                <div class="upload-btn"></div>
+            </div>
+
+            <input type="hidden" name="_method" value="PUT">
+            
+            <div class="form-group">
+                <input type="text" id="cod" name="cod" placeholder="Codigo de Cadastro do Concurso">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="nome" name="nome" placeholder="Nome">
+            </div>
+
+            <div class="form-group">
+                <input type="date" id="data-inscricao" name="data-inscricao" placeholder="Data inscrição">
+            </div>
+
+            <div class="form-group">
+                <input type="date" id="data-prova" name="data-prova" placeholder="Data prova">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="categoria" name="categoria" placeholder="Categoria">
+            </div>
+                        
+            <div class="form-group">
+                <input type="text" id="cargo" name="cargo" placeholder="Cargo">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="nivel-ensino" name="nivel-ensino" placeholder="Nível de ensino">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="banca" name="banca" placeholder="Banca">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="orgao" name="orgao" placeholder="Orgao">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="localizacao" name="localizacao" placeholder="Localização">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="horario" name="horario" placeholder="Horário">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="status" name="status" placeholder="Status">
+            </div>
+
+            <div class="form-group">
+                <textarea id="descricao" name="descricao" placeholder="Descrição"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="url" id="link" name="link" placeholder="Link">
+            </div>
+
+            <div class="form-group">
+                <textarea id="materiais" name="materiais" placeholder="Materiais de Estudo"></textarea>
+            </div>
+
+            <button type="submit" value="Atualizar Concurso">ATUALIZAR</button>
+        </form>
+
+    </div>
+
+    <div class="container">
+        <h1>DELETAR CONCURSOS</h1>
+        <form id="delecao-form" onsubmit="this.action = '/concurso/delete/' + document.getElementById('id').value;" method="GET">
+            <div class="form-group upload-group">
+                <div class="upload-btn"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="id" name="id" placeholder="Codigo de Cadastro do Concurso">
+            </div>
+
+            <button type="submit" value="Deletar Concurso">DELETAR</button>
+        </form>
+    </div>
+
+
+    <div class="container">
+        <h1>BUSCAR CONCURSOS</h1>
+        <form id="busca-form" onsubmit="this.action = '/concurso/' + document.getElementById('detalhes_id').value;" method="GET">
+            <div class="form-group upload-group">
+                <div class="upload-btn"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="detalhes_id" name="detalhes_id" placeholder="Codigo de Cadastro do Concurso">
+            </div>
+
+            <button type="submit">BUSCAR</button>
+        </form>
+    </div>
+    <script src="./assets/js/cadastroconcursos.js"></script>
+</body>
+<footer>
+    <p>&copy; 2024 VagaCerta. Todos os direitos reservados.</p>
+    <p>Contato: vagacerta@gmail.com</p>
+</footer>
+</html>

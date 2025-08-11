@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class SequenciaEspelho{
+    public static String sequenciaEspelho(int n1, int n2){
+        String x = "";
+        String esp = "";
+        for(int i = n1; i < n2+1; i++){
+            x += i;
+        }
+        for(int i = n2; i > n1-1; i--){
+            int j = i;
+            while(j != 0){
+                esp += (j % 10);
+                j /= 10;
+            }
+        }
+        x = x + esp;
+        return x;
+    }
+    
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		int n1, n2;
+		String result = "";
+		while(input.hasNext()){
+		    n1 = input.nextInt();
+		    n2 = input.nextInt();
+		    result = sequenciaEspelho(n1, n2);
+		    System.out.println(result); 
+		}
+		input.close();
+	}
+}

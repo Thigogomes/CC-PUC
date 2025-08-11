@@ -1,0 +1,51 @@
+import java.util.*;
+
+public class ControleDeAvioes {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int p;
+		String item = "";
+		p = sc.nextInt();
+		sc.nextLine();
+		ArrayList<String> norte = new ArrayList<>();
+		ArrayList<String> sul = new ArrayList<>();
+		ArrayList<String> leste = new ArrayList<>();
+		ArrayList<String> oeste = new ArrayList<>();
+		ArrayList<String> lista = new ArrayList<>();
+		while(p != 0) {
+			while(!sc.hasNextInt()) {
+			    item = sc.nextLine();
+				if(p == -1) {
+					oeste.add(item);
+				}else if(p == -2) {
+					sul.add(item);
+				}else if(p == -3) {
+					norte.add(item);
+				}else if(p == -4) {
+					leste.add(item);
+				}
+			}
+			p = sc.nextInt();
+			if(p != 0){
+			    sc.nextLine();
+			}
+		}
+		while(!oeste.isEmpty() || !leste.isEmpty() || !norte.isEmpty() || !sul.isEmpty()){
+		    if(!oeste.isEmpty()){
+		        lista.add(oeste.remove(0));
+		    }
+		    if(!norte.isEmpty()){
+		        lista.add(norte.remove(0));
+		    }
+		    if(!sul.isEmpty()){
+		        lista.add(sul.remove(0));
+		    }
+		    if(!leste.isEmpty()){
+		        lista.add(leste.remove(0));
+		    }
+		}
+		while(!lista.isEmpty()){
+		    System.out.print(lista.remove(0) + " ");
+		}
+	}
+}
