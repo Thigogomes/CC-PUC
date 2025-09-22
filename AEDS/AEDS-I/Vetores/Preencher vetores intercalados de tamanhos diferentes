@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int *preencherVetor(int);
+void imprimirVetor(int *, int);
+void intercalarVetor(int *, int *, int, int);
+
+int main(){
+    int tam1, tam2;
+    printf("DIGITE O TAMANHO DO VETOR 1 E DO VETOR 2:");
+    scanf("%d %d", &tam1, &tam2);
+
+    int *vet1= preencherVetor(tam1);
+    int *vet2= preencherVetor(tam2);
+
+    intercalarVetor(vet1,vet2,tam1,tam2);
+
+    free(vet1);
+    free(vet2);
+}
+
+int *preencherVetor(int tam){
+    int *vet = (int *)malloc(tam*sizeof(int));
+    for (int i = 0; i < tam; i++){
+        scanf("%d", & *(vet+i));
+    }
+    return vet;
+}
+
+void imprimirVetor(int *vet, int tam){
+    for (int i = 0; i < tam; i++){
+        printf("%d ", vet[i]);
+    }
+}
+
+void intercalarVetor(int *vet1,int *vet2,int tam1, int tam2){
+    int tam3= tam1+tam2, menor, maior, j=0;
+    int *vet3 = (int *)malloc(tam3*sizeof(int));
+
+    if(tam1 < tam2){
+        menor = tam1;
+        maior = tam2;
+    }else{
+        menor = tam2;
+        maior = tam1;
+    }
+
+    for(int i = 0; i < menor; i++){
+        vet3[j]= vet1[i];
+        j++;
+        vet3[j] = vet2[i];
+        j++;
+    }
+
+    if(menor == tam1){
+        for(int i = 0; i < maior - menor; i++){
+            vet3[j] = vet2[menor +i];
+            j++;
+        }
+    }else{
+        for(int i = 0; i < maior - menor; i++){
+            vet3[j] = vet1[menor +i];
+            j++;
+        }
+    }
+    imprimirVetor(vet3, tam3);
+    free(vet3);
+}
+

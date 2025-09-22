@@ -1,0 +1,53 @@
+#include<stdio.h>
+
+typedef struct time{
+    int hora;
+    int min;
+    int seg;
+}time;
+
+int transformar(time tempo){
+    int s=0;
+    s = s + tempo.hora*60*60;
+    s = s + tempo.min*60;
+    s = s + tempo.seg;
+    return s;
+}
+
+time volta(int segTotal){
+    time tempo;
+    if(segTotal == 0){
+        tempo.hora = 24;
+        tempo.min = 0;
+         tempo.seg = 0;
+    }else{
+        tempo.hora = segTotal/60/60;
+        segTotal = segTotal%3600;
+        tempo.min = segTotal/60;
+        segTotal = segTotal%60;
+        tempo.seg = segTotal;
+    }
+    return tempo;
+}
+
+int main(){
+    time inicio, fim, duracao;
+    printf("DIGITE O HORARIO DE INICIO: ");
+    scanf("%d", &inicio.hora);
+    scanf("%d", &inicio.min);
+    scanf("%d", &inicio.seg);
+    printf("DIGITE O HORARIO DE TERMINO: ");
+    scanf("%d", &fim.hora);
+    scanf("%d", &fim.min);
+    scanf("%d", &fim.seg);
+    int segi = transformar(inicio);
+    int segf = transformar(fim);
+    int segTotal = segf - segi;
+    if(segTotal >= 0){
+        duracao = volta(segTotal);
+    }else{
+        segTotal = (24*60*60) - segi +segf;
+        duracao = volta(segTotal);
+    }
+     printf("DURACAO: %02d : %02d : %02d", duracao.hora, duracao.min, duracao.seg);
+}

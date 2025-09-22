@@ -1,0 +1,25 @@
+/*Crie uma função que recebe uma string e um caractere, e retorne o número de vezes que esse caractere aparece na string.*/
+
+#include<stdio.h>
+
+int repeticao(char *str, char letra){
+    int cont = 0, i=0;
+    if(*(str) == '\0'){
+        return cont;
+    }else{
+        if(*(str) == letra || *(str+cont) == letra-32 || *(str+cont) == letra+32)
+            cont++;
+        i++;
+        return cont + repeticao(str+i, letra) ;
+    }
+}
+
+
+int main(){
+    char str[20], letra;
+    int n;
+    fgets(str,sizeof(str), stdin);
+    scanf(" %c", &letra);
+    n = repeticao(str,letra);
+    printf("%d", n);
+}

@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<locale.h>
+
+void imprimirMatriz(int[][3], int, int);
+void preencherMatriz(int[][3], int, int);
+int somaTrianguloSuperiorDaSegundaria(int[][3], int, int);
+
+int main(){
+    setlocale(LC_ALL, "Portuguese");
+    int mat[3][3], result;
+    preencherMatriz(mat,3,3);
+    result = somaTrianguloSuperiorDaSegundaria(mat, 3, 3);
+    printf("A soma é: %d", result);
+}
+
+void preencherMatriz(int mat[][3], int nlin, int ncol){
+    for(int i=0; i<nlin; i++){
+        for(int j = 0; j < ncol; j++){
+            scanf("%d", &mat[i][j]);
+        }
+    }
+    imprimirMatriz(mat, 3, 3);
+}
+
+void imprimirMatriz(int mat[][3], int nlin, int ncol){
+    printf("\n");
+    for(int i=0; i<nlin; i++){
+        for(int j = 0; j < ncol; j++){
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int somaTrianguloSuperiorDaSegundaria(int mat[][3], int nlin, int ncol){
+    int soma = 0;
+    for(int i=0; i<nlin; i++){
+        for(int j = 0; j < ncol; j++){
+            if(i+j < nlin-1){
+                soma = soma + mat[i][j];
+            }
+        }
+    }
+    return soma;
+}

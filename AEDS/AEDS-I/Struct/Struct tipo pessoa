@@ -1,0 +1,28 @@
+#include<stdio.h>
+
+typedef struct tipo_pessoa{
+    int idade;
+    float peso;
+    char nome[50];
+}tipo_pessoa;
+
+
+int main(){
+    tipo_pessoa lista[3];
+    for(int i = 0; i < 3; i++){
+        printf("DIGITE A IDADE: ");
+        scanf("%d", &lista[i].idade);
+        printf("DIGITE O PESO: ");
+        scanf("%f", &lista[i].peso);
+        printf("DIGITE O NOME: ");
+        getchar();
+        scanf("%50[^\n]", &lista[i].nome);
+    }
+    system("cls");
+    for(int i = 0; i < 3; i++){
+        printf("IDADE: %d\n", lista[i].idade);
+        printf("PESO: %.2f\n", lista[i].peso);
+        printf("NOME: %s\n", lista[i].nome);
+        printf("\n");
+    }
+}

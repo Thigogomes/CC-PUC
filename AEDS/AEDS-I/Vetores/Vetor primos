@@ -1,0 +1,23 @@
+/*vetor que receber 9 números e imprime os números primos e a posição*/
+
+#include<stdio.h>
+
+int main(){
+    int vet[9], cont = 0;
+
+    for(int i = 0; i < 9; i++){
+        scanf("%d", &vet[i]);
+    }
+
+    for(int i = 0; i < 9; i++){
+        for(int j = 2; j < (vet[i] - 1); j++){
+            if(vet[i] % j == 0){
+               cont++;
+            }
+        }
+        if(cont == 0){
+            printf("posicao: %d - numero: %d\n", i, vet[i]);
+        }
+        cont = 0;
+    }
+}

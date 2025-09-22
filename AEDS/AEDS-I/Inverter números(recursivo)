@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+void inverter(int num){
+    if (num < 10){
+        printf("%d", num);
+    }else{
+        printf("%d", num % 10);
+        inverter(num / 10);
+    }
+}
+
+int main() {
+    int num;
+    scanf("%d", &num);
+    inverter(num);
+}

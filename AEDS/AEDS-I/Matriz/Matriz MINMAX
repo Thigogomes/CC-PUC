@@ -1,0 +1,58 @@
+/* Na teoria dos sistemas, define-se o elemento MINMAX de uma matriz como o maior elemento da linha em que se encontra o menor elemento da matriz. 
+Elabore um programa que carregue uma matriz 4 x 7 com números reais, calcule e mostre seu MINMAX e sua posição (linha e coluna).*/
+
+#include<stdio.h>
+#include<stdlib.h>
+
+void preencher(int mat[][7]){
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 7; j++){
+            mat[i][j] = rand()%10;
+        }
+    }
+}
+
+void imprimir(int mat[][7]){
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 7; j++){
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void minmax(int mat[][7]){
+    int menor, idMenor, maior, idMaior;
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 7; j++){
+            if(i == 0 && j == 0){
+                menor = mat[i][j];
+                idMenor = i;
+            }
+            if(mat[i][j] < menor){
+                menor = mat[i][j];
+                idMenor = i;
+            }
+        }
+    }
+    for(int j = 0; j < 7; j++){
+        if(j == 0){
+            maior = mat[idMenor][j];
+            idMaior = j;
+        }
+        if(mat[idMenor][j] > maior){
+            maior = mat[idMenor][j];
+            idMaior = j;
+        }
+    }
+    printf("MINMAX: %d\n", mat[idMenor][idMaior]);
+    printf("LINHA: %d | COLUNA: %d", idMenor+1, idMaior+1);
+
+}
+
+int main(){
+    int mat[4][7];
+    preencher(mat);
+    imprimir(mat);
+    minmax(mat);
+}

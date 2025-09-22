@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void incrementar (int *);
+
+int main() {
+    int x = 2;
+    int *y = &x;
+    incrementar(y);
+    printf("Valor após incremento: %d\n", x);
+    incrementar(&x);
+    printf("Valor após incremento: %d\n", x);
+}
+void incrementar(int *x) {
+    (*x)++;
+}

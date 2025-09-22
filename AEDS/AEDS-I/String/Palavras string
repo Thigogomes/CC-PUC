@@ -1,0 +1,24 @@
+/* Faça um programa que receba uma frase, calcule e mostre a quantidade de palavras da frase digitada.*/
+
+#include<stdio.h>
+
+int palavras(char *);
+
+int main(){
+    char str[50];
+    int n;
+    fgets(str,sizeof(str),stdin);
+    n = palavras(str);
+    printf("%d", n);
+}
+
+int palavras(char *str){
+    int i = 0, cont = 0;
+    while(*(str+i) != '\0'){
+        if(*(str+i) == ' '){
+            cont++;
+        }
+        i++;
+    }
+    return cont+1;
+}

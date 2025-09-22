@@ -1,0 +1,49 @@
+#include<iostream>
+
+using namespace std;
+
+class Aluno{
+private:
+    int matricula;
+    string nome;
+    float notaTrabalho;
+    float p1;
+    float p2;
+public:
+    Aluno(int matricula, string nome, float notaTrabalho, float p1, float p2){
+        this -> matricula = matricula;
+        this -> nome = nome;
+        this -> notaTrabalho = notaTrabalho;
+        this -> p1 = p1;
+        this -> p2 = p2;
+    }
+    float mediaNotas(){
+        float media;
+        media = ((notaTrabalho*2) + (p1*2.5) + (p2*2.5)) / 7;
+        return media;
+    }
+    int fim(float media){
+        if(media >= 6){
+            return 0;
+        }else{
+            return (6 - media)*2;
+        }
+    }
+    void visualizar(){
+        cout << "Matricula: " << matricula << endl;
+        cout << "Nome: " << nome << endl;
+        cout << "Nota do trabalho: " << notaTrabalho << endl;
+        cout << "Nota da prova 1: " << p1 << endl;
+        cout << "Nota da prova 2: " << p2 << endl;
+        cout << "Media: " << mediaNotas() << endl;
+        cout << "Nota para a final: " << fim(mediaNotas()) << endl;
+    }
+    ~Aluno(){
+    }
+};
+
+int main(){
+    Aluno a1(123, "Maria", 6.5, 5, 9.8);
+    a1.visualizar();
+    return 0;
+}

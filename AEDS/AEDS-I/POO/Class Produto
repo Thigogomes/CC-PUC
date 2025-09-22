@@ -1,0 +1,64 @@
+#include<iostream>
+#include <iomanip>
+#include<string>
+#include <algorithm>
+
+using namespace std;
+
+class Produto{
+private:
+    string nome;
+    float preco;
+public:
+    Produto(){
+        cout << "Digite o nome do produto: " << endl;
+        if (cin.peek() == '\n') cin.ignore();
+        getline(cin, nome);
+        cout << "Digite o preco do produto: " << endl;
+        cin >> preco;
+        nome.erase(remove(nome.begin(), nome.end(), '\n'), nome.end());
+        nome.erase(remove(nome.begin(), nome.end(), '\r'), nome.end());
+        cout << "Produto criado: " << nome << " - Preco: " << fixed << setprecision(2) << preco << endl;
+    };
+    ~Produto(){
+        cout << "Produto destruido: " << nome << endl;
+    }
+};
+
+int main(){
+    Produto p;
+
+    return 0;
+}
+#include<iostream>
+#include <iomanip>
+#include<string>
+#include <algorithm>
+
+using namespace std;
+
+class Produto{
+private:
+    string nome;
+    float preco;
+public:
+    Produto(){
+        cout << "Digite o nome do produto: " << endl;
+        if (cin.peek() == '\n') cin.ignore();
+        getline(cin, nome);
+        cout << "Digite o preco do produto: " << endl;
+        cin >> preco;
+        nome.erase(remove(nome.begin(), nome.end(), '\n'), nome.end());
+        nome.erase(remove(nome.begin(), nome.end(), '\r'), nome.end());
+        cout << "Produto criado: " << nome << " - Preco: " << fixed << setprecision(2) << preco << endl;
+    };
+    ~Produto(){
+        cout << "Produto destruido: " << nome << endl;
+    }
+};
+
+int main(){
+    Produto p;
+
+    return 0;
+}

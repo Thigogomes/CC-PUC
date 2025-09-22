@@ -1,0 +1,24 @@
+/*OBI 2023 - Fase 1 - Programação Nível 2 - Estoque*/
+
+#include <stdio.h>
+
+int main(){
+    int mat[3][3], res=0, p, lin, col;
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            printf("DIGITE O ESTOQUE DO ITEM COM COORDENADAS %d E %d: ", i, j);
+            printf("%d", &mat[i][j]);
+        }
+    }
+    printf("DIGITE A QUANTIDADE DE ITENS VENDIDOS: ");
+    scanf("%d", &p);
+    for(int k = 0; k < p; k++){
+        printf("DIGITE A COORDENADA DO ITEM VENDIDO: ");
+        scanf("%d %d", &lin, &col);
+        if(mat[lin][col] > 0){
+            res++;
+            mat[lin][col]--;
+        }
+    }
+    printf("A RESPOSTA: %d", res);
+}

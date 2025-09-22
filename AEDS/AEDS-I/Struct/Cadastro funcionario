@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<string.h>
+
+typedef struct info{
+    char nome[20];
+    int horas;
+    char turno;
+    char categ;
+    float valor;
+}info;
+
+info cadastro(){
+    info func;
+    getchar();
+    printf("DIGITE O NOME: ");
+    fgets(func.nome, sizeof(func.nome), stdin);
+    if (func.nome[strlen(func.nome) - 1] == '\n') {
+        func.nome[strlen(func.nome) - 1] = '\0';
+    }
+    printf("NUMERO DE HORAS TRABALHADAS: ");
+    scanf("%d", &func.horas);
+
+    while(func.turno != 'M' && func.turno != 'D'&& func.turno != 'V'){
+        printf("TURNO: ");
+        scanf(" %c", &func.turno);
+    }
+    while(func.categ != 'G'&& func.categ != 'O'){
+        printf("CATEGORIA: ");
+        scanf(" %c", &func.categ);
+    }
+    if(func.turno == 'M'|| func.turno =='V'){
+        if(func.categ == 'O'){
+            func.valor = (550 * 10/100);
+        }else{
+            func.valor = (550 * 15/100);
+        }
+    }else{
+        if(func.categ == 'O'){
+            func.valor = (550 * 13/100);
+        }else{
+            func.valor = (550 * 18/100);
+        }
+    }
+
+    return func;
+}
+
+int main(){
+    info func[18];
+    int opcao;
+    int i = 0;
+    while(opcao > -1){
+        printf("1. Cadastrar funcionários\n");
+        printf("2. Mostrar folha de pagamento. \n");
+        printf("3. Sair.\n");
+        scanf("%d", &opcao);
+        if(opcao == 1){
+            func[i] = cadastro();
+            i++;
+        }else if(opcao == 2){
+            int x;
+            printf("DIGITE QUAL FUNCIONARIO: \n");
+            scanf("%d", &x);
+            float salarioInicial = func[x].valor * func[x].horas;
+            float alimentacao;
+            float salarioFinal;
+            if(salarioInicial <= 550){
+                alimentacao = (salarioInicial * 20/100);
+            }else if(salarioInicial > 550 || salarioInicial < 800){
+                alimentacao = salarioInicial * 15/100;
+            }else{
+                alimentacao = salarioInicial * 5/100;
+            }
+            salarioFinal = alimentacao + salarioInicial;
+            printf("NOME: %s\n", func[x].nome);
+            printf("NUMERO DE HORAS TRABALHADAS: %d\n", func[x].horas);
+            printf("VALOR DA HORA: %.2f\n", func[x].valor);
+            printf("SALARIO INICIAL: %.2f\n", salarioInicial);
+            printf("AUXILIO ALIMENTACAO: %.2f\n", alimentacao);
+            printf("SALARIO FINAL: %.2f\n", salarioFinal);
+        }else{
+            printf("OUT\n");
+            opcao = -1;
+        }
+    }
+}

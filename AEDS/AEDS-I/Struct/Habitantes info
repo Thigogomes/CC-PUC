@@ -1,0 +1,62 @@
+/* A prefeitura de uma cidade fez uma pesquisa entre seus habitantes, coletando dados sobre o salário, 
+idade, sexo e número de filhos.
+rie um programa que leia os dados de um número indeterminado de pessoas e, ao final, mostre:
+a) a média de idade das mulheres com salário inferior a R$ 700,00; 
+b) a média de salário da população; 
+c) a média do número de filhos; 
+d) o maior salário; 
+e) a menor idade. 
+A leitura terminará quando for digitada idade igual a zero.*/
+
+#include<stdio.h>
+#include<string.h>
+
+typedef struct info{
+    float salario;
+    int idade;
+    char sexo;
+    int num;
+}info;
+
+int main(){
+    info hab;
+    hab.idade = 1;
+    int cont=0,somaf=0, somai=0, menor, contm=0;
+    float somas=0, maior=0,mediaf,medias,mediam;
+    while(hab.idade > 0){
+        printf("DIGITE A IDADE: ");
+        scanf("%d", &hab.idade);
+        if(hab.idade > 0){
+            printf("DIGITE SEXO: ");
+            scanf(" %c", &hab.sexo);
+            printf("DIGITE SEU SALARIO: ");
+            scanf("%f", &hab.salario);
+            printf("DIGITE O NUMERO DE FILHOS: ");
+            scanf("%d", &hab.num);
+            if(cont == 0){
+                menor = hab.idade;
+            }
+            if(menor > hab.idade){
+                menor = hab.idade;
+            }
+            if(maior < hab.salario){
+                maior = hab.salario;
+            }
+            somaf = somaf + hab.num;
+            somas = somas + hab.salario;
+            if(hab.sexo == 'F'&& hab.salario < 700){
+                somai = somai + hab.idade;
+                contm++;
+            }
+            cont++;
+        }
+    }
+    mediaf = somaf/cont;
+    medias = somas/cont;
+    mediam = somai/contm;
+    printf("MEDIA DE FILHOS: %.2f\n", mediaf);
+    printf("MEDIA DE SALARIO: %.2f\n", medias);
+    printf("MENOR IDADE: %d\n", menor);
+    printf("MAIOR SALARIO: %.2f\n", maior);
+    printf("A MEDIA DE IDADE DAS MULHERES COM SALARIOS MENORES QUE 700: %.2f", mediam );
+}

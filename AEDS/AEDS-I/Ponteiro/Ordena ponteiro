@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int ordena (int *x, int *y, int *z){
+    int aux;
+    if(*x > *y){
+        aux = *x;
+        *x = *y;
+        *y = aux;
+    }
+    if(*x > *z){
+        aux = *x;
+        *x = *z;
+        *z = aux;
+    }
+    if(*y > *z){
+        aux = *y;
+        *y = *z;
+        *z = aux;
+    }
+
+
+    if(*x == *y && *x == *z){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int main(){
+    int x;
+    int y;
+    int z;
+    scanf("%d", &x);
+    scanf("%d", &y);
+    scanf("%d", &z);
+    int r = ordena(&x, &y, &z);
+    printf("%d\n", r);
+    printf("%d %d %d", x, y, z);
+}

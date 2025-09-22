@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+
+int main(){
+    int P, D, B, soma;
+    cout << "DIGITE O NÚMERO DE PÃES VENDIDOS NA SEMANA: ";
+    cin >> P;
+    cout << "DIGITE O NÚMERO DE DOCES VENDIDOS NA SEMANA: ";
+    cin >> D;
+    D = D * 2;
+    cout << "DIGITE O NÚMERO DE BOLOS VENDIDOS NA SEMANA: ";
+    cin >> B;
+    B = B * 3;
+    soma = P + D + B;
+    
+    if(soma >= 150){
+        cout << "B";
+    } else if(soma >= 120){
+        cout << "D";
+    } else if(soma >= 100){
+        cout << "P";
+    } else {
+        cout << "N";
+    }
+
+    return 0;
+}

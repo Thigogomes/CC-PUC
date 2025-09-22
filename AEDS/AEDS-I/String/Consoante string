@@ -1,0 +1,31 @@
+/*aça um programa que receba uma frase, calcule e mostre a quantidade de consoantes da frase digitada.
+O programa deverá contar consoantes maiúsculas e minúsculas.*/
+
+#include<stdio.h>
+
+int consoante(char *);
+
+int main(){
+    char str[20];
+    int n;
+    fgets(str,sizeof(str),stdin);
+    n = consoante(str);
+    printf("%d", n);
+}
+
+int consoante(char *str){
+    int i =0, cont=0, k=0;
+    while(*(str+k) != '\0'){
+        k++;
+    }
+    if(str[k-1] == '\n'){
+        str[k-1] = '\0';
+    }
+    while(*(str+i) != '\0'){
+        if(*(str+i) != 'a'&&*(str+i) != 'e'&&*(str+i) != 'i' &&*(str+i) != 'o'&&*(str+i) != 'u' &&*(str+i) != 'A'&&*(str+i) != 'E'&&*(str+i) != 'I' &&*(str+i) != 'O'&&*(str+i) != 'U'){
+            cont++;
+        }
+        i++;
+    }
+    return cont;
+}

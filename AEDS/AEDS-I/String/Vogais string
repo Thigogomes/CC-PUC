@@ -1,0 +1,27 @@
+/*aça um programa que receba uma frase, calcule e mostre a quantidade de vogais da frase digitada. O
+programa deverá contar vogais maiúsculas e minúsculas.*/
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int vogais(char *str){
+    int i =0, cont=0;
+    while(*(str+i) != '\0'){
+        if(*(str+i) == 'a'||*(str+i) == 'e'||*(str+i) == 'i' ||*(str+i) == 'o'||*(str+i) == 'u'){
+            cont++;
+        }
+        if(*(str+i) == 'A'||*(str+i) == 'E'||*(str+i) == 'I' ||*(str+i) == 'O'||*(str+i) == 'U'){
+            cont++;
+        }
+        i++;
+    }
+    return cont;
+}
+
+int main(){
+    char str[20];
+    int n;
+    fgets(str,sizeof(str),stdin);
+    n = vogais(str);
+    printf("%d", n);
+}

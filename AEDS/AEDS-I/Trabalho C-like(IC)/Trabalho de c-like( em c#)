@@ -1,0 +1,30 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("DIGITE O NUMERO DE PAES VENDIDOS NA SEMANA:");
+        int P = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("DIGITE O NUMERO DE DOCES VENDIDOS NA SEMANA:");
+        int D = int.Parse(Console.ReadLine());
+        D = D * 2;
+
+        Console.WriteLine("DIGITE O NUMERO DE BOLOS VENDIDOS NA SEMANA:");
+        int B = int.Parse(Console.ReadLine());
+        B = B * 3;
+
+        int soma = P + D + B;
+
+        if (soma >= 150){
+            Console.WriteLine("B");
+        }else if (soma >= 120){
+            Console.WriteLine("D");
+        }else if (soma >= 100){
+            Console.WriteLine("P");
+        }else{
+            Console.WriteLine("N");
+        }
+    }
+}

@@ -1,0 +1,39 @@
+#include<iostream>
+
+using namespace std;
+
+class Retangulo{
+private:
+    int largura;
+    int altura;
+public:
+    void calcularArea(){
+        cout << altura * largura << endl;
+    }
+    void setAltura(int a){
+        altura = a;
+    }
+    int getAltura(){
+        return altura;
+    }
+    void setLargura(int l){
+        largura = l;
+    }
+    int getLargura(){
+        return largura;
+    }
+};
+
+int main(){
+    Retangulo r;
+    int largura, altura;
+    cout << "Digite a largura: " << endl;
+    cin >> largura;
+    r.setLargura(largura);
+    cout << "Digite a altura: " << endl;
+    cin >> altura;
+    r.setAltura(altura);
+    cout << "\nArea: " << endl;
+    r.calcularArea();
+    return 0;
+}

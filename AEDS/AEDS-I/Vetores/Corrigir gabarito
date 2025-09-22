@@ -1,0 +1,36 @@
+/* Faça um programa para corrigir provas de múltipla escolha. Cada prova tem oito questões ecada questão vale um ponto.
+O primeiro conjunto de dados a ser lido é o gabarito da prova. Os outros dados são os números dos alunos e as respostas que deram às questões. 
+Existem dez alunos matriculados. 
+Calcule e mostre:
+*O número e a nota de cada aluno; e
+*A porcentagem de aprovação, sabendo-se que a nota mínima é 6. */
+
+#include<stdio.h>
+
+int main(){
+    char gabarito[8], resposta;
+    int num;
+    float nota=0, porc_aprovacao, total_aprovados;
+    printf("DIGITE O GABARITO: ");
+    for(int i = 0; i < 8; i++){
+        scanf(" %c", &gabarito[i]);
+    }
+    for(int i=0; i < 10; i++){
+        printf("DIGITE O NUMERO DO ALUNO: \n");
+        scanf("%d", &num);
+        for(int j = 0; j < 8; j++){
+            printf("DIGITE A RESPOSTA DA QUESTAO: %d\n", j+1);
+            scanf(" %c", &resposta);
+            if(gabarito[j] == resposta){
+                nota++;
+            }
+        }
+        printf("A NOTA DO ALUNO %d FOI %.0f\n", num, nota);
+        if(nota >= 6){
+            total_aprovados++;
+        }
+        nota = 0;
+    }
+    porc_aprovacao = (total_aprovados*100)/10;
+    printf("A PORCENTAGEM DE APROVADOS FOI: %.2f%%", porc_aprovacao);
+}

@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+void preencher(int *, int);
+void imprimir(int *, int);
+
+int main(){
+    int n;
+    scanf("%d", &n);
+    int *vet = (int *)malloc(n*sizeof(int));
+    preencher(vet, n);
+    imprimir(vet, n);
+    free(vet);
+}
+
+void preencher(int *vet, int n){
+    for(int i = 0; i < n; i++){
+        scanf("%d", vet+i);
+    }
+}
+
+void imprimir(int *vet, int n){
+    for(int i = 0; i < n; i++){
+        printf("%d ", *(vet+i));
+    }
+}

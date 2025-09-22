@@ -1,0 +1,72 @@
+#include<stdio.h>
+
+typedef struct dadosProduto{
+    int id;
+    char nome[20];
+    float preco;
+    int quant;
+}dados;
+
+dados cadastro(){
+    dados p;
+    printf("DIGITE O ID: ");
+    scanf("%d", &p.id);
+    getchar();
+    printf("DIGITE O NOME: ");
+    fgets(p.nome,sizeof(p.nome),stdin);
+    printf("DIGITE O PRECO: ");
+    scanf("%f", &p.preco);
+    printf("DIGITE A QUANTIDADE: ");
+    scanf("%d", &p.quant);
+    return p;
+}
+
+float precoMedio(dados *produtos, int n){
+    float soma=0, media;
+    for(int i = 0; i < n; i++){
+        soma = soma + produtos[i].preco;
+    }
+    media = soma / n;
+    return media;
+}
+
+void venda(dados *produtos, int n){
+    int x, v;
+    printf("DIGITE O ID DO PRODUTO VENDIDO: ");
+    scanf("%d", &x);
+    printf("QUANTOS PRODUTOS FORAM VENDIDOS: ");
+    scanf("%d", &v);
+    for(int i = 0; i < n; i++){
+        if( produtos[i].id == x){
+            produtos[i].quant = produtos[i].quant - v;
+        }
+    }
+}
+
+void imprimir(dados *produtos){
+    int i =0, n;
+    printf("DIGITE O ID DO PRODUTO: ");
+    scanf("%d", &n);
+    while(n != produtos[i].id){
+        i++;
+    }
+    printf("ID: %d\n", produtos[i].id);
+    printf("NOME: %s\n", produtos[i].nome);
+    printf("PRECO: %.2f\n", produtos[i].preco);
+    printf("QUANTIDADE: %d", produtos[i].quant);
+}
+
+int main(){
+    int n;
+    float precoM;
+    printf("DIGITE O NUMERO DE PRODUTOS: ");
+    scanf("%d", &n);
+    dados produtos[n];
+    for(int i = 0; i < n; i++){
+        produtos[i] = cadastro();
+    }
+    precoM = precoMedio(produtos, n);
+    printf("PRECO MEDIO: %.2f\n", precoM);
+    venda(produtos, n);
+    imprimir(produtos);
+}

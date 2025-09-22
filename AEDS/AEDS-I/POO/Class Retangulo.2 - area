@@ -1,0 +1,34 @@
+#include<iostream>
+
+using namespace std;
+
+class Retangulo{
+private:
+    int largura;
+    int altura;
+public:
+    Retangulo(){
+        altura = 0;
+        largura = 0;
+    }
+    void leitura(){
+        cout << "Digite a largura: " << endl;
+        cin >> largura;
+        cout << "Digite a altura: " << endl;
+        cin >> altura;
+    }
+    int calcularArea(){
+        return altura * largura;
+    }
+    void imprimir(){
+        cout << "Area: " << endl;
+        cout << calcularArea() << endl;
+    }
+};
+
+int main(){
+    Retangulo r;
+    r.leitura();
+    r.imprimir();
+    return 0;
+}

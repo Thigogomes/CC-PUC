@@ -1,0 +1,32 @@
+#include<iostream>
+#include <iomanip>
+
+using namespace std;
+
+class Circulo{
+private:
+    float raio;
+public:
+    Circulo(){
+        raio = 0;
+    }
+    void lerRaio(){
+        cout << "Digite o raio: " << endl;
+        cin >> raio;
+    }
+    float calcularCircunferencia (float pi){
+        return 2 * raio * pi;
+    }
+    void imprimir(float pi){
+        cout << "Raio:" << fixed << setprecision(2) << raio << endl;
+        cout << "Circunferencia do circulo: " << fixed << setprecision(2) << calcularCircunferencia(pi) << endl;
+    }
+};
+
+int main(){
+    Circulo c;
+    float pi = 3.14159;
+    c.lerRaio();
+    c.imprimir(pi);
+    return 0;
+}

@@ -1,0 +1,25 @@
+/*OBI 2023 - Fase 1 - Programação Nível Junior - Epidemia*/
+
+#include <stdio.h>
+
+int main(){
+    int n, r, p;
+    printf("DIGITE A QUANTIDADE DE INFECTADOS INICIAIS: ");
+    scanf("%d", &n);
+    printf("DIGITE O FATOR REPRODUTIVO: ");
+    scanf("%d", &r);
+    int infectados_totais = n, infectados_novos = n;
+    scanf("%d", &p);
+    for(int i =0; i < p;  i++){
+        if(n > p){
+            printf("0");
+        }else{
+            infectados_totais = infectados_totais + infectados_novos*r;
+            infectados_novos = infectados_novos*r;
+            if(infectados_totais >= p){
+                printf("i");
+                return 0;
+            }
+        }
+    }
+}
