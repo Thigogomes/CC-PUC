@@ -1,0 +1,53 @@
+// EXERCICIO PRÁTICO 05
+//
+
+long c;
+//byte i, j;
+//int i, j;
+volatile float x = 1.5, y = 3.0;
+long inicio, tempo, fim;
+
+void setup(){
+	Serial.begin(9600);
+}
+
+void loop(){
+	/*i = 1;
+	j = 3;
+    */
+  	inicio = micros();*/
+  
+  	//Tempo Base
+  	/*for(c = 0; c < 1000000; c++) i = j;
+  	fim = micros();*/
+  
+  	//Soma
+  	/*for(c = 0; c < 1000000; c++) i = i + 3;
+  	fim = micros();*/
+  	/*for(c = 0; c < 1000000; c++) i = i + j;
+  	fim = micros();*/
+  
+  	//Ou
+  	/*for(c = 0; c < 1000000; c++) i = i | 3;
+  	fim = micros();*/
+  	/*for(c = 0; c < 1000000; c++) i = i | j;
+  	fim = micros();*/
+  
+  	//Mult
+  	/*for(c = 0; c < 1000000; c++) x = x * 3.0;
+  	fim = micros();*/
+  	/*for(c = 0; c < 1000000; c++) x = x * y;
+  	fim = micros();*/
+}
+
+void cpi(float base, float r){
+  	float resp = r - base;
+	resp = resp*16;
+    Serial.println(resp, 6);
+}
+
+void mips(float base, float r){
+	float resp = r - base;
+  	resp = 1/resp;
+  	Serial.println(resp, 6);
+}
