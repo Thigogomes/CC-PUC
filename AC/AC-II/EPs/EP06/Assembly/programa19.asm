@@ -4,8 +4,6 @@
 #um. Coloque as respostas em $t0 e $t1, a partir desse resultado faça a multiplicação. Caso o número 
 #de bits significantes de ambos seja menor do que 32 a resposta deverá estar apenas em $s2, caso 
 #contrário a resposta estará em $s2 e $s3 (LO e HI respectivamente). 
-#Para os exercícios a seguir, considere as variáveis com números abaixo de 16 bits, salvo se 
-#mencionado ao contrário. 
 
 .data
 	x: .word 2
@@ -28,40 +26,38 @@ main:
 	or $t4, $s1, $zero # t4 = s1
 
 	cont1:
-		beq $t3, $zero, cont2 #
-		addi $t5, $t3, 1 #
-		srl $t3, $t3, 1 #
-		beq $t5, $zero, cont1 #
-		addi $t0, $t0, 1 #
+		beq $t3, $zero, cont2 # if(t3 == 0)->vai para cont2
+		addi $t5, $t3, 1 # pega o bit mais a direita de t3 e coloca em t5
+		srl $t3, $t3, 1 # movimenta o t3 um bit para direita
+		beq $t5, $zero, cont1 #  if(t5 == 0) -> volta para cont1
+		addi $t0, $t0, 1 # t0++
 		j cont1
 
 	cont2:
-		beq $t4, $zero, check #
-		addi $t5, $t4, 1 #
-		srl $t4, $t4, 1 #
-		beq $t6, $zero, cont2 #
-		addi $t1, $t1, 1 #
+		beq $t4, $zero, check #  if(t4 == 0)->vai para check
+		addi $t5, $t4, 1 #  pega o bit mais a direita de t4 e coloca em t5
+		srl $t4, $t4, 1 # movimenta o t4 um bit para direita
+		beq $t6, $zero, cont2 # if(t6 == 0) -> volta para cont2
+		addi $t1, $t1, 1 # t1++
 		j cont2
 
 	check:
-		slti $t5, $t0, 32 #
-		slti $t6, $t1, 32 #
-		add $t7, $t5, $t6 #
-		beq $t7, $zero, multi2
+		slti $t5, $t0, 32 # se t0 < 32 -> t5 = 1
+		slti $t6, $t1, 32 # se t1 < 32 -> t6 = 1
+		add $t7, $t5, $t6 # t7 = t5 + t6
+		
+		slti $t7, $t7, 2 # se t7 < 2, então t7 = 1
+		beq $t7, $zero, multi2 # if(t7 == 0) -> vai para multi2
 
 	multi1:
-		mult $s0, $s1 #
-		mflo $s2 #
-		mfhi $s3 #
-
-		slti $t5, $t1, 32 
+		mult $s0, $s1 # s0 * s1
+		mflo $s2 # s2 recebe os bits menos significativos de resultado
+		mfhi $s3 # s3 recebe os bits mais significativos de resultado
 		j store1
 	
 	multi2:
-		mult $s0, $s1 #
-		mflo $s2 #
-
-		slti $t5, $t1, 32 #
+		mult $s0, $s1 # s0 * s1
+		mflo $s2 # s2 recebe os bits menos significativos de resultado
 		j store2
 
 	store1:
