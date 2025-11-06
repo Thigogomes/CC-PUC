@@ -1,0 +1,41 @@
+1)
+
+SELECT A.CPF, A.Nome
+
+FROM Funcionarios A
+
+JOIN Funcionarios AS B ON A.CPF = B.CPF_Supervisor
+
+LEFT JOIN Clientes AS C ON A.CPF = C.CPF 
+
+WHERE C.CPF IS NULL;
+
+
+2)
+
+
+SELECT A.CodFilme, B.Nome
+
+FROM Midias AS A
+
+JOIN Filmes AS B ON A.CodFilme = B.Codigo
+
+WHERE A.Tipo IN ('DVD', 'VHS');
+
+ 
+
+3)
+
+ 
+
+SELECT A.CPF_Cliente, A.ID_Midia, A.DataLocacao
+
+FROM Aluguel AS A
+
+JOIN Clientes AS B ON A.CPF_Cliente = B.CPF
+
+JOIN Pagamentos AS C ON C.CPF_Cliente = A.CPF_Cliente
+
+AND C.ID_Midia = A.ID_Midia AND C.DataLocacao = A.DataLocacao
+
+WHERE B.Sexo != "F" 
