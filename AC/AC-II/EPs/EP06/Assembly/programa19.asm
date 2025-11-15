@@ -7,7 +7,7 @@
 
 .data
 	x: .word 8
-	y: .word 7
+	y: .word 2
 
 #inicio
 .text
@@ -18,6 +18,10 @@ main:
 
 	lw $s0, 0 ($t2) # s0 = memoria[0]
 	lw $s1, 4 ($t2) # s1 = memeoria[1]
+	ori $s2, $zero, 0 # resp = 0
+
+	beq $s0, $zero, store2 # caso zero
+	beq $s1, $zero, store2 # caso zero
 
 	addi $t0, $zero, 0 # t0 = 0
 	addi $t1, $zero, 0 # t1 = 0
@@ -27,13 +31,13 @@ main:
 
 	cont1:
 		addi $t0, $t0, 1 # t0++
-    	srl $t3, $t3, 1 # movimenta o t3 um bit para direita
-    	bne $t3, $zero, cont1 # if(t3 != 0) -> volta para cont1
+    		srl $t3, $t3, 1 # movimenta o t3 um bit para direita
+    		bne $t3, $zero, cont1 # if(t3 != 0) -> volta para cont1
 
 	cont2:
 		addi $t1, $t1, 1 # t1++
-    	srl $t4, $t4, 1 # movimenta o t3 um bit para direita
-    	bne $t4, $zero, cont2 # if(t4 != 0) -> volta para cont2
+    		srl $t4, $t4, 1 # movimenta o t3 um bit para direita
+    		bne $t4, $zero, cont2 # if(t4 != 0) -> volta para cont2
 
 	check:
 		slti $t5, $t0, 32 # se t0 < 32 -> t5 = 1
