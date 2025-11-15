@@ -6,8 +6,8 @@
 #contrário a resposta estará em $s2 e $s3 (LO e HI respectivamente). 
 
 .data
-	x: .word 2
-	y: .word 3
+	x: .word 8
+	y: .word 7
 
 #inicio
 .text
@@ -26,20 +26,14 @@ main:
 	or $t4, $s1, $zero # t4 = s1
 
 	cont1:
-		beq $t3, $zero, cont2 # if(t3 == 0)->vai para cont2
-		addi $t5, $t3, 1 # pega o bit mais a direita de t3 e coloca em t5
-		srl $t3, $t3, 1 # movimenta o t3 um bit para direita
-		beq $t5, $zero, cont1 #  if(t5 == 0) -> volta para cont1
 		addi $t0, $t0, 1 # t0++
-		j cont1
+    	srl $t3, $t3, 1 # movimenta o t3 um bit para direita
+    	bne $t3, $zero, cont1 # if(t3 != 0) -> volta para cont1
 
 	cont2:
-		beq $t4, $zero, check #  if(t4 == 0)->vai para check
-		addi $t5, $t4, 1 #  pega o bit mais a direita de t4 e coloca em t5
-		srl $t4, $t4, 1 # movimenta o t4 um bit para direita
-		beq $t6, $zero, cont2 # if(t6 == 0) -> volta para cont2
 		addi $t1, $t1, 1 # t1++
-		j cont2
+    	srl $t4, $t4, 1 # movimenta o t3 um bit para direita
+    	bne $t4, $zero, cont2 # if(t4 != 0) -> volta para cont2
 
 	check:
 		slti $t5, $t0, 32 # se t0 < 32 -> t5 = 1
@@ -69,4 +63,5 @@ main:
 		sw $s2, 8 ($t2) # memoria[2] = s2
 
 	fim:
+
 #fim
