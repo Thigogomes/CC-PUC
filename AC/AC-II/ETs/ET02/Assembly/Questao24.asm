@@ -35,6 +35,8 @@ main:
 	j fim
 
 	.criar_vetor:
+        addi $sp, $sp, -4
+        sw   $ra, 0($sp)
 		ori $t2, $zero, 0 # i = 0
 		add $v0, $zero, 0 # v0 = 0
 		ori $t5, $zero, 0 # soma = 0
