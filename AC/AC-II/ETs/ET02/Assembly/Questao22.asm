@@ -32,7 +32,7 @@ main:
 	loop:
 		slt $t7, $t2, $a1 # t7 = (t2 < a1) ? 1 : 0
 		beq $t7, $zero, end #
-		andi $t3, $a1, 0x1 # 
+		andi $t3, $t2, 0x1 # 
 		beq $t3, $zero, ehPar #
 
 	ehImpar:

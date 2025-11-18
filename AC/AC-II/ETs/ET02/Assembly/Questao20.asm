@@ -34,6 +34,8 @@ main:
 		lw $t2, 0 ($t5) # t2 = mem[t5]
 		add $s0, $s0, $t2 # soma += t2
 		addi $t3, $t3, 1 # t3++
+		#nop
+		#nop
 		sub $t1, $t1, 1 # t1--
 		bne $t1, $zero, loop # if(t1 != 0)
 
@@ -58,3 +60,21 @@ main:
 #CICLOS TOTAIS: 1824+505+400 = 2729
 
 #CPI MEDIO: 2729 / 809 = 3.37
+
+#----- Com NOP ----- #
+
+#Total: 1009
+
+#ALU: 808 - 80%
+#JUMP: 0 - 0%
+#BRANCH: 100 - 10%
+#MEMORY: 101 - 10%
+#OTHER: 0 - 0%
+
+#CICLOS DA ALU: 808 * 3 = 2424
+#CICLOS DE MEMORIA: 101 * 5 = 505
+#CICLOS DE DESVIO: 100 * 4 = 400
+
+#CICLOS TOTAIS: 2424+505+400 = 3329
+
+#CPI MEDIO: 3329 / 1009 = 3.29

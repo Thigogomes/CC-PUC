@@ -1,0 +1,48 @@
+25) Considerando o Datapath.
+
+Através das instruções a seguir, explique as ações de cada unidade funcional do diagrama acima e como o 
+controle atua em cada unidade. 
+
+- LW $S1, num($S2) 
+- SW $S1, num($S2) 
+- BEQ $S1, $S2, pulos 
+- ADD $S1, $S2, $S3 
+
+Respostas:
+
+LW $S1, num($S2)
+1.PC -> Fornece o endereço da instrução;
+2.Memória de instrução -> Lê o LW e entende que é uma função de Load;
+3.Registradores -> Lê o $s2;
+4.Extensor de sinal ->  Converte o offset(num) para 32 bits;
+5.ALU -> Calcula o endereço, $s2 + num;
+6.Memória de dados -> Lê a memória no endereço calculado
+7.MUX MemtoReg -> Esse MUX escolhe de onde vem o valor que será escrito no registrador;
+8.Banco de Registradores -> resultado é escrito no $s1;
+
+SW $S1, num($S2)
+1.PC -> Fornece o endereço da instrução;
+2.Memória de instrução -> Lê o SW é vê que é uma instrução de store;
+3.Registradores -> Lê o $s2 e o $s1;
+4.Extensor de sinal -> Converte o offset(num) para 32 bits;
+5.ALU -> Calcula: $s2 + num;
+6.Memória de dados -> Escreve o valor de $s1 no endereço calculado;
+7.Banco de Registradores -> Nada é escrito;
+
+BEQ $S1, $S2, pulos
+1.PC -> Fornece o endereço da instrução;
+2.Memória de instrução -> Lê o BEQ e entende que é uma instrução de branch;
+3.Registradores -> Lê o $s1 e $s2;
+4.ALU ->Compara $s1 e $s2;
+5.Unidade Zero -> Se o resultado da ALU for 0;
+6.Extensor de Sinal -> Offset é estendido para 32 bits;
+7.Shift-left-2 -> Multiplica o offset por 4 (desloca 2 bits). Isso produz o deslocamento real do branch.
+8.Adder do PC -> soma: PC+4+(offset << 2);
+9.MUX do PC -> Se Branch = 1 e Zero = 1, o PC pega o endereço de branch, se não continua normalmente.
+
+ADD $S1, $S2, $S3
+1.PC -> Fornece o endereço da instrução;
+2.Memória de instrução -> Lê o ADD e entende que é uma soma;
+3.Registradores -> Lê o s2 e s3;
+4.ALU -> Calcula S2 + S3;
+5.Registradores -> Volta para o banco de registradores, e escreve o resultado em $s1;

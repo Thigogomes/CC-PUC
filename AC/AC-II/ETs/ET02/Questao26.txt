@@ -1,0 +1,24 @@
+26) 
+No diagrama está apresentado o tempo necessário para que cada unidade funcional execute a sua tarefa 
+(para as unidades em que esse número não está presente, considere zero). 
+
+a) Qual o tempo de execução de cada uma das instruções acima? (lembre-se que algumas coisas 
+serão realizadas simultaneamente!) 
+b) Compare os seguintes benchmarks considerando uma máquina monociclo e outra multiciclo 
+(dê o speedup aproximado): 
+- GCC (22% lw, 11% sw, 49% alu, 16% beq, 2% j)   
+- ABC (11% lw, 49% sw, 22% alu, 2% beq, 16% j)  
+
+Respostas:
+
+a)
+
+LW -> 4+1+2+4+1 = 12 ns
+
+SW -> 4+1+2+4 = 11 ns
+
+BEQ -> 4+1+2 = 7 ns
+
+ADD -> 4+1+2+1 = 8 ns
+
+b)
