@@ -68,13 +68,12 @@ Soma -> 2,2 + 7,84 + 0,24 + 3,52 + 1,92 = 15,72 ns
 
 # SPEED UP:
 
-- Speed up GCC: Tempo monocilco / Tempo multiciclo = 12 ns / 16,16 ns = 0,742
+- Speed up GCC: Tempo monocilco / Tempo multiciclo = 12 ns / 16,16 ns = 0,742; O multiciclo é mais lento;
 
-- Speed up ABC: 12 ns / 15,72 ns = 0,763
+- Speed up GCC: Tempo multiciclo / Tempo monocilco = 16,16 / 12 = 1,35
 
+-----------------------------------------------------------------------------------------------------------
 
----- corrigir depois*
+- Speed up ABC: Tempo monocilco / Tempo multiciclo = 12 ns / 15,72 ns = 0,763; O multiciclo é mais lento;
 
-- Speed up GCC: = 16,16 / 12 = 1,35
-
-- Speed up ABC: 15,72 / 12 = 1,31
+- Speed up ABC: Tempo multiciclo / Tempo monocilco = 15,72 / 12 = 1,31
