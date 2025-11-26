@@ -1,0 +1,26 @@
+Aluno: Thiago Henrique Gomes Feliciano
+Matrícula: 866393
+Código de pessoa: 1543790
+Nome do artigo: Pattern Matching Algorithms for Intrusion Detection and Prevention System: A Comparative Analysis.
+
+No artigo “Pattern Matching Algorithms for Intrusion Detection and Prevention System: A Comparative Analysis”, 
+publicado no ICACCI 2014 por Vibha Gupta, Maninder Singh e Vinod K. Bhalla, 
+os autores destacam um problema que se torna cada vez mais crítico: o aumento constante do tráfego de rede e do 
+número de assinaturas de ataques usadas pelos Sistemas de Detecção e Prevenção de Intrusões. 7
+Esse crescimento faz com que o processo de pattern matching, que é essencial para identificar possíveis invasões, 
+se torne mais lento e pesado. Em alguns casos, entre 30% e 60% do tempo total de processamento de um IDS pode ser 
+consumido apenas com a comparação de padrões, o que torna a escolha do algoritmo adequado uma necessidade prática e 
+não apenas teórica.
+
+Para investigar essa questão, os autores realizaram um estudo experimental com quatro algoritmos clássicos de busca de padrões: 
+Brute Force, Rabin–Karp, Knuth-Morris-Pratt (KMP) e Boyer–Moore. 
+Todos foram implementados em Java e avaliados com arquivos de tráfego de rede no formato pcap, convertidos para texto. 
+A detecção das assinaturas ocorreu por meio da comparação do conteúdo dos pacotes com padrões armazenados em banco de dados.
+Os testes variaram o tamanho dos arquivos e a quantidade de assinaturas pesquisadas, permitindo observar o tempo de execução 
+de cada algoritmo em cenários diferentes.
+
+Os resultados mostraram que KMP e Boyer–Moore apresentam o melhor desempenho geral. O Boyer–Moore se destacou especialmente em 
+textos e padrões mais longos, enquanto o KMP foi o mais rápido na maioria das situações. O Rabin–Karp obteve o pior desempenho 
+em complexidade, sendo eficiente apenas quando apoiado por uma função hash robusta. No fim, o estudo evidencia que a eficiência
+de um IDPS depende não só das técnicas de detecção utilizadas, mas também da escolha cuidadosa dos algoritmos responsáveis pelo 
+processo de busca, já que o desempenho prático é o que realmente impacta a eficácia do sistema no dia a dia.
