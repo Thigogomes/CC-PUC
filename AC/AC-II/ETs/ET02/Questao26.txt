@@ -16,14 +16,9 @@ LW -> 4+1+2+4+1 = 12 ns
 SW -> 4+1+2+4 = 11 ns
 BEQ -> 4+1+2 = 7 ns
 ADD -> 4+1+2+1 = 8 ns
+J -> 4 ns
 
 b)
-
-IF = 4 ns
-ID = 1 ns
-EX = 2 ns
-MEM = 4 ns
-WB = 1 ns
 
 # Monociclo:
 
@@ -31,49 +26,28 @@ WB = 1 ns
 
 # Multiciclo:
 
-LW -> 5 ciclos
-t = 5 * 4 = 20 ns
-
-SW -> 4 ciclos
-t = 4 * 4 = 16 ns
-
-BEQ -> 3 ciclos
-t = 3 * 4 = 12 ns
-
-ADD -> 4 ciclos
-t = 4 * 4 = 16 ns
-
-J -> 3 ciclos
-t = 3 * 4 = 12 ns
-
 - Cálculo GCC:
 
-LW -> 20 * 0,22 = 4,4
-SW -> 16 * 0,11 = 1,76
-BEQ -> 12 * 0,16 = 1,92
-ALU -> 16 * 0,49 = 7,84
-J -> 12 * 0,02 = 0,24
+LW -> 12 * 0,22 = 2,64
+SW -> 11 * 0,11 = 1,21
+BEQ -> 7 * 0,16 = 1,12
+ALU -> 8 * 0,49 = 3,92
+J -> 4 * 0,02 = 0,08
 
-Soma -> 4,4 + 1,76 + 0,24 + 7,84 + 1,92 = 16,16 ns
+Soma -> 2,64 + 1,21 + 1,12 + 3,92 + 0,08 = 8,97 ns
 
 - Cálculo ABC:
 
-LW -> 20 * 0,11 = 2,2
-SW -> 16 * 0,49 = 7,84
-BEQ -> 12 * 0,02 = 0,24
-ALU -> 16 * 0,22 = 3,52
-J -> 12 * 0,16 = 1,92
+LW -> 12 * 0,11 = 1,32
+SW -> 11 * 0,49 = 5,39
+BEQ -> 7 * 0,02 = 0,14
+ALU -> 8 * 0,22 = 1,76
+J -> 4 * 0,16 = 0,64
 
-Soma -> 2,2 + 7,84 + 0,24 + 3,52 + 1,92 = 15,72 ns
+Soma -> 1,32 + 5,39 + 0,14 + 1,76 + 0,64 = 9,25 ns
 
 # SPEED UP:
 
-- Speed up GCC: Tempo monocilco / Tempo multiciclo = 12 ns / 16,16 ns = 0,742; O multiciclo é mais lento;
+- Speed up GCC: Tempo monocilco / Tempo multiciclo = 12 ns / 8,97 ns = 1,33
 
-- Speed up GCC: Tempo multiciclo / Tempo monocilco = 16,16 / 12 = 1,35
-
------------------------------------------------------------------------------------------------------------
-
-- Speed up ABC: Tempo monocilco / Tempo multiciclo = 12 ns / 15,72 ns = 0,763; O multiciclo é mais lento;
-
-- Speed up ABC: Tempo multiciclo / Tempo monocilco = 15,72 / 12 = 1,31
+- Speed up ABC: Tempo monocilco / Tempo multiciclo = 12 ns/ 9,25 = 1,29
